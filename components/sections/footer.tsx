@@ -19,7 +19,7 @@ export function Footer() {
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Logo */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <span
               className="font-(--font-comic) text-4xl text-waw-yellow"
               style={{ WebkitTextStroke: "2px #FFD633" }}

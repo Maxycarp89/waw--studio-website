@@ -129,8 +129,8 @@ export function Contact() {
             {/* Contact cards */}
             {[
               { icon: Mail, label: "Email", value: "hola@wawstudio.com", color: "yellow" },
-              { icon: Phone, label: "Teléfono", value: "+54 11 1234-5678", color: "red" },
-              { icon: MapPin, label: "Base de operaciones", value: "Buenos Aires, Argentina", color: "yellow" },
+              { icon: Phone, label: "Teléfono", value: "+54 381 626 2536", color: "red" },
+              { icon: MapPin, label: "Base de operaciones", value: "Tucumán, Argentina", color: "yellow" },
             ].map((item, index) => (
               <motion.div
                 key={item.label}
@@ -155,7 +155,7 @@ export function Contact() {
             {/* Social proof */}
             <div className="comic-border bg-waw-black p-6 mt-8">
               <p className="text-waw-yellow font-[var(--font-comic)] text-2xl text-center mb-4">
-                +150 MISIONES COMPLETADAS
+                +50 MISIONES COMPLETADAS
               </p>
               <div className="flex justify-center gap-4">
                 {["⭐", "⭐", "⭐", "⭐", "⭐"].map((star, i) => (

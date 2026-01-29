@@ -38,10 +38,23 @@ export function Navbar() {
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <a href="#" className="flex items-center">
-             <Image src="/logo-waw.png" alt="logo" width={90} height={90} />
-            </a>
+            <div className="flex items-center gap-2">
+              <span
+                className={`font-[var(--font-comic)] text-4xl transition-colors ${
+                  isScrolled ? "text-waw-yellow" : "text-waw-white"
+                }`}
+                style={{ 
+                  WebkitTextStroke: isScrolled ? "2px #FFD633" : "2px #fff"
+                }}
+              >
+                WAW!
+              </span>
+              <span className={`transition-colors ${
+                isScrolled ? "text-waw-black" : "text-waw-black/90"
+              }`}>
+                Studio
+              </span>
+            </div>
 
             {/* Desktop nav */}
             <div className="hidden md:flex items-center gap-8">

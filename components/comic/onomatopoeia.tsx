@@ -1,15 +1,16 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface OnomatopoeiaProps {
-  text: string
-  color?: "yellow" | "violet" | "red" | "white"
-  size?: "sm" | "md" | "lg" | "xl"
-  className?: string
-  delay?: number
-  trigger?: boolean
+  text: string;
+  color?: "yellow" | "violet" | "red" | "white";
+  size?: "sm" | "md" | "lg" | "xl";
+  className?: string;
+  delay?: number;
+  trigger?: boolean;
+  imagePath?: string; // Nueva propiedad para la ruta de la imagen
 }
 
 const colorMap = {
@@ -17,14 +18,14 @@ const colorMap = {
   violet: "text-waw-violet",
   red: "text-waw-red",
   white: "text-waw-white",
-}
+};
 
 const sizeMap = {
   sm: "text-2xl md:text-3xl",
   md: "text-4xl md:text-5xl",
   lg: "text-5xl md:text-7xl",
   xl: "text-6xl md:text-9xl",
-}
+};
 
 export function Onomatopoeia({
   text,
@@ -33,15 +34,16 @@ export function Onomatopoeia({
   className = "",
   delay = 0,
   trigger = true,
+  imagePath, // Añadir la nueva propiedad aquí
 }: OnomatopoeiaProps) {
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (trigger) {
-      const timer = setTimeout(() => setShow(true), delay)
-      return () => clearTimeout(timer)
+      const timer = setTimeout(() => setShow(true), delay);
+      return () => clearTimeout(timer);
     }
-  }, [trigger, delay])
+  }, [trigger, delay]);
 
   return (
     <AnimatePresence>
@@ -66,9 +68,13 @@ export function Onomatopoeia({
             paintOrder: "stroke fill",
           }}
         >
+          {imagePath && (
+            <img src={imagePath} alt={text} width={80} height={80} />
+          )}{" "}
+          {/* Mostrar la imagen si se proporciona */}
           {text}
         </motion.span>
       )}
     </AnimatePresence>
-  )
+  );
 }

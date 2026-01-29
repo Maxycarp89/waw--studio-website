@@ -33,7 +33,7 @@ export function HalftoneBg({ className = "" }: HalftoneBgProps) {
   return (
     <div ref={containerRef} className={`absolute inset-0 overflow-hidden ${className}`}>
       {/* Base gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-waw-yellow via-waw-white to-waw-violet opacity-30" />
+      <div className="absolute inset-0 bg-gradient-to-br from-waw-yellow via-waw-white to-waw-violet opacity-70" />
 
       {/* Animated halftone layers */}
       <motion.div className="absolute inset-0 halftone-yellow opacity-40" style={{ x: springX, y: springY }} />
@@ -48,11 +48,22 @@ export function HalftoneBg({ className = "" }: HalftoneBgProps) {
         animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
         transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
       />
+       <motion.div
+       className="absolute bottom-10 right-40 w-40 h-40 rounded-full bg-[#ffff] opacity-20"
+        animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
+        transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+      />
       <motion.div
         className="absolute bottom-20 left-20 w-48 h-48 rounded-full bg-waw-violet opacity-15"
         animate={{ scale: [1.2, 1, 1.2], rotate: [360, 180, 0] }}
         transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
       />
+      <motion.div
+        className="absolute top-5 left-12 w-48 h-48 rounded-full bg-waw-yellow opacity-30"
+        animate={{ scale: [1.2, 1, 1.2], rotate: [360, 180, 0] }}
+        transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+      />
+
     </div>
   )
 }
