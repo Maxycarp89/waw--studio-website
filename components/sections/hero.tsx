@@ -2,11 +2,8 @@
 
 import { motion } from "framer-motion";
 import { HalftoneBg } from "@/components/comic/halftone-bg";
-import { ExplosionBurst } from "@/components/comic/explosion-burst";
-import { Onomatopoeia } from "@/components/comic/onomatopoeia";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play } from "lucide-react";
-import Image from "next/image";
+import { ArrowRight, Calculator, CheckCircle, Users, MapPin } from "lucide-react";
 
 export function Hero() {
   const containerVariants = {
@@ -29,10 +26,16 @@ export function Hero() {
     },
   };
 
+  const stats = [
+    { icon: CheckCircle, label: "+50 proyectos entregados" },
+    { icon: Users, label: "98% clientes satisfechos" },
+    { icon: MapPin, label: "Tucumán, Argentina" },
+  ];
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-waw-white">
       <HalftoneBg />
-   
+
       <motion.div
         className="relative z-10 container mx-auto px-4 py-20"
         variants={containerVariants}
@@ -40,18 +43,16 @@ export function Hero() {
         animate="visible"
       >
         <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
-          {/* Logo with explosion */}
+          {/* Logo */}
           <motion.div variants={itemVariants} className="mb-8">
-            <img src="/logo-waw.png" alt="logo" />
+            <img src="/logo-waw.png" alt="WAW Studio logo" />
           </motion.div>
 
-          {/* Main headline */}
+          {/* Main headline — resultado, no proceso */}
           <motion.h2
             variants={itemVariants}
             className="font-[var(--font-comic)] text-3xl md:text-5xl lg:text-6xl text-waw-black mb-6 leading-tight"
-            style={{
-              WebkitTextStroke: "1px #000",
-            }}
+            style={{ WebkitTextStroke: "1px #000" }}
           >
             Creamos experiencias digitales
             <br />
@@ -61,10 +62,10 @@ export function Hero() {
             </span>
           </motion.h2>
 
-          {/* Subtitle */}
+          {/* Subtitle — stack concreto */}
           <motion.p
             variants={itemVariants}
-            className="text-xl md:text-2xl text-waw-black/80 mb-10 max-w-2xl font-medium"
+            className="text-xl md:text-2xl text-waw-black/80 mb-4 max-w-3xl font-medium"
           >
             Webs, automatizaciones con IA y software creativo hecho a medida.
           </motion.p>
@@ -77,6 +78,11 @@ export function Hero() {
             <Button
               size="lg"
               className="comic-border bg-waw-yellow text-waw-black hover:bg-waw-yellow/90 font-[var(--font-comic)] text-xl px-8 py-6 transform hover:scale-105 transition-transform"
+              onClick={() =>
+                document
+                  .getElementById("contacto")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
             >
               Quiero mi solución
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -85,9 +91,14 @@ export function Hero() {
               size="lg"
               variant="outline"
               className="comic-border bg-waw-white text-waw-black hover:bg-waw-violet hover:text-waw-white font-[var(--font-comic)] text-xl px-8 py-6 transform hover:scale-105 transition-transform"
+              onClick={() =>
+                document
+                  .getElementById("roi-calculator")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
             >
-              <Play className="mr-2 h-5 w-5" />
-              Ver cómo trabajamos
+              <Calculator className="mr-2 h-5 w-5" />
+              Calcular mi ahorro
             </Button>
           </motion.div>
 

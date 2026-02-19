@@ -5,12 +5,12 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ComicPanel } from "@/components/comic/comic-panel"
 import { Onomatopoeia } from "@/components/comic/onomatopoeia"
 import { Button } from "@/components/ui/button"
-import { Globe, Bot, Zap, ShoppingCart, Palette, Check, Cog, Cpu, ArrowRight } from "lucide-react"
+import { Globe, Bot, Workflow , ShoppingCart, Palette, Check, Cog, Cpu, ArrowRight } from "lucide-react"
 
 const modules = [
   { id: "web", label: "Desarrollo Web", icon: Globe, color: "yellow" },
   { id: "ia", label: "IA & Chatbots", icon: Bot, color: "violet" },
-  { id: "auto", label: "Automatizaciones", icon: Zap, color: "red" },
+  { id: "auto", label: "Automatizaciones", icon: Workflow , color: "red" },
   { id: "ecommerce", label: "E-commerce", icon: ShoppingCart, color: "yellow" },
   { id: "branding", label: "Branding", icon: Palette, color: "violet" },
 ]
