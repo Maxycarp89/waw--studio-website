@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { HalftoneBg } from "@/components/comic/halftone-bg";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calculator, CheckCircle, Users, MapPin } from "lucide-react";
+import { ArrowRight, CheckCircle, Users, MapPin } from "lucide-react";
 
 export function Hero() {
   const containerVariants = {
@@ -48,10 +48,10 @@ export function Hero() {
             <img src="/logo-waw.png" alt="WAW Studio logo" />
           </motion.div>
 
-          {/* Main headline — resultado, no proceso */}
+          {/* Main headline */}
           <motion.h2
             variants={itemVariants}
-            className="font-[var(--font-comic)] text-3xl md:text-5xl lg:text-6xl text-waw-black mb-6 leading-tight"
+            className="font-(--font-comic) text-3xl md:text-5xl lg:text-6xl text-waw-black mb-6 leading-tight"
             style={{ WebkitTextStroke: "1px #000" }}
           >
             Creamos experiencias digitales
@@ -62,7 +62,7 @@ export function Hero() {
             </span>
           </motion.h2>
 
-          {/* Subtitle — stack concreto */}
+          {/* Subtitle */}
           <motion.p
             variants={itemVariants}
             className="text-xl md:text-2xl text-waw-black/80 mb-4 max-w-3xl font-medium"
@@ -70,36 +70,51 @@ export function Hero() {
             Webs, automatizaciones con IA y software creativo hecho a medida.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* Micro-stats social proof */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-wrap justify-center gap-6 mb-10"
+          >
+            {stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="flex items-center gap-2 text-waw-black/70"
+              >
+                <stat.icon className="w-5 h-5 text-waw-violet" />
+                <span className="text-sm md:text-base font-semibold">
+                  {stat.label}
+                </span>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Single CTA — gigante */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col items-center gap-3"
           >
             <Button
               size="lg"
-              className="comic-border bg-waw-yellow text-waw-black hover:bg-waw-yellow/90 font-[var(--font-comic)] text-xl px-8 py-6 transform hover:scale-105 transition-transform"
+              className="comic-border-thick bg-waw-yellow text-waw-black hover:bg-waw-yellow/90 font-(--font-comic) text-2xl md:text-3xl px-10 py-8 transform hover:scale-105 transition-transform shadow-lg"
               onClick={() =>
                 document
                   .getElementById("contacto")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
             >
-              Quiero mi solución
-              <ArrowRight className="ml-2 h-5 w-5" />
+              Quiero mi WAW! gratis
+              <ArrowRight className="ml-3 h-7 w-7" />
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="comic-border bg-waw-white text-waw-black hover:bg-waw-violet hover:text-waw-white font-[var(--font-comic)] text-xl px-8 py-6 transform hover:scale-105 transition-transform"
+            <button
               onClick={() =>
                 document
                   .getElementById("roi-calculator")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
+              className="text-waw-violet hover:text-waw-black font-semibold text-base md:text-lg transition-colors underline underline-offset-4 decoration-waw-violet/40 hover:decoration-waw-black/60 cursor-pointer mt-2"
             >
-              <Calculator className="mr-2 h-5 w-5" />
-              Calcular mi ahorro
-            </Button>
+              Calculá cuánto estás perdiendo →
+            </button>
           </motion.div>
 
           {/* Scroll indicator */}

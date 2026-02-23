@@ -1,11 +1,10 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
-import { motion, AnimatePresence, useInView } from "framer-motion"
+import { useState, useRef, useEffect, useMemo } from "react"
+import { motion, useInView } from "framer-motion"
 import { ComicPanel } from "@/components/comic/comic-panel"
-import { Onomatopoeia } from "@/components/comic/onomatopoeia"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Calculator, DollarSign, Clock, FileText } from "lucide-react"
+import { ArrowRight, DollarSign, Clock, FileText, MessageCircle } from "lucide-react"
 
 function AnimatedNumber({ value }: { value: number }) {
   const [display, setDisplay] = useState(0)
@@ -14,13 +13,13 @@ function AnimatedNumber({ value }: { value: number }) {
   useEffect(() => {
     const start = prevValue.current
     const end = value
-    const duration = 800
+    const duration = 600
     const startTime = Date.now()
 
     const animate = () => {
       const elapsed = Date.now() - startTime
       const progress = Math.min(elapsed / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3) // easeOutCubic
+      const eased = 1 - Math.pow(1 - progress, 3)
       setDisplay(Math.floor(start + (end - start) * eased))
 
       if (progress < 1) {
@@ -36,37 +35,43 @@ function AnimatedNumber({ value }: { value: number }) {
   return <>{display.toLocaleString("es-AR")}</>
 }
 
+function getAmountColor(yearly: number): string {
+  if (yearly < 500_000) return "text-waw-yellow"
+  if (yearly < 2_000_000) return "text-orange-400"
+  return "text-waw-red"
+}
+
+function getIntensity(yearly: number): number {
+  // 0-100 barra de "dolor"
+  return Math.min(Math.round((yearly / 10_000_000) * 100), 100)
+}
+
 export function ROICalculator() {
-  const [invoices, setInvoices] = useState(50)
+  const [invoices, setInvoices] = useState(70)
   const [minutesPerInvoice, setMinutesPerInvoice] = useState(15)
   const [hourlyRate, setHourlyRate] = useState(3500)
-  const [showResult, setShowResult] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
-  const isInView = useInView(sectionRef, { once: true })
 
-  // Cálculos
+  // Cálculos en tiempo real
   const hoursLostMonthly = (invoices * minutesPerInvoice) / 60
   const monthlyCost = hoursLostMonthly * hourlyRate
   const yearlyCost = monthlyCost * 12
-  const hoursLostYearly = hoursLostMonthly * 12
+  const dailyTasks = Math.round((invoices / 22) * 10) / 10  // 22 días hábiles
 
-  const handleCalculate = () => {
-    setShowResult(true)
-  }
+  const intensity = getIntensity(yearlyCost)
+  const amountColor = getAmountColor(yearlyCost)
 
-  const scrollToContact = () => {
-    const contactSection = document.getElementById("contacto")
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: "smooth" })
-      // Dispatch evento custom para pre-seleccionar "Automatización"
-      window.dispatchEvent(new CustomEvent("preselect-project-type", { detail: "automatizacion" }))
-    }
-  }
+  const whatsappNumber = "5493816262536"
+  const whatsappText = useMemo(() => {
+    return encodeURIComponent(
+      `Hola WAW! Studio 👋\nSegún la calculadora pierdo $${yearlyCost.toLocaleString("es-AR")} al año en tareas manuales.\nQuiero que me ayuden a automatizarlo y dejar de perder plata.`
+    )
+  }, [yearlyCost])
 
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-gradient-to-b from-waw-white to-waw-yellow/10 relative overflow-hidden"
+      className="py-20 bg-linear-to-b from-waw-white to-waw-yellow/10 relative overflow-hidden"
       id="roi-calculator"
     >
       {/* Background decoration */}
@@ -83,12 +88,12 @@ export function ROICalculator() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="font-[var(--font-comic)] text-4xl md:text-6xl text-waw-black mb-4">
+          <h2 className="font-(--font-comic) text-4xl md:text-6xl text-waw-black mb-4">
             ¿CUÁNTO <span className="text-waw-red">DINERO</span>{" "}
-            <span className="text-waw-violet">PERDÉS</span> AL AÑO?
+            <span className="text-waw-violet">SE TE ESCAPA</span> TODOS LOS MESES?
           </h2>
           <p className="text-waw-black/70 text-xl max-w-2xl mx-auto">
-            Calculá el costo real de tus procesos manuales y descubrí cuánto podrías ahorrar con automatización.
+            Mové los sliders y descubrí en tiempo real cuánto te cuestan los procesos manuales.
           </p>
         </motion.div>
 
@@ -100,13 +105,13 @@ export function ROICalculator() {
             viewport={{ once: true }}
           >
             <ComicPanel variant="yellow" className="p-8 space-y-8">
-              {/* Facturas por mes */}
+              {/* Tareas por mes */}
               <div>
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-2 bg-waw-violet border-4 border-waw-black">
                     <FileText className="w-5 h-5 text-waw-white" />
                   </div>
-                  <label className="font-[var(--font-comic)] text-xl text-waw-black">
+                  <label className="font-(--font-comic) text-xl text-waw-black">
                     Tareas manuales por mes
                   </label>
                 </div>
@@ -116,17 +121,17 @@ export function ROICalculator() {
                   max={500}
                   step={10}
                   value={invoices}
-                  onChange={(e) => {
-                    setInvoices(Number(e.target.value))
-                    setShowResult(false)
-                  }}
+                  onChange={(e) => setInvoices(Number(e.target.value))}
                   className="w-full h-3 bg-waw-black/10 rounded-full appearance-none cursor-pointer accent-waw-violet"
                 />
                 <div className="flex justify-between mt-2">
                   <span className="text-sm text-waw-black/50">10</span>
-                  <span className="font-[var(--font-comic)] text-2xl text-waw-violet">{invoices}</span>
+                  <span className="font-(--font-comic) text-2xl text-waw-violet">{invoices}</span>
                   <span className="text-sm text-waw-black/50">500</span>
                 </div>
+                <p className="text-sm text-waw-black/40 mt-1 text-center italic">
+                  {invoices} tareas/mes = ~{dailyTasks} tareas por día hábil
+                </p>
               </div>
 
               {/* Minutos por tarea */}
@@ -135,7 +140,7 @@ export function ROICalculator() {
                   <div className="p-2 bg-waw-red border-4 border-waw-black">
                     <Clock className="w-5 h-5 text-waw-white" />
                   </div>
-                  <label className="font-[var(--font-comic)] text-xl text-waw-black">
+                  <label className="font-(--font-comic) text-xl text-waw-black">
                     Minutos por tarea
                   </label>
                 </div>
@@ -145,17 +150,17 @@ export function ROICalculator() {
                   max={60}
                   step={5}
                   value={minutesPerInvoice}
-                  onChange={(e) => {
-                    setMinutesPerInvoice(Number(e.target.value))
-                    setShowResult(false)
-                  }}
+                  onChange={(e) => setMinutesPerInvoice(Number(e.target.value))}
                   className="w-full h-3 bg-waw-black/10 rounded-full appearance-none cursor-pointer accent-waw-red"
                 />
                 <div className="flex justify-between mt-2">
                   <span className="text-sm text-waw-black/50">5 min</span>
-                  <span className="font-[var(--font-comic)] text-2xl text-waw-red">{minutesPerInvoice} min</span>
+                  <span className="font-(--font-comic) text-2xl text-waw-red">{minutesPerInvoice} min</span>
                   <span className="text-sm text-waw-black/50">60 min</span>
                 </div>
+                <p className="text-sm text-waw-black/40 mt-1 text-center italic">
+                  {minutesPerInvoice} min × {invoices} tareas = {Math.round(hoursLostMonthly * 10) / 10} hs perdidas/mes
+                </p>
               </div>
 
               {/* Costo por hora */}
@@ -164,7 +169,7 @@ export function ROICalculator() {
                   <div className="p-2 bg-waw-yellow border-4 border-waw-black">
                     <DollarSign className="w-5 h-5 text-waw-black" />
                   </div>
-                  <label className="font-[var(--font-comic)] text-xl text-waw-black">
+                  <label className="font-(--font-comic) text-xl text-waw-black">
                     Costo hora empleado (ARS)
                   </label>
                 </div>
@@ -174,119 +179,86 @@ export function ROICalculator() {
                   max={50000}
                   step={500}
                   value={hourlyRate}
-                  onChange={(e) => {
-                    setHourlyRate(Number(e.target.value))
-                    setShowResult(false)
-                  }}
-                  className="w-full border-4 border-waw-black p-3 text-lg font-[var(--font-comic)] text-center bg-waw-white"
+                  onChange={(e) => setHourlyRate(Number(e.target.value))}
+                  className="w-full border-4 border-waw-black p-3 text-lg font-(--font-comic) text-center bg-waw-white"
                 />
               </div>
-
-              {/* Calculate button */}
-              <Button
-                onClick={handleCalculate}
-                className="w-full comic-border bg-waw-violet hover:bg-waw-violet/90 text-waw-white font-[var(--font-comic)] text-2xl py-6"
-              >
-                <Calculator className="mr-2 h-6 w-6" />
-                ¡CALCULAR!
-              </Button>
             </ComicPanel>
           </motion.div>
 
-          {/* Results panel */}
+          {/* Result panel — SIEMPRE VISIBLE, tiempo real */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:sticky lg:top-24"
+            className="lg:sticky lg:top-24 space-y-6"
           >
-            <AnimatePresence mode="wait">
-              {!showResult ? (
-                <motion.div
-                  key="placeholder"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="comic-border bg-waw-black p-12 text-center"
-                >
+            {/* Resultado principal */}
+            <div className="comic-border-thick bg-waw-black p-8 md:p-10 text-center border-waw-yellow">
+              <p className="font-(--font-comic) text-lg text-waw-white/60 mb-3 tracking-wider uppercase">
+                Estás perdiendo
+              </p>
+              <motion.p
+                className={`font-(--font-comic) text-5xl md:text-7xl ${amountColor} mb-2 leading-none`}
+                key={yearlyCost}
+                initial={{ scale: 1.05 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                $<AnimatedNumber value={yearlyCost} />
+              </motion.p>
+              <p className="font-(--font-comic) text-xl text-waw-white/80 mb-6">
+                por año en tareas manuales
+              </p>
+
+              {/* Detalle en texto */}
+              <p className="text-waw-white/50 text-sm mb-6 max-w-xs mx-auto leading-relaxed">
+                Esto equivale a <span className="text-waw-yellow font-bold">{Math.round(hoursLostMonthly)} horas perdidas al mes</span> que
+                podrías estar usando para vender más.
+              </p>
+
+              {/* Barra de dolor */}
+              <div className="mb-2">
+                <div className="flex justify-between text-xs text-waw-white/40 mb-1">
+                  <span>0% automatizado</span>
+                  <span>100% automatizado</span>
+                </div>
+                <div className="w-full h-3 bg-waw-white/10 rounded-full overflow-hidden border border-waw-white/20">
                   <motion.div
-                    animate={{ rotate: [0, -5, 5, -5, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <Calculator className="w-20 h-20 text-waw-yellow mx-auto mb-6" />
-                  </motion.div>
-                  <p className="font-[var(--font-comic)] text-2xl text-waw-white mb-2">
-                    Ajustá los valores
-                  </p>
-                  <p className="text-waw-white/60">
-                    y descubrí cuánto dinero se escapa de tu negocio
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="result"
-                  initial={{ scale: 0.5, opacity: 0, rotate: -5 }}
-                  animate={{ scale: 1, opacity: 1, rotate: 0 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                >
-                  {/* Explosion result */}
-                  <div className="relative">
-                    <div className="absolute -top-6 -right-4 z-10">
-                      <Onomatopoeia text="¡OUCH!" color="red" size="sm" />
-                    </div>
+                    className="h-full bg-linear-to-r from-waw-red via-orange-400 to-waw-yellow rounded-full"
+                    initial={{ width: "0%" }}
+                    animate={{ width: `${intensity}%` }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                  />
+                </div>
+                <p className="text-xs text-waw-white/30 mt-1 text-center">
+                  Cuanto más rojo, más urgente es automatizar
+                </p>
+              </div>
+            </div>
 
-                    <div className="shout-bubble p-8 md:p-10 text-center">
-                      <p className="font-[var(--font-comic)] text-lg text-waw-black/60 mb-2">
-                        ESTÁS PERDIENDO
-                      </p>
-                      <p className="font-[var(--font-comic)] text-5xl md:text-6xl text-waw-red mb-1">
-                        $<AnimatedNumber value={yearlyCost} />
-                      </p>
-                      <p className="font-[var(--font-comic)] text-xl text-waw-black/80 mb-6">
-                        AL AÑO
-                      </p>
+            {/* CTA principal — WhatsApp con monto dinámico */}
+            <a
+              href={`https://wa.me/${whatsappNumber}?text=${whatsappText}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
+              <Button
+                className="w-full comic-border-thick bg-waw-yellow hover:bg-waw-yellow/90 text-waw-black font-(--font-comic) text-xl md:text-2xl py-7 transform hover:scale-[1.03] transition-transform"
+              >
+                <MessageCircle className="mr-2 h-6 w-6" />
+                ¡Recuperar estos ${yearlyCost.toLocaleString("es-AR")}/año!
+              </Button>
+            </a>
 
-                      {/* Breakdown */}
-                      <div className="grid grid-cols-2 gap-4 mb-8">
-                        <div className="comic-border bg-waw-white p-4">
-                          <p className="font-[var(--font-comic)] text-2xl text-waw-violet">
-                            <AnimatedNumber value={Math.round(hoursLostYearly)} />
-                          </p>
-                          <p className="text-sm text-waw-black/60 font-semibold">Horas perdidas/año</p>
-                        </div>
-                        <div className="comic-border bg-waw-white p-4">
-                          <p className="font-[var(--font-comic)] text-2xl text-waw-red">
-                            $<AnimatedNumber value={Math.round(monthlyCost)} />
-                          </p>
-                          <p className="text-sm text-waw-black/60 font-semibold">Costo mensual</p>
-                        </div>
-                      </div>
-
-                      <Button
-                        onClick={scrollToContact}
-                        className="w-full comic-border bg-waw-red hover:bg-waw-red/90 text-waw-white font-[var(--font-comic)] text-xl py-6"
-                      >
-                        Quiero automatizar esto
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </Button>
-                    </div>
-                  </div>
-
-                  {/* Extra context */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="comic-border bg-waw-violet p-6 mt-6 text-center"
-                  >
-                    <p className="text-waw-white font-[var(--font-comic)] text-lg">
-                      💡 Con automatización, ese tiempo se reduce hasta un{" "}
-                      <span className="text-waw-yellow text-2xl">90%</span>
-                    </p>
-                  </motion.div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* Extra context */}
+            <div className="comic-border bg-waw-violet p-5 text-center">
+              <p className="text-waw-white font-(--font-comic) text-lg">
+                💡 Con automatización, ese tiempo se reduce hasta un{" "}
+                <span className="text-waw-yellow text-2xl">90%</span>
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>
