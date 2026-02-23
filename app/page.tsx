@@ -11,6 +11,7 @@ import { Team } from "@/components/sections/team"
 import { Contact } from "@/components/sections/contact"
 import { Footer } from "@/components/sections/footer"
 import { EasterEggs } from "@/components/easter-eggs"
+import { FloatingWhatsApp } from "@/components/floating-whatsapp"
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
       <Contact />
       <Footer />
       <EasterEggs />
+      <FloatingWhatsApp />
     </main>
   )
 }

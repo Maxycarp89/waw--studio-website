@@ -61,6 +61,13 @@ export function ROICalculator() {
   const intensity = getIntensity(yearlyCost)
   const amountColor = getAmountColor(yearlyCost)
 
+  // Emitir evento global para que el floating WhatsApp y el form de contacto lean el monto
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("roi-calculated", { detail: yearlyCost })
+    )
+  }, [yearlyCost])
+
   const whatsappNumber = "5493816262536"
   const whatsappText = useMemo(() => {
     return encodeURIComponent(

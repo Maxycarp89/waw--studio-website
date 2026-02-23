@@ -2,93 +2,49 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { Onomatopoeia } from "@/components/comic/onomatopoeia"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Send, Mail, Phone, MapPin, ArrowLeft, ArrowRight, MessageCircle } from "lucide-react"
-
-const projectTypes = [
-  { id: "web", label: "🌐 Desarrollo Web", value: "web" },
-  { id: "automatizacion", label: "⚡ Automatización", value: "automatizacion" },
-  { id: "branding", label: "🎨 Branding", value: "branding" },
-  { id: "nosesabe", label: "🤔 No sé todavía", value: "nosesabe" },
-]
-
-const budgetRanges = [
-  { label: "Menos de $500 USD", value: "< 500" },
-  { label: "$500 - $2.000 USD", value: "500-2000" },
-  { label: "$2.000 - $5.000 USD", value: "2000-5000" },
-  { label: "Más de $5.000 USD", value: "> 5000" },
-  { label: "No tengo claro", value: "indefinido" },
-]
-
-const sourceOptions = [
-  "Google", "Instagram", "Recomendación", "LinkedIn", "Otro"
-]
+import { Mail, Phone, MapPin, MessageCircle } from "lucide-react"
 
 export function Contact() {
-  const [step, setStep] = useState(1)
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    projectType: "",
-    budget: "",
-    source: "",
-    message: "",
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [step1Error, setStep1Error] = useState("")
+  const [email, setEmail] = useState("")
+  const [emailError, setEmailError] = useState("")
+  const [roiAmount, setRoiAmount] = useState<number | null>(null)
 
-  // Escuchar evento de preselección desde la calculadora ROI
+  // Escuchar el monto de la calculadora ROI
   useEffect(() => {
     const handler = (e: Event) => {
-      const customEvent = e as CustomEvent<string>
-      if (customEvent.detail) {
-        setFormState((prev) => ({ ...prev, projectType: customEvent.detail }))
-      }
+      const detail = (e as CustomEvent<number>).detail
+      if (detail) setRoiAmount(detail)
     }
-    window.addEventListener("preselect-project-type", handler)
-    return () => window.removeEventListener("preselect-project-type", handler)
+    window.addEventListener("roi-calculated", handler)
+    return () => window.removeEventListener("roi-calculated", handler)
   }, [])
 
-  const goToStep2 = () => {
-    if (!formState.name.trim() || !formState.email.trim() || !formState.projectType) {
-      setStep1Error("Completá todos los campos para continuar")
-      return
-    }
-    // Validación básica de email
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email)) {
-      setStep1Error("Ingresá un email válido")
-      return
-    }
-    setStep1Error("")
-    setStep(2)
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-
-    // Simulate form submission — reemplazar con webhook de n8n
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-  }
-
   const whatsappNumber = "5493816262536"
-  const whatsappMessage = encodeURIComponent(
-    `¡Hola WAW! Soy ${formState.name || "[nombre]"}. Me interesa un proyecto de ${formState.projectType || "desarrollo"} 🚀`
-  )
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
 
-  const slideVariants = {
-    enter: (direction: number) => ({ x: direction > 0 ? 300 : -300, opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit: (direction: number) => ({ x: direction > 0 ? -300 : 300, opacity: 0 }),
+  const getWhatsAppUrl = () => {
+    const name = email.split("@")[0] || ""
+    const message = roiAmount
+      ? `Hola WAW! Studio 👋\nSoy ${name}.\nSegún la calculadora pierdo $${roiAmount.toLocaleString("es-AR")}/año en tareas manuales.\nQuiero que me ayuden a automatizarlo 🚀\nMi email: ${email}`
+      : `Hola WAW! Studio 👋\nSoy ${name}.\nQuiero hablar sobre mi proyecto 🚀\nMi email: ${email}`
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email.trim()) {
+      setEmailError("Ingresá tu email para continuar")
+      return
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError("Ingresá un email válido")
+      return
+    }
+    setEmailError("")
+    window.open(getWhatsAppUrl(), "_blank")
   }
 
   return (
@@ -108,243 +64,68 @@ export function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="font-[var(--font-comic)] text-4xl md:text-6xl text-waw-white mb-4">¡HABLEMOS!</h2>
+          <h2 className="font-(--font-comic) text-4xl md:text-6xl text-waw-white mb-4">¡HABLEMOS!</h2>
           <p className="text-waw-white/80 text-xl max-w-2xl mx-auto">
-            ¿Listo para tu próxima misión digital? Completá en 2 pasos rápidos
+            Dejá tu email, abrimos WhatsApp y arrancamos tu proyecto en minutos
           </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto items-start">
-          {/* Contact form — Progressive Profiling */}
+          {/* Formulario simplificado: email + WhatsApp */}
           <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            {!isSubmitted ? (
-              <div className="shout-bubble p-8 md:p-12 relative">
-                {/* Progress bar */}
-                <div className="mb-8">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-[var(--font-comic)] text-sm text-waw-black/60">
-                      Paso {step} de 2
-                    </span>
-                    <span className="font-[var(--font-comic)] text-sm text-waw-black/60">
-                      {step === 1 ? "Tu info" : "Tu proyecto"}
-                    </span>
-                  </div>
-                  <div className="w-full h-3 bg-waw-black/10 border-2 border-waw-black overflow-hidden">
-                    <motion.div
-                      className="h-full bg-waw-violet"
-                      initial={{ width: "50%" }}
-                      animate={{ width: step === 1 ? "50%" : "100%" }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </div>
+            <div className="shout-bubble p-8 md:p-12 relative">
+              {/* Indicador de monto desde calculadora */}
+              {roiAmount && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6 p-4 bg-waw-red/10 border-4 border-waw-red/30 text-center"
+                >
+                  <p className="text-sm text-waw-black/60 mb-1">
+                    Según la calculadora, estás perdiendo
+                  </p>
+                  <p className="font-(--font-comic) text-2xl text-waw-red">
+                    ${roiAmount.toLocaleString("es-AR")}/año
+                  </p>
+                  <p className="text-xs text-waw-black/40 mt-1">
+                    Este monto se incluirá en tu mensaje de WhatsApp
+                  </p>
+                </motion.div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="font-(--font-comic) text-xl text-waw-black block mb-2">
+                    Tu email
+                  </label>
+                  <Input
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value)
+                      if (emailError) setEmailError("")
+                    }}
+                    placeholder="heroe@ciudadgotica.com"
+                    className="border-4 border-waw-black text-lg py-6"
+                  />
+                  {emailError && (
+                    <p className="text-waw-red font-bold text-sm mt-2">{emailError}</p>
+                  )}
                 </div>
 
-                <form onSubmit={handleSubmit}>
-                  <AnimatePresence mode="wait" custom={step}>
-                    {step === 1 && (
-                      <motion.div
-                        key="step1"
-                        custom={1}
-                        variants={slideVariants}
-                        initial="enter"
-                        animate="center"
-                        exit="exit"
-                        transition={{ duration: 0.3 }}
-                        className="space-y-5"
-                      >
-                        <div>
-                          <label className="font-[var(--font-comic)] text-xl text-waw-black block mb-2">
-                            Tu nombre
-                          </label>
-                          <Input
-                            value={formState.name}
-                            onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                            placeholder="Batman, Superman, o tu nombre real..."
-                            className="border-4 border-waw-black text-lg py-6"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="font-[var(--font-comic)] text-xl text-waw-black block mb-2">
-                            Tu email
-                          </label>
-                          <Input
-                            type="email"
-                            value={formState.email}
-                            onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                            placeholder="heroe@ciudadgotica.com"
-                            className="border-4 border-waw-black text-lg py-6"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="font-[var(--font-comic)] text-xl text-waw-black block mb-2">
-                            ¿Qué necesitás?
-                          </label>
-                          <div className="grid grid-cols-2 gap-3">
-                            {projectTypes.map((type) => (
-                              <button
-                                key={type.id}
-                                type="button"
-                                onClick={() => setFormState({ ...formState, projectType: type.value })}
-                                className={`p-3 border-4 border-waw-black text-left font-semibold transition-all text-sm
-                                  ${
-                                    formState.projectType === type.value
-                                      ? "bg-waw-violet text-waw-white scale-105"
-                                      : "bg-waw-white text-waw-black hover:bg-waw-violet/10"
-                                  }`}
-                              >
-                                {type.label}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-
-                        {step1Error && (
-                          <p className="text-waw-red font-bold text-sm">{step1Error}</p>
-                        )}
-
-                        <Button
-                          type="button"
-                          onClick={goToStep2}
-                          className="w-full comic-border bg-waw-violet hover:bg-waw-violet/90 text-waw-white font-[var(--font-comic)] text-2xl py-6"
-                        >
-                          Siguiente
-                          <ArrowRight className="ml-2 h-6 w-6" />
-                        </Button>
-                      </motion.div>
-                    )}
-
-                    {step === 2 && (
-                      <motion.div
-                        key="step2"
-                        custom={2}
-                        variants={slideVariants}
-                        initial="enter"
-                        animate="center"
-                        exit="exit"
-                        transition={{ duration: 0.3 }}
-                        className="space-y-5"
-                      >
-                        <div>
-                          <label className="font-[var(--font-comic)] text-xl text-waw-black block mb-2">
-                            Presupuesto estimado
-                          </label>
-                          <div className="space-y-2">
-                            {budgetRanges.map((range) => (
-                              <button
-                                key={range.value}
-                                type="button"
-                                onClick={() => setFormState({ ...formState, budget: range.value })}
-                                className={`w-full p-3 border-4 border-waw-black text-left font-semibold transition-all text-sm
-                                  ${
-                                    formState.budget === range.value
-                                      ? "bg-waw-yellow text-waw-black"
-                                      : "bg-waw-white text-waw-black hover:bg-waw-yellow/20"
-                                  }`}
-                              >
-                                {range.label}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div>
-                          <label className="font-[var(--font-comic)] text-xl text-waw-black block mb-2">
-                            ¿Cómo nos encontraste?
-                          </label>
-                          <div className="flex flex-wrap gap-2">
-                            {sourceOptions.map((src) => (
-                              <button
-                                key={src}
-                                type="button"
-                                onClick={() => setFormState({ ...formState, source: src })}
-                                className={`px-4 py-2 border-3 border-waw-black font-semibold text-sm transition-all
-                                  ${
-                                    formState.source === src
-                                      ? "bg-waw-violet text-waw-white"
-                                      : "bg-waw-white text-waw-black hover:bg-waw-violet/10"
-                                  }`}
-                              >
-                                {src}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div>
-                          <label className="font-[var(--font-comic)] text-xl text-waw-black block mb-2">
-                            Mensaje <span className="text-waw-black/40 text-base">(opcional)</span>
-                          </label>
-                          <Textarea
-                            value={formState.message}
-                            onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                            placeholder="Contanos brevemente tu idea..."
-                            className="border-4 border-waw-black text-lg min-h-24"
-                          />
-                        </div>
-
-                        <div className="flex gap-3">
-                          <Button
-                            type="button"
-                            onClick={() => setStep(1)}
-                            variant="outline"
-                            className="comic-border border-waw-black bg-waw-white text-waw-black font-[var(--font-comic)] text-lg py-6 px-6"
-                          >
-                            <ArrowLeft className="mr-1 h-5 w-5" />
-                            Atrás
-                          </Button>
-                          <Button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="flex-1 comic-border bg-waw-red hover:bg-waw-red/90 text-waw-white font-[var(--font-comic)] text-2xl py-6"
-                          >
-                            {isSubmitting ? (
-                              "ENVIANDO..."
-                            ) : (
-                              <>
-                                <Send className="mr-2 h-6 w-6" />
-                                ¡ENVIAR!
-                              </>
-                            )}
-                          </Button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </form>
-              </div>
-            ) : (
-              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="shout-bubble p-12 text-center">
-                <Onomatopoeia text="¡WAW!" color="violet" size="xl" />
-                <h3 className="font-[var(--font-comic)] text-3xl text-waw-black mt-6 mb-4">¡MENSAJE RECIBIDO!</h3>
-                <p className="text-waw-black/80 text-lg">
-                  Nuestro escuadrón revisará tu mensaje y te responderá en menos de 24 hs.
-                </p>
-              </motion.div>
-            )}
-
-            {/* WhatsApp CTA */}
-            {!isSubmitted && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                className="mt-6 text-center"
-              >
-                <p className="text-waw-white/60 text-sm mb-3">¿Preferís algo más directo?</p>
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 comic-border bg-[#25D366] hover:bg-[#20bd5a] text-waw-white font-[var(--font-comic)] text-lg px-6 py-3 transition-transform hover:scale-105"
+                <Button
+                  type="submit"
+                  className="w-full comic-border-thick bg-[#25D366] hover:bg-[#20bd5a] text-waw-white font-(--font-comic) text-2xl py-7 shadow-[4px_4px_0_rgba(0,0,0,1)] hover:shadow-[2px_2px_0_rgba(0,0,0,1)] transition-all"
                 >
-                  <MessageCircle className="h-5 w-5" />
-                  Hablemos por WhatsApp
-                </a>
-              </motion.div>
-            )}
+                  <MessageCircle className="mr-3 h-7 w-7" />
+                  Abrir WhatsApp
+                </Button>
+
+                <p className="text-center text-waw-black/40 text-sm">
+                  Te respondemos en menos de 2 horas 🚀
+                </p>
+              </form>
+            </div>
           </motion.div>
 
           {/* Contact info */}
@@ -375,14 +156,14 @@ export function Contact() {
                 </div>
                 <div>
                   <p className="font-bold text-waw-black/60 text-sm">{item.label}</p>
-                  <p className="font-[var(--font-comic)] text-xl text-waw-black">{item.value}</p>
+                  <p className="font-(--font-comic) text-xl text-waw-black">{item.value}</p>
                 </div>
               </motion.div>
             ))}
 
             {/* Social proof */}
             <div className="comic-border bg-waw-black p-6 mt-8">
-              <p className="text-waw-yellow font-[var(--font-comic)] text-2xl text-center mb-4">
+              <p className="text-waw-yellow font-(--font-comic) text-2xl text-center mb-4">
                 +50 MISIONES COMPLETADAS
               </p>
               <div className="flex justify-center gap-4">
