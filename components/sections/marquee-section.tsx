@@ -1,0 +1,80 @@
+"use client"
+
+import { motion, useScroll, useTransform } from "framer-motion"
+import { useRef } from "react"
+
+const logos = [
+  { label: "NOVA", src: "/log1.jpg" },
+  { label: "AURORA", src: "/log2.jpg" },
+  { label: "LUME", src: "/log3.jpg" },
+  { label: "KITE", src: "/log4.jpg" },
+  { label: "RHYTHM", src: "/log5.jpg" },
+  { label: "INVITA", src: "/log6.jpeg" },
+]
+
+export function MarqueeSection() {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const x = useTransform(scrollYProgress, [0, 1], [-120, 120])
+
+  return (
+    <section ref={ref} className="py-20 bg-waw-black text-waw-white relative overflow-hidden">
+      <div className="absolute inset-0 halftone-yellow opacity-8" />
+
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-10"
+        >
+          <p className="text-sm uppercase tracking-[0.3em] text-waw-yellow/80 font-semibold mb-3">
+            Confianza en movimiento
+          </p>
+          <h2 className="font-(--font-comic) text-3xl md:text-5xl text-waw-white">
+            <span className="text-waw-yellow">Marcas</span> que ya están avanzando
+          </h2>
+          <p className="mt-4 text-waw-white/70 text-lg max-w-2xl mx-auto">
+            Cuando el proyecto necesita claridad, velocidad y una identidad que se sostenga, esta es la energía que llevamos adelante.
+          </p>
+        </motion.div>
+
+        <div className="space-y-8">
+          <motion.div style={{ x }} className="overflow-hidden">
+            <div className="flex w-max gap-6 py-2">
+              {[...logos, ...logos].map((logo, index) => (
+                <div
+                  key={`${logo.label}-${index}`}
+                  className="h-28 w-44 border-2 border-[#D4AF37] bg-white rounded-3xl shadow-[0_0_28px_rgba(212,175,55,0.18)] flex items-center justify-center p-2"
+                >
+                  <img
+                    src={logo.src}
+                    alt={logo.label}
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div style={{ x: useTransform(scrollYProgress, [0, 1], [120, -120]) }} className="overflow-hidden">
+            <div className="flex w-max gap-6 py-2">
+              {[...logos.slice().reverse(), ...logos.slice().reverse()].map((logo, index) => (
+                <div
+                  key={`${logo.label}-${index}-reverse`}
+                  className="h-28 w-44 border-2 border-[#D4AF37] bg-white rounded-3xl shadow-[0_0_28px_rgba(212,175,55,0.16)] flex items-center justify-center p-2"
+                >
+                  <img
+                    src={logo.src}
+                    alt={logo.label}
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
