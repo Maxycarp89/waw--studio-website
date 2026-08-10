@@ -45,13 +45,21 @@ export function MarqueeSection() {
               {[...logos, ...logos].map((logo, index) => (
                 <div
                   key={`${logo.label}-${index}`}
-                  className="h-28 w-44 border-2 border-[#D4AF37] bg-white rounded-3xl shadow-[0_0_28px_rgba(212,175,55,0.18)] flex items-center justify-center p-2"
+                  className="h-28 w-44 rounded-3xl shadow-[0_0_28px_rgba(212,175,55,0.22)] overflow-hidden"
+                  style={{
+                    clipPath: 'polygon(8% 0, 92% 0, 100% 14%, 100% 86%, 92% 100%, 8% 100%, 0 86%, 0 14%)',
+                    border: '1px solid transparent',
+                    background: 'linear-gradient(white, white) padding-box, linear-gradient(135deg, #fffdf4 0%, #fff8e2 50%, #f9efc2 100%) border-box',
+                    backgroundClip: 'padding-box, border-box',
+                  }}
                 >
-                  <img
-                    src={logo.src}
-                    alt={logo.label}
-                    className="h-full w-full object-contain"
-                  />
+                  <div className="h-full w-full flex items-center justify-center p-3">
+                    <img
+                      src={logo.src}
+                      alt={logo.label}
+                      className="h-full w-full object-contain rounded-[1.25rem]"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
@@ -62,13 +70,21 @@ export function MarqueeSection() {
               {[...logos.slice().reverse(), ...logos.slice().reverse()].map((logo, index) => (
                 <div
                   key={`${logo.label}-${index}-reverse`}
-                  className="h-28 w-44 border-2 border-[#D4AF37] bg-white rounded-3xl shadow-[0_0_28px_rgba(212,175,55,0.16)] flex items-center justify-center p-2"
+                  className="h-28 w-44 rounded-3xl shadow-[0_0_28px_rgba(212,175,55,0.18)] overflow-hidden"
+                  style={{
+                    clipPath: 'polygon(8% 0, 92% 0, 100% 14%, 100% 86%, 92% 100%, 8% 100%, 0 86%, 0 14%)',
+                    border: '1px solid transparent',
+                    background: 'linear-gradient(white, white) padding-box, linear-gradient(135deg, #fffdf4 0%, #fff8e2 50%, #f9efc2 100%) border-box',
+                    backgroundClip: 'padding-box, border-box',
+                  }}
                 >
-                  <img
-                    src={logo.src}
-                    alt={logo.label}
-                    className="h-full w-full object-contain"
-                  />
+                  <div className="h-full w-full flex items-center justify-center p-3">
+                    <img
+                      src={logo.src}
+                      alt={logo.label}
+                      className="h-full w-full object-contain rounded-[1.25rem]"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
