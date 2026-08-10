@@ -1,7 +1,6 @@
 "use client"
 
-import { motion, useScroll, useTransform } from "framer-motion"
-import { useRef } from "react"
+import { motion } from "framer-motion"
 
 const logos = [
   { label: "NOVA", src: "/log1.jpg" },
@@ -13,12 +12,8 @@ const logos = [
 ]
 
 export function MarqueeSection() {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
-  const x = useTransform(scrollYProgress, [0, 1], [-120, 120])
-
   return (
-    <section ref={ref} className="py-20 bg-waw-black text-waw-white relative overflow-hidden">
+    <section className="py-20 bg-waw-black text-waw-white relative overflow-hidden">
       <div className="absolute inset-0 halftone-yellow opacity-8" />
 
       <div className="container mx-auto px-4 relative z-10">
@@ -40,12 +35,16 @@ export function MarqueeSection() {
         </motion.div>
 
         <div className="space-y-8">
-          <motion.div style={{ x }} className="overflow-hidden">
-            <div className="flex w-max gap-6 py-2">
-              {[...logos, ...logos].map((logo, index) => (
+          <div className="overflow-hidden">
+            <motion.div
+              animate={{ x: ["0%", "-25%"] }}
+              transition={{ repeat: Infinity, duration: 16, ease: "linear", repeatType: "loop", repeatDelay: 0 }}
+              className="flex flex-nowrap w-max gap-6 py-2 max-w-full md:max-w-none"
+            >
+              {[...logos, ...logos, ...logos, ...logos].map((logo, index) => (
                 <div
                   key={`${logo.label}-${index}`}
-                  className="h-28 w-44 rounded-3xl shadow-[0_0_28px_rgba(212,175,55,0.22)] overflow-hidden"
+                  className="h-28 min-w-44 md:w-44 rounded-3xl shadow-[0_0_28px_rgba(212,175,55,0.22)] overflow-hidden"
                   style={{
                     clipPath: 'polygon(8% 0, 92% 0, 100% 14%, 100% 86%, 92% 100%, 8% 100%, 0 86%, 0 14%)',
                     border: '1px solid transparent',
@@ -62,15 +61,19 @@ export function MarqueeSection() {
                   </div>
                 </div>
               ))}
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
-          <motion.div style={{ x: useTransform(scrollYProgress, [0, 1], [120, -120]) }} className="overflow-hidden">
-            <div className="flex w-max gap-6 py-2">
-              {[...logos.slice().reverse(), ...logos.slice().reverse()].map((logo, index) => (
+          <div className="overflow-hidden">
+            <motion.div
+              animate={{ x: ["0%", "25%"] }}
+              transition={{ repeat: Infinity, duration: 16, ease: "linear", repeatType: "loop", repeatDelay: 0 }}
+              className="flex flex-nowrap w-max gap-6 py-2 max-w-full md:max-w-none"
+            >
+              {[...logos.slice().reverse(), ...logos.slice().reverse(), ...logos.slice().reverse(), ...logos.slice().reverse()].map((logo, index) => (
                 <div
                   key={`${logo.label}-${index}-reverse`}
-                  className="h-28 w-44 rounded-3xl shadow-[0_0_28px_rgba(212,175,55,0.18)] overflow-hidden"
+                  className="h-28 min-w-44 md:w-44 rounded-3xl shadow-[0_0_28px_rgba(212,175,55,0.18)] overflow-hidden"
                   style={{
                     clipPath: 'polygon(8% 0, 92% 0, 100% 14%, 100% 86%, 92% 100%, 8% 100%, 0 86%, 0 14%)',
                     border: '1px solid transparent',
@@ -87,8 +90,8 @@ export function MarqueeSection() {
                   </div>
                 </div>
               ))}
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
