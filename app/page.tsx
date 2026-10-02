@@ -1,35 +1,22 @@
-import { Navbar } from "@/components/sections/navbar"
-import { Hero } from "@/components/sections/hero"
-import { TrustBar } from "@/components/sections/trust-bar"
-import { IdeasMachine } from "@/components/sections/ideas-machine"
-import { Services } from "@/components/sections/services"
-import { ROICalculator } from "@/components/sections/roi-calculator"
-import { HowWeWork } from "@/components/sections/how-we-work"
-import { SolutionBuilder } from "@/components/solution-builder"
-import { MarqueeSection } from "@/components/sections/marquee-section"
-import { SocialProof } from "@/components/sections/social-proof"
-import { Contact } from "@/components/sections/contact"
-import { Footer } from "@/components/sections/footer"
-import { EasterEggs } from "@/components/easter-eggs"
-import { FloatingWhatsApp } from "@/components/floating-whatsapp"
+import "./landing.css"
+import { LandingMotion } from "@/components/landing/motion"
+import { Chrome, Hero, Ribbons, Manifesto, Work, Services, Process, Cta, Footer } from "@/components/landing/sections"
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      <Navbar />
-      <Hero />
-      <TrustBar />
-      {/* <IdeasMachine /> */}
-      <Services />
-      <ROICalculator />
-      <HowWeWork />
-      <SolutionBuilder />
-      <MarqueeSection />
-      <SocialProof />
-      <Contact />
+    <>
+      <Chrome />
+      <main className="waw-main">
+        <Hero />
+        <Ribbons />
+        <Manifesto />
+        <Work />
+        <Services />
+        <Process />
+        <Cta />
+      </main>
       <Footer />
-      <EasterEggs />
-      <FloatingWhatsApp />
-    </main>
+      <LandingMotion />
+    </>
   )
 }
