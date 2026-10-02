@@ -9,6 +9,7 @@ const logos = [
   { label: "Velvette", src: "/log4.jpg" },
   { label: "Mary Poppins", src: "/log5.jpg" },
   { label: "Invita", src: "/log6.jpeg" },
+  { label: "A.MARTIN Automotores", src: "/logo-amartin.svg", bg: "#0a0a0a" },
 ]
 
 export function MarqueeSection() {
@@ -48,7 +49,7 @@ export function MarqueeSection() {
                   style={{
                     clipPath: 'polygon(8% 0, 92% 0, 100% 14%, 100% 86%, 92% 100%, 8% 100%, 0 86%, 0 14%)',
                     border: '1px solid transparent',
-                    background: 'linear-gradient(white, white) padding-box, linear-gradient(135deg, #fffdf4 0%, #fff8e2 50%, #f9efc2 100%) border-box',
+                    background: `linear-gradient(${logo.bg ?? "white"}, ${logo.bg ?? "white"}) padding-box, linear-gradient(135deg, #fffdf4 0%, #fff8e2 50%, #f9efc2 100%) border-box`,
                     backgroundClip: 'padding-box, border-box',
                   }}
                 >
@@ -77,7 +78,7 @@ export function MarqueeSection() {
                   style={{
                     clipPath: 'polygon(8% 0, 92% 0, 100% 14%, 100% 86%, 92% 100%, 8% 100%, 0 86%, 0 14%)',
                     border: '1px solid transparent',
-                    background: 'linear-gradient(white, white) padding-box, linear-gradient(135deg, #fffdf4 0%, #fff8e2 50%, #f9efc2 100%) border-box',
+                    background: `linear-gradient(${logo.bg ?? "white"}, ${logo.bg ?? "white"}) padding-box, linear-gradient(135deg, #fffdf4 0%, #fff8e2 50%, #f9efc2 100%) border-box`,
                     backgroundClip: 'padding-box, border-box',
                   }}
                 >

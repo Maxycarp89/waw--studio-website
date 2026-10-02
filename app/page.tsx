@@ -8,7 +8,6 @@ import { HowWeWork } from "@/components/sections/how-we-work"
 import { SolutionBuilder } from "@/components/solution-builder"
 import { MarqueeSection } from "@/components/sections/marquee-section"
 import { SocialProof } from "@/components/sections/social-proof"
-import { Team } from "@/components/sections/team"
 import { Contact } from "@/components/sections/contact"
 import { Footer } from "@/components/sections/footer"
 import { EasterEggs } from "@/components/easter-eggs"
@@ -27,7 +26,6 @@ export default function Home() {
       <SolutionBuilder />
       <MarqueeSection />
       <SocialProof />
-      <Team />
       <Contact />
       <Footer />
       <EasterEggs />
