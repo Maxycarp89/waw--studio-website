@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WAW! Studio — Ideas que hacen ruido</title>
+<meta name="description" content="Estudio creativo en Tucumán. Webs, branding y automatizaciones con IA para marcas que quieren que su cliente diga WAW!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b0b; --surface:#151515; --fg:#f4f1ea; --muted:#8f8b84;
+  --line:rgba(244,241,234,.1); --accent:#ffd633; --violet:#7b4dff; --coral:#ff5a4e;
+  --display:'Anton',Impact,sans-serif; --body:'Inter',system-ui,sans-serif;
+  --t-hero:clamp(3.4rem,11.5vw,11rem); --t-h1:clamp(2.6rem,7vw,6.5rem);
+  --t-h2:clamp(1.6rem,3vw,2.6rem); --t-body:clamp(1rem,1.05vw,1.125rem);
+  --s-5:clamp(5rem,10vw,9rem); --s-6:clamp(7rem,13vw,12rem);
+  --pad:clamp(1.25rem,4vw,3.5rem); --max:1440px;
+  --ease:cubic-bezier(.16,1,.3,1); --fast:.45s; --mid:.75s; --slow:1.1s;
+  --r:999px; --card:22px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 var(--t-body)/1.65 var(--body);overflow-x:hidden;overflow-x:clip}
+img{display:block;max-width:100%}
+figure{margin:0}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:var(--bg)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--pad)}
+.display{font-family:var(--display);text-transform:uppercase;letter-spacing:-.01em;line-height:.92;font-weight:400}
+.outline{color:transparent;-webkit-text-stroke:2px var(--fg)}
+.eyebrow{display:inline-flex;align-items:center;gap:.8rem;font-family:var(--display);text-transform:uppercase;font-size:1.05rem;letter-spacing:.04em}
+.eyebrow::before{content:"";width:48px;height:1px;background:var(--fg);opacity:.6}
+.eyebrow i{width:9px;height:9px;background:var(--accent);display:inline-block}
+
+/* grilla de fondo como en las agencias */
+.gridlines{position:fixed;inset:0;pointer-events:none;z-index:0;display:grid;grid-template-columns:repeat(4,1fr);max-width:var(--max);margin-inline:auto;padding-inline:var(--pad)}
+.gridlines span{border-left:1px solid var(--line)}
+.gridlines span:last-child{border-right:1px solid var(--line)}
+main,footer{position:relative;z-index:1}
+
+/* intro */
+.intro{position:fixed;inset:0;z-index:100;background:var(--accent);color:var(--bg);display:grid;place-items:center;transition:clip-path 1s var(--ease)}
+.intro.is-done{clip-path:inset(0 0 100% 0)}
+.intro b{font-family:var(--display);font-size:clamp(5rem,22vw,18rem);line-height:1}
+.intro span{position:absolute;bottom:var(--pad);right:var(--pad);font-family:var(--display);font-size:2rem}
+
+/* progreso + nav */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;background:var(--accent);transform-origin:0 50%;transform:scaleX(0);z-index:60}
+.nav{position:fixed;top:12px;left:var(--pad);right:var(--pad);z-index:50;display:flex;align-items:center;justify-content:space-between;padding:.7rem .8rem .7rem 1.6rem;border:1px solid transparent;border-radius:var(--r);transition:transform var(--mid) var(--ease),background var(--mid) var(--ease),border-color var(--mid) var(--ease)}
+.nav.is-solid{background:rgba(11,11,11,.82);backdrop-filter:blur(14px);border-color:var(--line)}
+.nav.is-hidden{transform:translateY(-140%)}
+.logo{font-family:var(--display);font-size:2rem;line-height:1;letter-spacing:.01em}
+.logo em{font-style:normal;color:var(--accent)}
+.nav__links{display:flex;gap:.3rem;padding:.35rem;border:1px solid var(--line);border-radius:var(--r)}
+.nav__links a{padding:.55rem 1.1rem;border-radius:var(--r);font-weight:500;font-size:.95rem;transition:background var(--fast) var(--ease),color var(--fast) var(--ease)}
+.nav__links a:hover{background:var(--fg);color:var(--bg)}
+.btn{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 1.7rem;border-radius:var(--r);background:var(--accent);color:var(--bg);font-family:var(--display);text-transform:uppercase;font-size:1.05rem;letter-spacing:.03em;transition:transform var(--mid) var(--ease),background var(--fast) var(--ease)}
+.btn:hover{background:var(--fg)}
+.burger{display:none;background:none;border:1px solid var(--line);color:var(--fg);border-radius:var(--r);padding:.7rem 1.1rem;font:500 .9rem var(--body)}
+.menu{position:fixed;inset:0;z-index:45;background:var(--accent);color:var(--bg);display:flex;flex-direction:column;justify-content:center;gap:.4rem;padding:var(--pad);clip-path:inset(0 0 100% 0);transition:clip-path var(--mid) var(--ease)}
+.menu a{font-family:var(--display);font-size:clamp(3rem,14vw,5rem);text-transform:uppercase;line-height:1}
+.menu-open .menu{clip-path:inset(0)}
+
+/* hero */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding-block:8rem 4rem;position:relative;overflow:hidden}
+.hero h1{font-size:var(--t-hero);margin:1.6rem 0 0;position:relative;z-index:1}
+.line{display:block;overflow:hidden;padding-bottom:.04em}
+.line>span{display:block;transform:translateY(110%);transition:transform 1.1s var(--ease) var(--d,0ms)}
+.is-loaded .hero .line>span{transform:none}
+.hero .eyebrow,.hero__foot{opacity:0;transform:translateY(20px);transition:opacity 1s var(--ease) .5s,transform 1s var(--ease) .5s}
+.is-loaded .hero .eyebrow,.is-loaded .hero__foot{opacity:1;transform:none}
+.hero__foot{display:flex;flex-wrap:wrap;gap:2rem;align-items:center;justify-content:center;margin-top:2.4rem}
+.hero__foot p{max-width:34ch;margin:0;color:var(--muted);text-align:left}
+.sticker{display:inline-block;background:var(--accent);color:var(--bg);padding:0 .18em;rotate:-4deg;border-radius:.08em;-webkit-text-stroke:0}
+.shape{position:absolute;border-radius:50%;pointer-events:none;will-change:translate}
+.shape--1{width:clamp(70px,9vw,130px);aspect-ratio:1;background:var(--accent);top:16%;left:14%;opacity:.9}
+.shape--2{width:28px;aspect-ratio:1;background:var(--violet);top:28%;right:22%}
+.shape--3{width:clamp(110px,14vw,210px);aspect-ratio:1;background:var(--coral);mix-blend-mode:screen;opacity:.75;bottom:20%;right:10%}
+.shape--4{width:18px;aspect-ratio:1;background:var(--fg);bottom:30%;left:20%}
+.spark{position:absolute;top:18%;right:12%;width:56px;fill:var(--fg);animation:twinkle 3s var(--ease) infinite}
+@keyframes twinkle{50%{transform:scale(.6) rotate(45deg);opacity:.5}}
+
+/* cintas cruzadas */
+.ribbons{position:relative;height:clamp(180px,22vw,300px);overflow:hidden;margin-block:-2rem}
+.ribbon{position:absolute;left:-5%;right:-5%;top:50%;padding-block:.9rem;overflow:hidden}
+.ribbon--a{background:var(--accent);color:var(--bg);rotate:-4deg;translate:0 -70%}
+.ribbon--b{background:var(--fg);color:var(--bg);rotate:3deg;translate:0 -10%}
+.ribbon__track{display:flex;width:max-content;will-change:transform}
+.ribbon__track span{font-family:var(--display);text-transform:uppercase;font-size:clamp(2rem,4.6vw,4.2rem);line-height:1;padding-inline:1.6rem;white-space:nowrap;display:flex;align-items:center;gap:3.2rem}
+.ribbon__track span::after{content:"✦";font-size:.6em}
+
+/* secciones */
+section{padding-block:var(--s-6)}
+.head{display:grid;grid-template-columns:1.3fr 1fr;gap:var(--pad);align-items:end;margin-bottom:var(--s-5)}
+.head h2{font-size:var(--t-h1);margin:1.2rem 0 0}
+.head p{color:var(--muted);max-width:44ch;margin:0}
+.rm{display:block;overflow:hidden}
+.rm>*{display:block;transform:translateY(110%);transition:transform var(--slow) var(--ease) var(--d,0ms)}
+.ru{opacity:0;transform:translateY(30px);transition:opacity var(--slow) var(--ease) var(--d,0ms),transform var(--slow) var(--ease) var(--d,0ms)}
+.is-in .rm>*,.is-in .ru{transform:none;opacity:1}
+
+/* manifiesto */
+.manifesto{display:grid;grid-template-columns:1fr 3fr;gap:var(--pad);align-items:start}
+.manifesto p{font-family:var(--display);text-transform:uppercase;font-size:clamp(2rem,4.8vw,4.6rem);line-height:1.02;margin:0}
+.w{opacity:.14;transition:opacity .5s var(--ease),color .5s var(--ease)}
+.w.on{opacity:1}
+.manifesto em{font-style:normal}
+.manifesto em .w.on{color:var(--accent)}
+
+/* trabajo: filas que se deslizan */
+.work{overflow:hidden;position:relative}
+.rows{display:grid;gap:1rem;position:relative}
+.row{display:flex;gap:1rem;width:max-content;will-change:transform}
+.tile{position:relative;flex:0 0 clamp(260px,30vw,460px);aspect-ratio:4/3;border-radius:var(--card);overflow:hidden;background:var(--surface)}
+.tile img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease),filter var(--mid) var(--ease);filter:grayscale(.25)}
+.tile:hover img{transform:scale(1.06);filter:none}
+.tile--logo{background:#fff;display:grid;place-items:center}
+.tile--logo img{width:58%;height:auto;object-fit:contain;filter:none}
+.tile--dark{background:#000}
+.tile figcaption{position:absolute;left:1rem;bottom:1rem;right:1rem;display:flex;justify-content:space-between;align-items:end;gap:1rem;padding:.8rem 1rem;border-radius:14px;background:rgba(11,11,11,.72);backdrop-filter:blur(8px);transform:translateY(130%);transition:transform var(--mid) var(--ease)}
+.tile:hover figcaption{transform:none}
+.tile figcaption b{font-family:var(--display);text-transform:uppercase;font-weight:400;font-size:1.3rem;line-height:1}
+.tile figcaption small{color:var(--accent);font-size:.8rem}
+.badge{position:absolute;left:50%;top:50%;width:clamp(150px,15vw,220px);aspect-ratio:1;translate:-50% -50%;border-radius:50%;background:var(--fg);color:var(--bg);display:grid;place-items:center;z-index:3;box-shadow:0 0 0 10px var(--bg)}
+.badge svg{position:absolute;inset:8%;width:84%;height:84%;fill:var(--bg)}
+.badge b{font-family:var(--display);font-size:clamp(2rem,3.4vw,3rem);font-weight:400;line-height:1}
+.badge b em{font-style:normal;color:var(--coral)}
+
+/* casos */
+.cases{margin-top:var(--s-5);border-top:1px solid var(--line)}
+.case{display:grid;grid-template-columns:80px 1.2fr 2fr 280px;gap:var(--pad);align-items:center;padding-block:2.2rem;border-bottom:1px solid var(--line);transition:padding var(--mid) var(--ease),color var(--fast) var(--ease)}
+.case:hover{padding-inline:1.2rem;color:var(--accent)}
+.case span{color:var(--muted);font-family:var(--display);font-size:1.2rem}
+.case h3{font-family:var(--display);text-transform:uppercase;font-weight:400;font-size:clamp(2rem,4vw,3.6rem);line-height:1;margin:0}
+.case p{margin:0;color:var(--muted);max-width:46ch}
+.case .tags{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:flex-end}
+.case .tags i{font-style:normal;font-size:.8rem;border:1px solid var(--line);border-radius:var(--r);padding:.3rem .8rem;color:var(--fg)}
+.hover-preview{position:fixed;top:0;left:0;width:300px;aspect-ratio:4/3;margin:-150px 0 0 -150px;border-radius:var(--card);overflow:hidden;pointer-events:none;z-index:40;opacity:0;scale:.6;transition:opacity var(--fast) var(--ease),scale var(--mid) var(--ease)}
+.hover-preview.is-on{opacity:1;scale:1}
+.hover-preview img{width:100%;height:100%;object-fit:cover}
+
+/* servicios */
+.services{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--card);overflow:hidden}
+.service{background:var(--bg);padding:clamp(1.8rem,3.5vw,3.2rem);min-height:340px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;isolation:isolate}
+.service::before{content:"";position:absolute;inset:0;background:var(--accent);clip-path:circle(0% at 100% 0%);transition:clip-path .9s var(--ease);z-index:-1}
+.service:hover::before{clip-path:circle(150% at 100% 0%)}
+.service:hover{color:var(--bg)}
+.service:hover p{color:rgba(11,11,11,.75)}
+.service .n{font-family:var(--display);font-size:1.1rem;opacity:.6}
+.service h3{font-family:var(--display);text-transform:uppercase;font-weight:400;font-size:clamp(2rem,3.6vw,3.2rem);line-height:.95;margin:2.5rem 0 1rem}
+.service p{margin:0;color:var(--muted);max-width:40ch;transition:color var(--fast) var(--ease)}
+
+/* proceso con contador fijo */
+.process{display:grid;grid-template-columns:1fr 1.3fr;gap:var(--pad);position:relative}
+.process__aside{position:sticky;top:18vh;height:max-content;display:grid;justify-items:start;gap:2rem}
+.counter{width:clamp(190px,20vw,280px);aspect-ratio:1;border-radius:50%;background:var(--fg);color:var(--bg);display:grid;place-items:center;text-align:center;box-shadow:0 0 0 8px var(--bg),0 0 0 10px var(--fg)}
+.counter small{font-family:var(--display);font-size:1.3rem;text-transform:uppercase}
+.counter b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(3rem,5vw,4.4rem);line-height:1}
+.steps{position:relative;padding-left:2.4rem;border-left:1px solid var(--line)}
+.steps__line{position:absolute;left:-1px;top:0;width:2px;height:100%;background:var(--accent);transform-origin:top;transform:scaleY(0)}
+.step{padding-block:3rem;opacity:.3;transition:opacity var(--mid) var(--ease)}
+.step.is-active{opacity:1}
+.step h3{font-family:var(--display);text-transform:uppercase;font-weight:400;font-size:clamp(2rem,3.4vw,3rem);line-height:1;margin:0 0 1rem}
+.step p{margin:0;color:var(--muted);max-width:44ch}
+.step ul{list-style:none;padding:0;margin:1.2rem 0 0;display:grid;gap:.5rem}
+.step li::before{content:"✦ ";color:var(--accent)}
+
+/* clientes */
+.clients{border-block:1px solid var(--line);padding-block:3rem;overflow:hidden}
+.clients__track{display:flex;width:max-content;gap:1.2rem;will-change:transform}
+.client{flex:0 0 auto;width:clamp(200px,20vw,280px);height:120px;border-radius:var(--card);background:#fff;display:grid;place-items:center;padding:1.2rem}
+.client img{max-height:100px;width:auto;object-fit:contain}
+.client--fill{padding:0;overflow:hidden}.client--fill img{width:100%;height:100%;max-height:none;object-fit:cover;scale:1.6}
+.client--dark{background:#000}
+
+/* cta */
+.cta{text-align:center;padding-block:var(--s-6)}
+.cta h2{font-size:clamp(3.4rem,12vw,12rem);margin:1.5rem 0 3rem}
+.cta .round{width:clamp(150px,14vw,200px);aspect-ratio:1;border-radius:50%;background:var(--accent);color:var(--bg);display:inline-grid;place-items:center;font-family:var(--display);text-transform:uppercase;font-size:1.4rem;line-height:1.05;transition:transform var(--mid) var(--ease),background var(--fast) var(--ease)}
+.cta .round:hover{background:var(--fg)}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding-block:4rem 2rem;overflow:hidden}
+.foot{display:grid;grid-template-columns:2fr 1fr 1fr;gap:var(--pad)}
+.foot h4{font-family:var(--display);text-transform:uppercase;font-weight:400;font-size:1.1rem;margin:0 0 1rem;color:var(--muted)}
+.foot a{display:block;padding-block:.2rem;transition:color var(--fast) var(--ease)}
+.foot a:hover{color:var(--accent)}
+.giant{font-family:var(--display);font-size:clamp(7rem,33vw,30rem);line-height:.8;text-align:center;margin-top:4rem;color:transparent;-webkit-text-stroke:1px rgba(244,241,234,.25)}
+.legal{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-top:2rem}
+
+/* cursor */
+.cursor{position:fixed;top:0;left:0;z-index:90;pointer-events:none}
+.cursor::before{content:attr(data-label);position:absolute;translate:-50% -50%;width:12px;height:12px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font:600 0 var(--body);color:var(--bg);transition:width var(--mid) var(--ease),height var(--mid) var(--ease),font-size var(--fast) var(--ease)}
+.cursor.is-lg::before{width:46px;height:46px;background:transparent;border:1px solid var(--accent)}
+.cursor.is-label::before{width:96px;height:96px;font-size:.85rem}
+
+@media (max-width:900px){
+  .nav__links,.nav .btn{display:none}.burger{display:block}
+  .head,.manifesto,.process,.foot{grid-template-columns:1fr}
+  .services{grid-template-columns:1fr}
+  .case{grid-template-columns:1fr;gap:.6rem}.case .tags{justify-content:flex-start}
+  .process__aside{position:relative;top:0}
+  .tile figcaption{transform:none}
+  .gridlines{grid-template-columns:repeat(2,1fr)}
+  .shape--2,.shape--3,.spark{display:none}.shape--1{width:56px;top:12%;left:6%}
+  .hero h1{font-size:15vw}.hero__foot{justify-content:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .line>span,.rm>*,.ru{transform:none!important;opacity:1!important}
+  .intro{display:none}
+}
+</style>
+</head>
+<body>
+<div class="intro" data-intro aria-hidden="true"><b>WAW!</b><span data-intro-count>000</span></div>
+<div class="progress" data-progress></div>
+<div class="cursor"></div>
+<div class="gridlines" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
+<header class="nav" data-nav>
+  <a class="logo" href="#top">WAW<em>!</em></a>
+  <nav class="nav__links" aria-label="Principal">
+    <a href="#trabajo">Trabajo</a><a href="#servicios">Servicios</a><a href="#proceso">Proceso</a><a href="#contacto">Contacto</a>
+  </nav>
+  <a class="btn" href="https://wa.me/5493816262536" target="_blank" rel="noopener" data-magnetic>Hablemos</a>
+  <button class="burger" data-burger aria-label="Abrir menú">Menú</button>
+</header>
+<div class="menu" data-menu>
+  <a href="#trabajo">Trabajo</a><a href="#servicios">Servicios</a><a href="#proceso">Proceso</a><a href="#contacto">Contacto</a>
+</div>
+
+<main id="top">
+  <section class="hero">
+    <span class="shape shape--1" data-float="60"></span>
+    <span class="shape shape--2" data-float="-40"></span>
+    <span class="shape shape--3" data-float="30"></span>
+    <span class="shape shape--4" data-float="-70"></span>
+    <svg class="spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.6 6.3 5.7 11.4 12 12-6.3.6-11.4 5.7-12 12-.6-6.3-5.7-11.4-12-12C6.3 11.4 11.4 6.3 12 0z"/></svg>
+
+    <span class="eyebrow"><i></i>Estudio creativo · Tucumán</span>
+    <h1 class="display">
+      <span class="line"><span>Ideas que</span></span>
+      <span class="line"><span class="outline" style="--d:120ms">hacen ruido</span></span>
+      <span class="line"><span style="--d:240ms">y dicen <span class="sticker">WAW!</span></span></span>
+    </h1>
+    <div class="hero__foot">
+      <p>Diseñamos webs, marcas y automatizaciones con IA que no pasan desapercibidas. Primero la idea, después el código.</p>
+      <a class="btn" href="#contacto" data-magnetic>Contanos tu idea</a>
+    </div>
+  </section>
+
+  <div class="ribbons" aria-hidden="true">
+    <div class="ribbon ribbon--a" data-marquee="1" data-speed=".7"><div class="ribbon__track"><span>Webs que venden</span><span>Automatizaciones con IA</span><span>Branding con carácter</span><span>Plataformas a medida</span></div></div>
+    <div class="ribbon ribbon--b" data-marquee="-1" data-speed=".5"><div class="ribbon__track"><span>Diseño</span><span>Código</span><span>Estrategia</span><span>Movimiento</span><span>Ideas</span></div></div>
+  </div>
+
+  <section class="wrap">
+    <div class="manifesto">
+      <span class="eyebrow"><i></i>Manifiesto</span>
+      <p data-words>Hay marcas que se ven bien y marcas que se recuerdan. Nosotros hacemos las segundas: cada web, cada sistema y cada automatización arranca con una idea <em>que hace que tu cliente diga WAW!</em> antes de decir quiero.</p>
+    </div>
+  </section>
+
+  <section class="work" id="trabajo">
+    <div class="wrap head" data-reveal>
+      <div>
+        <span class="eyebrow ru"><i></i>Trabajo real</span>
+        <h2 class="display"><span class="rm"><span>Marcas que ya</span></span><span class="rm"><span class="outline">hicieron ruido</span></span></h2>
+      </div>
+      <p class="ru">Concesionarias, tiendas de moda y plataformas de eventos. Distintos rubros, la misma obsesión: que se note.</p>
+    </div>
+    <div class="rows">
+      <div class="row" data-drift="-1">
+        <figure class="tile tile--dark" data-cursor="Ver"><img src="assets/amartin-auto.webp" alt="Auto en estudio oscuro para A.MARTIN" loading="lazy"><figcaption><b>A.MARTIN</b><small>Web + catálogo</small></figcaption></figure>
+        <figure class="tile" data-cursor="Ver"><img src="assets/invita-portada.webp" alt="Pareja en sesión editorial para Invita" loading="lazy"><figcaption><b>Invita</b><small>Plataforma SaaS</small></figcaption></figure>
+        <figure class="tile tile--logo" data-cursor="Ver"><img src="assets/marypoppins-logo.jpg" alt="Logo Mary Poppins tienda de moda" loading="lazy"><figcaption><b>Mary Poppins</b><small>Tienda de moda</small></figcaption></figure>
+        <figure class="tile" data-cursor="Ver"><img src="assets/invita-fiesta.webp" alt="Fiesta, plantilla de Invita" loading="lazy"><figcaption><b>Invita</b><small>Plantillas de eventos</small></figcaption></figure>
+      </div>
+      <div class="row" data-drift="1" style="margin-left:-30vw">
+        <figure class="tile" data-cursor="Ver"><img src="assets/invita-casamiento.webp" alt="Colección casamiento de Invita" loading="lazy"><figcaption><b>Invita</b><small>Colección casamiento</small></figcaption></figure>
+        <figure class="tile tile--dark" data-cursor="Ver"><img src="assets/amartin-branding.png" alt="Branding nocturno de A.MARTIN" loading="lazy"><figcaption><b>A.MARTIN</b><small>Identidad visual</small></figcaption></figure>
+        <figure class="tile" data-cursor="Ver"><img src="assets/invita-quince.webp" alt="Colección quince de Invita" loading="lazy"><figcaption><b>Invita</b><small>Colección 15 años</small></figcaption></figure>
+        <figure class="tile tile--dark" data-cursor="Ver"><img src="assets/amartin-moto.webp" alt="Moto para A.MARTIN" loading="lazy"><figcaption><b>A.MARTIN</b><small>Motos en cuotas</small></figcaption></figure>
+      </div>
+      <div class="badge" aria-hidden="true">
+        <svg viewBox="0 0 200 200" data-spin><defs><path id="c1" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs><text font-family="Anton" font-size="17" letter-spacing="5"><textPath href="#c1">PROYECTOS REALES ✦ HECHOS EN TUCUMÁN ✦</textPath></text></svg>
+        <b>WAW<em>!</em></b>
+      </div>
+    </div>
+
+    <div class="wrap cases">
+      <a class="case" href="#contacto" data-img="assets/amartin-auto.webp"><span>01</span><h3>A.MARTIN</h3><p>Usados seleccionados. Sitio premium con catálogo de autos y motos, fichas que se comparten por WhatsApp y panel para cargar stock.</p><div class="tags"><i>Web</i><i>Catálogo</i><i>Panel admin</i></div></a>
+      <a class="case" href="#contacto" data-img="assets/invita-casamiento.webp"><span>02</span><h3>Invita</h3><p>Plataforma para crear invitaciones digitales: colecciones para casamientos, quinces y eventos corporativos, lista para escalar.</p><div class="tags"><i>SaaS</i><i>Producto</i><i>Diseño</i></div></a>
+      <a class="case" href="#contacto" data-img="assets/marypoppins-logo.jpg"><span>03</span><h3>Mary Poppins</h3><p>Tienda de moda que quería verse tan bien online como en su vidriera.</p><div class="tags"><i>Moda</i><i>Presencia digital</i></div></a>
+    </div>
+  </section>
+
+  <section class="wrap" id="servicios">
+    <div class="head" data-reveal>
+      <div>
+        <span class="eyebrow ru"><i></i>Qué hacemos</span>
+        <h2 class="display"><span class="rm"><span>Cuatro formas</span></span><span class="rm"><span class="outline">de hacer ruido</span></span></h2>
+      </div>
+      <p class="ru">No vendemos paquetes cerrados. Combinamos lo que tu negocio necesita para crecer.</p>
+    </div>
+    <div class="services" data-reveal>
+      <article class="service ru"><span class="n">/01</span><div><h3>Webs que venden</h3><p>Sitios rápidos, con identidad propia y pensados para convertir visitas en consultas.</p></div></article>
+      <article class="service ru"><span class="n">/02</span><div><h3>Automatizaciones con IA</h3><p>Chatbots, flujos y agentes que responden, cargan y avisan solos. Vos te ocupás de vender.</p></div></article>
+      <article class="service ru"><span class="n">/03</span><div><h3>Branding con carácter</h3><p>Identidades que se reconocen de lejos: logo, tono, sistema visual y todo lo que los une.</p></div></article>
+      <article class="service ru"><span class="n">/04</span><div><h3>Plataformas a medida</h3><p>Catálogos, paneles y productos SaaS hechos para tu operación, no para la de cualquiera.</p></div></article>
+    </div>
+  </section>
+
+  <section class="wrap" id="proceso">
+    <div class="process" data-steps>
+      <aside class="process__aside">
+        <span class="eyebrow"><i></i>Cómo trabajamos</span>
+        <div class="counter"><div><small>Paso</small><b><span data-step-current>1</span> / 4</b></div></div>
+      </aside>
+      <div class="steps">
+        <span class="steps__line" data-step-line></span>
+        <div class="step" data-step><h3>Escuchamos</h3><p>Nos contás tu negocio, tu cliente y lo que te frena. Sin formularios eternos: una charla.</p><ul><li>Diagnóstico de tu presencia actual</li><li>Qué tareas se pueden automatizar</li></ul></div>
+        <div class="step" data-step><h3>Buscamos la idea</h3><p>Antes de diseñar una pantalla, encontramos el concepto que te diferencia.</p><ul><li>Concepto creativo</li><li>Mapa del sitio o del flujo</li></ul></div>
+        <div class="step" data-step><h3>Lo construimos</h3><p>Diseño y desarrollo en paralelo, con avances que ves cada semana.</p><ul><li>Diseño, código e integraciones</li><li>Revisiones cortas y frecuentes</li></ul></div>
+        <div class="step" data-step><h3>Lanzamos y medimos</h3><p>Salimos al aire y seguimos ajustando con datos reales, no con suposiciones.</p><ul><li>Analítica y mejoras</li><li>Soporte después del lanzamiento</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="clients" aria-label="Marcas que confían en WAW!" data-marquee="1" data-speed=".8">
+    <div class="clients__track">
+      <div class="client client--dark"><img src="assets/amartin-logo.svg" alt="A.MARTIN Automotores"></div>
+      <div class="client client--fill"><img src="assets/invita-logo.jpg" alt="Invita"></div>
+      <div class="client"><img src="assets/marypoppins-logo.jpg" alt="Mary Poppins"></div>
+      <div class="client client--dark"><img src="assets/amartin-logo.svg" alt="A.MARTIN Automotores"></div>
+      <div class="client client--fill"><img src="assets/invita-logo.jpg" alt="Invita"></div>
+      <div class="client"><img src="assets/marypoppins-logo.jpg" alt="Mary Poppins"></div>
+    </div>
+  </div>
+
+  <section class="wrap cta" id="contacto" data-reveal>
+    <span class="eyebrow ru"><i></i>¿Arrancamos?</span>
+    <h2 class="display"><span class="rm"><span>¿Hacemos</span></span><span class="rm"><span class="outline">algo WAW!?</span></span></h2>
+    <a class="round" href="https://wa.me/5493816262536?text=Hola%20WAW!%20Tengo%20una%20idea%20%F0%9F%9A%80" target="_blank" rel="noopener" data-magnetic>Escri&shy;binos</a>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><a class="logo" href="#top">WAW<em>!</em> Studio</a><p style="color:var(--muted);max-width:36ch">Estudio creativo de webs, marcas y automatizaciones. Tucumán, Argentina, para todo el mundo.</p></div>
+      <div><h4>Contacto</h4><a href="https://wa.me/5493816262536">+54 381 626 2536</a><a href="mailto:hola@wawstudio.com">hola@wawstudio.com</a></div>
+      <div><h4>Seguinos</h4><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
+    </div>
+    <div class="giant" aria-hidden="true">WAW!</div>
+    <div class="legal"><span>© 2026 WAW! Studio</span><span>Hecho con ruido en Tucumán</span></div>
+  </div>
+</footer>
+
+<div class="hover-preview" aria-hidden="true"><img alt=""></div>
+<script src="waw-motion.js"></script>
+</body>
+</html>

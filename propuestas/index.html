@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WAW! Studio — Propuestas de landing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0b0b;--fg:#f4f1ea;--muted:#8f8b84;--line:rgba(244,241,234,.12);--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100svh;background:var(--bg);color:var(--fg);font:400 1rem/1.6 'Inter',system-ui,sans-serif;padding:clamp(1.5rem,5vw,4rem)}
+h1{font:400 clamp(3rem,9vw,7rem)/.9 'Anton',Impact,sans-serif;text-transform:uppercase;margin:0 0 .6rem}
+h1 em{font-style:normal;color:#ffd633}
+p{color:var(--muted);max-width:56ch;margin:0 0 3rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem}
+a{color:inherit;text-decoration:none;border-radius:22px;padding:2rem;min-height:340px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .6s var(--ease)}
+a:hover{transform:translateY(-8px) rotate(-1deg)}
+a small{font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:.75rem;opacity:.7}
+a b{display:block;font:400 clamp(2.4rem,4vw,3.4rem)/.95 'Anton',Impact,sans-serif;text-transform:uppercase;margin:.6rem 0}
+a span{font-size:.95rem;opacity:.8}
+.o1{background:#151515;border:1px solid #ffd633}.o1 b{color:#ffd633}
+.o2{background:#efe9df;color:#121110}.o2 b{color:#ff3d24}
+.o3{background:linear-gradient(160deg,#2a1656,#130a24);border:1px solid rgba(244,239,254,.12)}.o3 b{color:#ffd633}
+</style>
+</head>
+<body>
+  <h1>Tres caminos,<br>un <em>WAW!</em></h1>
+  <p>Tres propuestas de landing con estética de agencia moderna. Tienen la misma estructura y el mismo mensaje, pero cambian la personalidad visual y el momento de animación protagonista.</p>
+  <div class="grid">
+    <a class="o1" href="opcion-1-ruido.html"><small>Opción 1</small><div><b>Ruido</b><span>Negro y amarillo WAW!. Cintas cruzadas, filas de proyectos que se deslizan con el scroll, contador de pasos fijo. La más cercana a la referencia.</span></div><small>Ver propuesta →</small></a>
+    <a class="o2" href="opcion-2-poster.html"><small>Opción 2</small><div><b>Póster</b><span>Crema, tinta y rojo, con estética de afiche. Palabra que rota en el hero, casos que se apilan al scrollear y lista de servicios con preview de imagen.</span></div><small>Ver propuesta →</small></a>
+    <a class="o3" href="opcion-3-electrico.html"><small>Opción 3</small><div><b>Eléctrico</b><span>Violeta, amarillo y coral, los colores del logo. Galería horizontal pinneada, tarjetas con tilt 3D y pasos que se expanden.</span></div><small>Ver propuesta →</small></a>
+  </div>
+</body>
+</html>
