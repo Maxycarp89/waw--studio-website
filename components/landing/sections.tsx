@@ -58,23 +58,27 @@ export function Chrome() {
 
 export function Hero() {
   return (
-    <section className="shell hero" id="top">
-      <div>
-        <span className="eyebrow"><i />Estudio creativo · Tucumán</span>
-        <h1 className="display">
-          <span className="line"><span>Hacemos que</span></span>
-          <span className="line"><span className="hollow" style={{ ["--d" as string]: "120ms" }}>tu marca</span></span>
-          <span className="line"><span style={{ ["--d" as string]: "240ms" }}>diga <span className="sticker">WAW!</span></span></span>
-        </h1>
-        <div className="hero-foot">
-          <p>Webs, identidades y automatizaciones con IA para negocios que quieren dejar de parecerse a su competencia. Primero la idea, después el código.</p>
-          <div className="hero-ctas">
-            <a className="btn" href="#contacto" data-magnetic>Contanos tu idea</a>
-            <a className="btn btn--ghost" href="#trabajo">Ver trabajos</a>
+    <section className="hero-pin" id="top" data-hero-pin>
+      <div className="hero-stage">
+        <HeroArt />
+        <div className="shell hero" data-hero-copy>
+          <div>
+            <span className="eyebrow"><i />Estudio creativo · Tucumán</span>
+            <h1 className="display">
+              <span className="line"><span>Hacemos que</span></span>
+              <span className="line"><span className="hollow" style={{ ["--d" as string]: "120ms" }}>tu marca</span></span>
+              <span className="line"><span style={{ ["--d" as string]: "240ms" }}>diga <span className="sticker">WAW!</span></span></span>
+            </h1>
+            <div className="hero-foot">
+              <p>Webs, identidades y automatizaciones con IA para negocios que quieren dejar de parecerse a su competencia. Primero la idea, después el código.</p>
+              <div className="hero-ctas">
+                <a className="btn" href="#contacto" data-magnetic>Contanos tu idea</a>
+                <a className="btn btn--ghost" href="#trabajo">Ver trabajos</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <HeroArt />
     </section>
   )
 }
@@ -129,9 +133,9 @@ const ROW_B: Tile[] = [
 ]
 
 const CASES = [
-  { n: "01", client: "A.MARTIN", img: "/work/amartin-auto.webp", text: "Usados seleccionados. Sitio premium con catálogo de autos y motos, fichas que se comparten por WhatsApp y panel para cargar stock.", tags: ["Web", "Catálogo", "Panel admin"] },
-  { n: "02", client: "Invita", img: "/work/invita-casamiento.webp", text: "Plataforma para crear invitaciones digitales: colecciones para casamientos, quinces y eventos corporativos, lista para escalar.", tags: ["SaaS", "Producto", "Diseño"] },
-  { n: "03", client: "Mary Poppins", img: "/work/marypoppins-logo.webp", text: "Tienda de moda que quería verse tan bien online como en su vidriera.", tags: ["Moda", "Presencia digital"] },
+  { n: "01", client: "A.MARTIN", logo: "/work/logo-amartin.svg", logoBg: "#000", img: "/work/amartin-auto.webp", text: "Usados seleccionados. Sitio premium con catálogo de autos y motos, fichas que se comparten por WhatsApp y panel para cargar stock.", tags: ["Web", "Catálogo", "Panel admin"] },
+  { n: "02", client: "Invita", logo: "/work/logo-invita.webp", logoBg: "#ede6da", img: "/work/invita-casamiento.webp", text: "Plataforma para crear invitaciones digitales: colecciones para casamientos, quinces y eventos corporativos, lista para escalar.", tags: ["SaaS", "Producto", "Diseño"] },
+  { n: "03", client: "Mary Poppins", logo: "/work/logo-marypoppins.webp", logoBg: "#fff", img: "/work/marypoppins-logo.webp", text: "Tienda de moda que quería verse tan bien online como en su vidriera.", tags: ["Moda", "Presencia digital"] },
 ]
 
 function TileCard({ t }: { t: Tile }) {
@@ -177,7 +181,12 @@ export function Work() {
         {CASES.map((c) => (
           <a key={c.n} className="case" href="#contacto" data-img={c.img}>
             <span>{c.n}</span>
-            <h3>{c.client}</h3>
+            <div className="case-name">
+              <span className="case-logo" style={{ background: c.logoBg }}>
+                <Image src={c.logo} alt={`Logo de ${c.client}`} width={120} height={120} />
+              </span>
+              <h3>{c.client}</h3>
+            </div>
             <p>{c.text}</p>
             <div className="tags">{c.tags.map((t) => <i key={t}>{t}</i>)}</div>
           </a>

@@ -144,8 +144,16 @@ export function LandingMotion() {
       speed: Number(el.dataset.speed) || 0.6,
     }))
     const hero3d = $("[data-hero-3d]")
+    const heroPin = $("[data-hero-pin]")
+    const heroCopy = $("[data-hero-copy]")
+    // posición de reposo: a la derecha en desktop, abajo del texto en mobile
+    const rest = () => (innerWidth > 900 ? { x: innerWidth * 0.22, y: 0 } : { x: 0, y: innerHeight * 0.18 })
+    const chat = $("[data-chat]")
+    const chatMsgs = chat ? $$("[data-at]", chat).map((el) => ({ el, at: Number(el.dataset.at), bot: el.dataset.bot !== undefined })) : []
+    const chatTyping = chat && $("[data-typing]", chat)
+    const chatFeats = chat ? $$("[data-feat]", chat).map((el) => ({ el, from: Number(el.dataset.feat) })) : []
     // arranca girado y "desarmado": el lerp lo trae a su lugar al cargar
-    const art = { rx: 24, ry: -160, ex: 1.2 }
+    const art = { rx: 24, ry: -160, ex: 1.2, s: 0.8, ...rest() }
 
     let lastY = scrollY
     let velocity = 0
@@ -185,24 +193,60 @@ export function LandingMotion() {
       }
 
       if (hero3d) {
-        // scroll: gira y se desarma en capas; mouse: leve inclinación
-        const p = clamp(y / (vh * 0.55), 0, 1)
+        // hero fijo: la pieza viaja al centro, crece, gira y se desarma
+        // mientras el texto se desvanece; el mouse solo la inclina en reposo
+        let p = 0
+        if (heroPin && !reduce) {
+          const r = heroPin.getBoundingClientRect()
+          p = clamp(-r.top / Math.max(1, heroPin.offsetHeight - vh), 0, 1)
+        }
         const loaded = body.classList.contains("is-loaded")
-        const tilt = fine && !reduce ? 1 : 0
+        const calm = (fine && !reduce ? 1 : 0) * (1 - p)
+        const home = rest()
         const t = loaded || reduce
           ? {
-              rx: 10 - p * 22 - (my / vh - 0.5) * 12 * tilt,
-              ry: -24 + p * 75 + (mx / innerWidth - 0.5) * 18 * tilt,
-              ex: reduce ? 0 : p * p * 1.4,
+              rx: 10 - p * 18 - (my / vh - 0.5) * 12 * calm,
+              ry: -24 + p * 52 + (mx / innerWidth - 0.5) * 18 * calm,
+              ex: reduce ? 0 : Math.pow(p, 1.4) * 1.8,
+              s: 1 + p * p * 2.8,
+              x: home.x * (1 - p),
+              y: home.y * (1 - p),
             }
           : art
-        const k = reduce ? 1 : ease(0.07)
+        const k = reduce ? 1 : ease(0.08)
         art.rx += (t.rx - art.rx) * k
         art.ry += (t.ry - art.ry) * k
         art.ex += (t.ex - art.ex) * k
+        art.s += (t.s - art.s) * k
+        art.x += (t.x - art.x) * k
+        art.y += (t.y - art.y) * k
         hero3d.style.setProperty("--rx", art.rx.toFixed(2))
         hero3d.style.setProperty("--ry", art.ry.toFixed(2))
         hero3d.style.setProperty("--explode", art.ex.toFixed(3))
+        hero3d.style.transform = `translate(-50%, -50%) translate3d(${art.x.toFixed(1)}px, ${art.y.toFixed(1)}px, 0) scale(${art.s.toFixed(3)})`
+        // en mobile la pieza queda detrás del texto: en reposo es solo textura
+        if (loaded) hero3d.style.opacity = innerWidth > 900 ? "" : (0.35 + 0.65 * clamp(p * 2.5, 0, 1)).toFixed(2)
+        if (heroCopy) {
+          heroCopy.style.opacity = String(1 - clamp(p * 2.4, 0, 1))
+          heroCopy.style.transform = `translate3d(0, ${(-p * 140).toFixed(1)}px, 0)`
+        }
+      }
+
+      if (chat) {
+        // la conversación avanza con el scroll; el "escribiendo…" aparece
+        // justo antes de cada mensaje del bot
+        const r = chat.getBoundingClientRect()
+        const p = reduce ? 1 : clamp(-r.top / Math.max(1, chat.offsetHeight - vh), 0, 1)
+        let typing = false
+        chatMsgs.forEach((m) => {
+          m.el.classList.toggle("is-on", p >= m.at)
+          if (m.bot && p < m.at && p >= m.at - 0.07) typing = true
+        })
+        chatTyping?.classList.toggle("is-on", typing)
+        chatFeats.forEach((f, i) => {
+          const next = chatFeats[i + 1]
+          f.el.classList.toggle("is-active", p >= f.from && (!next || p < next.from))
+        })
       }
 
       if (!reduce) {
