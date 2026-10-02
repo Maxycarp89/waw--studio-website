@@ -3,17 +3,17 @@
 import { motion } from "framer-motion"
 
 const logos = [
-  { label: "NOVA", src: "/log1.jpg" },
-  { label: "AURORA", src: "/log2.jpg" },
-  { label: "LUME", src: "/log3.jpg" },
-  { label: "KITE", src: "/log4.jpg" },
-  { label: "RHYTHM", src: "/log5.jpg" },
-  { label: "INVITA", src: "/log6.jpeg" },
+  { label: "Mora", src: "/log1.jpg" },
+  { label: "Glam Acessórios", src: "/log2.jpg" },
+  { label: "Flora", src: "/log3.jpg" },
+  { label: "Velvette", src: "/log4.jpg" },
+  { label: "Mary Poppins", src: "/log5.jpg" },
+  { label: "Invita", src: "/log6.jpeg" },
 ]
 
 export function MarqueeSection() {
   return (
-    <section className="py-20 bg-waw-black text-waw-white relative overflow-hidden">
+    <section className="py-20 bg-waw-black text-waw-white relative overflow-hidden" id="clientes">
       <div className="absolute inset-0 halftone-yellow opacity-8" />
 
       <div className="container mx-auto px-4 relative z-10">

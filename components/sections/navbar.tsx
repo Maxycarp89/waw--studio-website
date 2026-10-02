@@ -9,7 +9,7 @@ import { Menu, X } from "lucide-react"
 const navItems = [
   { label: "Servicios", href: "#servicios" },
   { label: "Proceso", href: "#proceso" },
-  { label: "Portfolio", href: "#portfolio" },
+  { label: "Clientes", href: "#clientes" },
   { label: "Equipo", href: "#equipo" },
   { label: "Contacto", href: "#contacto" },
 ]
@@ -69,8 +69,8 @@ export function Navbar() {
                   {item.label}
                 </a>
               ))}
-              <Button className="comic-border bg-waw-yellow text-waw-black hover:bg-waw-yellow/90 font-[var(--font-comic)] text-lg">
-                ¡Hablemos!
+              <Button asChild className="comic-border bg-waw-yellow text-waw-black hover:bg-waw-yellow/90 font-[var(--font-comic)] text-lg">
+                <a href="#contacto">¡Hablemos!</a>
               </Button>
             </div>
 
@@ -110,8 +110,8 @@ export function Navbar() {
                     {item.label}
                   </motion.a>
                 ))}
-                <Button className="comic-border bg-waw-red text-waw-white font-[var(--font-comic)] text-2xl py-6 mt-4">
-                  ¡Hablemos!
+                <Button asChild className="comic-border bg-waw-red text-waw-white font-[var(--font-comic)] text-2xl py-6 mt-4">
+                  <a href="#contacto" onClick={() => setIsMobileMenuOpen(false)}>¡Hablemos!</a>
                 </Button>
               </div>
             </div>

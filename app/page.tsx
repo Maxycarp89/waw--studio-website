@@ -6,7 +6,6 @@ import { Services } from "@/components/sections/services"
 import { ROICalculator } from "@/components/sections/roi-calculator"
 import { HowWeWork } from "@/components/sections/how-we-work"
 import { SolutionBuilder } from "@/components/solution-builder"
-import { Portfolio } from "@/components/sections/portfolio"
 import { MarqueeSection } from "@/components/sections/marquee-section"
 import { SocialProof } from "@/components/sections/social-proof"
 import { Team } from "@/components/sections/team"
@@ -26,7 +25,6 @@ export default function Home() {
       <ROICalculator />
       <HowWeWork />
       <SolutionBuilder />
-      <Portfolio />
       <MarqueeSection />
       <SocialProof />
       <Team />
