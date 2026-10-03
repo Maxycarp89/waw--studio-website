@@ -288,7 +288,7 @@ export function Footer() {
           <div><h4>Contacto</h4><a href={WHATSAPP}>+54 381 626 2536</a><a href="mailto:waw.studio.agency@gmail.com">waw.studio.agency@gmail.com</a></div>
           <div><h4>Seguinos</h4><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
         </div>
-        <div className="giant" aria-hidden="true">WAW!</div>
+        <div className="giant" aria-hidden="true">WAW<em>!</em></div>
         <div className="legal"><span>© {new Date().getFullYear()} WAW! Studio</span><span>Diseño, código e IA</span></div>
       </div>
     </footer>
