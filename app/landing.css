@@ -103,8 +103,11 @@ figure { margin: 0; }
 .hero-3d { --rx: 10; --ry: -24; --explode: 0; position: absolute; left: 50%; top: 50%; z-index: 1; aspect-ratio: 1; width: min(52vw, 640px); transform: translate(-50%, -50%); perspective: 1400px; pointer-events: none; opacity: 0; scale: 0.75; transition: opacity 1s var(--ease) 0.3s, scale 1.4s var(--ease) 0.3s; }
 .is-loaded .hero-3d { opacity: 1; scale: 1; }
 .hero-3d__scene { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(calc(var(--rx) * 1deg)) rotateY(calc(var(--ry) * 1deg)); }
-.hero-3d .layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: translateZ(calc(var(--z) * 1px * (1 + var(--explode) * 3.5))); }
+.hero-3d .layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: translateZ(calc(var(--z) * 1px * var(--ls, 1) * (1 + var(--explode) * 3.5))); }
 .hero-3d__word { font-family: var(--display); }
+/* capas delanteras: la perspectiva las agranda al acercarse, así que se
+   rasterizan al doble de tamaño y se reducen, para que no pierdan nitidez */
+.hero-3d .layer--hi { inset: auto; left: -50%; top: -50%; width: 200%; height: 200%; transform: translateZ(calc(var(--z) * 1px * var(--ls, 1) * (1 + var(--explode) * 3.5))) scale(0.5); }
 
 /* cintas cruzadas */
 .ribbons { position: relative; height: clamp(180px, 22vw, 300px); overflow: hidden; margin-block: -2rem; }

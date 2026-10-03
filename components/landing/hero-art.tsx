@@ -52,7 +52,7 @@ export function HeroArt() {
         </svg>
 
         {/* acentos coral */}
-        <svg className="layer" viewBox="0 0 600 600" style={{ ["--z" as string]: 26 }}>
+        <svg className="layer layer--hi" viewBox="0 0 600 600" style={{ ["--z" as string]: 26 }}>
           <path d="M92 120 L150 150 L104 172Z" fill="#ff5a4e" />
           <path d="M478 96 L470 150 L432 118Z" fill="#ff5a4e" />
           <path d="M520 420 L452 430 L488 470Z" fill="#ff5a4e" />
@@ -60,13 +60,13 @@ export function HeroArt() {
         </svg>
 
         {/* palabra, con su propia sombra para que lea como volumen */}
-        <svg className="layer" viewBox="0 0 600 600" style={{ ["--z" as string]: 48 }}>
+        <svg className="layer layer--hi" viewBox="0 0 600 600" style={{ ["--z" as string]: 48 }}>
           <g transform="rotate(-8 300 300)">
             <text x="306" y="338" textAnchor="middle" className="hero-3d__word" fontSize="190" fill="#0b0b0b">WAW!</text>
             <text x="300" y="330" textAnchor="middle" className="hero-3d__word" fontSize="190" fill="#fff" stroke="#0b0b0b" strokeWidth="10" paintOrder="stroke" strokeLinejoin="round">WAW!</text>
           </g>
         </svg>
-        <svg className="layer" viewBox="0 0 600 600" style={{ ["--z" as string]: 70 }}>
+        <svg className="layer layer--hi" viewBox="0 0 600 600" style={{ ["--z" as string]: 58 }}>
           <g transform="rotate(-8 300 300)">
             <text x="396" y="392" textAnchor="middle" className="hero-3d__word" fontSize="46" fill="#fff" stroke="#0b0b0b" strokeWidth="6" paintOrder="stroke" letterSpacing="2">STUDIO</text>
           </g>

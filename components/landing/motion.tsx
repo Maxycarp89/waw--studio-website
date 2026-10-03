@@ -155,6 +155,28 @@ export function LandingMotion() {
     // arranca girado y "desarmado": el lerp lo trae a su lugar al cargar
     const art = { rx: 24, ry: -160, ex: 1.2, s: 0.8, ...rest() }
 
+    // Nitidez: scale() estira una textura ya rasterizada y el SVG se ve borroso
+    // al crecer. Mientras se mueve usamos scale() (fluido); cuando se detiene,
+    // pasamos ese tamaño al layout real para que el SVG se redibuje nítido.
+    // Perspectiva y profundidad de capas escalan igual, así no hay salto.
+    let baseW = 0
+    let layoutScale = 1
+    const applyLayout = (k: number) => {
+      if (!hero3d) return
+      layoutScale = k
+      hero3d.style.width = `${(baseW * k).toFixed(1)}px`
+      hero3d.style.perspective = `${(baseW * k * 2.2).toFixed(1)}px`
+      hero3d.style.setProperty("--ls", k.toFixed(4))
+    }
+    const measure = () => {
+      if (!hero3d) return
+      hero3d.style.width = ""
+      baseW = hero3d.offsetWidth
+      applyLayout(1)
+    }
+    measure()
+    addEventListener("resize", measure, passive)
+
     let lastY = scrollY
     let velocity = 0
     let navY = scrollY
@@ -223,7 +245,8 @@ export function LandingMotion() {
         hero3d.style.setProperty("--rx", art.rx.toFixed(2))
         hero3d.style.setProperty("--ry", art.ry.toFixed(2))
         hero3d.style.setProperty("--explode", art.ex.toFixed(3))
-        hero3d.style.transform = `translate(-50%, -50%) translate3d(${art.x.toFixed(1)}px, ${art.y.toFixed(1)}px, 0) scale(${art.s.toFixed(3)})`
+        if (Math.abs(t.s - art.s) < 0.003 && Math.abs(layoutScale - art.s) > 0.01) applyLayout(art.s)
+        hero3d.style.transform = `translate(-50%, -50%) translate3d(${art.x.toFixed(1)}px, ${art.y.toFixed(1)}px, 0) scale(${(art.s / layoutScale).toFixed(4)})`
         // en mobile la pieza queda detrás del texto: en reposo es solo textura
         if (loaded) hero3d.style.opacity = innerWidth > 900 ? "" : (0.35 + 0.65 * clamp(p * 2.5, 0, 1)).toFixed(2)
         if (heroCopy) {

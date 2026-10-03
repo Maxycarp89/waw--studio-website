@@ -70,7 +70,7 @@ export function Hero() {
               <span className="line"><span style={{ ["--d" as string]: "240ms" }}>diga <span className="sticker">WAW!</span></span></span>
             </h1>
             <div className="hero-foot">
-              <p>Webs, identidades y automatizaciones con IA para negocios que quieren dejar de parecerse a su competencia. Primero la idea, después el código.</p>
+              <p>Diseñamos el segundo exacto en que alguien descubre tu marca y frena el scroll. La web, la identidad y la IA están al servicio de ese momento.</p>
               <div className="hero-ctas">
                 <a className="btn" href="#contacto" data-magnetic>Contanos tu idea</a>
                 <a className="btn btn--ghost" href="#trabajo">Ver trabajos</a>
@@ -107,9 +107,8 @@ export function Manifesto() {
         <span className="eyebrow"><i />Manifiesto</span>
         <Words
           parts={[
-            { text: "Hay marcas que se ven bien y marcas que se recuerdan. Nosotros hacemos las segundas: cada web, cada sistema y cada automatización arranca con una idea" },
-            { text: "que hace que tu cliente diga WAW!", hl: true },
-            { text: "antes de decir quiero." },
+            { text: "Nadie se acuerda de la quinta web que vio hoy. Se acuerda de la que lo hizo sonreír, de la que le contestó a las tres de la mañana, de la que parecía hecha solo para él. Nuestro trabajo es" },
+            { text: "que esa marca sea la tuya.", hl: true },
           ]}
         />
       </div>
@@ -133,7 +132,7 @@ const ROW_B: Tile[] = [
 ]
 
 const CASES = [
-  { n: "01", client: "A.MARTIN", logo: "/work/logo-amartin.svg", logoBg: "#000", img: "/work/amartin-auto.webp", text: "Usados seleccionados. Sitio premium con catálogo de autos y motos, fichas que se comparten por WhatsApp y panel para cargar stock.", tags: ["Web", "Catálogo", "Panel admin"] },
+  { n: "01", client: "A.MARTIN", logo: "/work/logo-amartin.svg", logoBg: "#000", img: "/work/amartin-auto.webp", text: "Usados seleccionados. Sitio premium con catálogo de autos y motos, fichas listas para compartir por WhatsApp y la financiación explicada en una sola pantalla.", tags: ["Web", "Catálogo", "Identidad"] },
   { n: "02", client: "Invita", logo: "/work/logo-invita.webp", logoBg: "#ede6da", img: "/work/invita-casamiento.webp", text: "Plataforma para crear invitaciones digitales: colecciones para casamientos, quinces y eventos corporativos, lista para escalar.", tags: ["SaaS", "Producto", "Diseño"] },
   { n: "03", client: "Mary Poppins", logo: "/work/logo-marypoppins.webp", logoBg: "#fff", img: "/work/marypoppins-logo.webp", text: "Tienda de moda que quería verse tan bien online como en su vidriera.", tags: ["Moda", "Presencia digital"] },
 ]
@@ -280,7 +279,7 @@ export function Footer() {
             <a className="logo" href="#top">WAW<em>!</em> Studio</a>
             <p>Estudio creativo de webs, marcas y automatizaciones. Desde Tucumán, para negocios de todo el país.</p>
           </div>
-          <div><h4>Contacto</h4><a href={WHATSAPP}>+54 381 626 2536</a><a href="mailto:hola@wawstudio.com">hola@wawstudio.com</a></div>
+          <div><h4>Contacto</h4><a href={WHATSAPP}>+54 381 626 2536</a><a href="mailto:waw.studio.agency@gmail.com">waw.studio.agency@gmail.com</a></div>
           <div><h4>Seguinos</h4><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
         </div>
         <div className="giant" aria-hidden="true">WAW!</div>
