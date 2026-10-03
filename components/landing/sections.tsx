@@ -286,8 +286,8 @@ export function Footer() {
             <a className="logo" href="#top">WAW<em>!</em> Studio</a>
             <p>Estudio creativo de webs, marcas, automatizaciones y sistemas a medida.</p>
           </div>
-          <div><h4>Contacto</h4><a href={WHATSAPP} data-track="footer">+54 381 626 2536</a><a href="mailto:waw.studio.agency@gmail.com" data-track="footer">waw.studio.agency@gmail.com</a></div>
-          <div><h4>Seguinos</h4><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
+          <div><h3>Contacto</h3><a href={WHATSAPP} data-track="footer">+54 381 626 2536</a><a href="mailto:waw.studio.agency@gmail.com" data-track="footer">waw.studio.agency@gmail.com</a></div>
+          <div><h3>Seguinos</h3><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
         </div>
         <div className="giant" aria-hidden="true">WAW<em>!</em></div>
         <div className="legal"><span>© {new Date().getFullYear()} WAW! Studio</span><span>Diseño, código e IA</span></div>

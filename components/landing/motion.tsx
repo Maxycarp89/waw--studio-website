@@ -38,13 +38,14 @@ export function LandingMotion() {
       const t0 = performance.now()
       const tick = (now: number) => {
         if (!alive) return
-        const p = clamp((now - t0) / 1300, 0, 1)
+        const p = clamp((now - t0) / 900, 0, 1)
         if (count) count.textContent = String(Math.round(100 * (1 - Math.pow(1 - p, 3)))).padStart(3, "0")
         if (p < 1) requestAnimationFrame(tick)
         else {
           intro.classList.add("is-done")
           try { localStorage.setItem("waw-intro", "1") } catch {}
-          setTimeout(start, 250)
+          setTimeout(start, 120)
+          setTimeout(() => { intro.style.display = "none" }, 1100)
         }
       }
       requestAnimationFrame(tick)
@@ -337,7 +338,7 @@ export function LandingMotion() {
         }
         // aparece cuando terminó de armarse el logo y se va al empezar a scrollear
         if (hintHero) {
-          const ready = loadedAt > 0 && now - loadedAt > (reduce ? 0 : 2400)
+          const ready = loadedAt > 0 && now - loadedAt > (reduce ? 0 : 1700)
           hintHero.style.opacity = ready ? (1 - clamp(p * 6, 0, 1)).toFixed(2) : "0"
         }
         if (heroCopy) {

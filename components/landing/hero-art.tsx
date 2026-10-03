@@ -6,6 +6,7 @@
 */
 
 import type { CSSProperties } from "react"
+import { STUDIO_PATH, WAW_PATH } from "./logo-paths"
 
 const OUTER = [1, 0.84, 0.97, 0.8, 0.94, 0.86, 1, 0.82, 0.95, 0.83, 0.98, 0.85, 0.9]
 const INNER = [0.6, 0.66, 0.58, 0.64, 0.6, 0.67, 0.57, 0.65, 0.6, 0.63, 0.58, 0.66, 0.61]
@@ -58,13 +59,13 @@ export function HeroArt() {
         ))}
         <g className="st st--word">
           <g transform="rotate(-8 300 300)">
-            <text x="308" y="340" textAnchor="middle" className="hero-art__word" fontSize="190" fill="#0b0b0b">WAW!</text>
-            <text x="300" y="330" textAnchor="middle" className="hero-art__word" fontSize="190" fill="#fff" stroke="#0b0b0b" strokeWidth="10" paintOrder="stroke" strokeLinejoin="round">WAW!</text>
+            <path d={WAW_PATH} transform="translate(8 10)" fill="#0b0b0b" />
+            <path d={WAW_PATH} fill="#fff" stroke="#0b0b0b" strokeWidth="10" paintOrder="stroke" strokeLinejoin="round" />
           </g>
         </g>
         <g className="st st--studio">
           <g transform="rotate(-8 300 300)">
-            <text x="396" y="392" textAnchor="middle" className="hero-art__word" fontSize="46" fill="#fff" stroke="#0b0b0b" strokeWidth="6" paintOrder="stroke" letterSpacing="2">STUDIO</text>
+            <path d={STUDIO_PATH} fill="#fff" stroke="#0b0b0b" strokeWidth="6" paintOrder="stroke" strokeLinejoin="round" />
           </g>
         </g>
       </svg>

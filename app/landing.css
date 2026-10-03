@@ -106,42 +106,42 @@ figure { margin: 0; }
 .line { display: block; overflow: hidden; padding-bottom: 0.04em; }
 /* la máscara del reveal recortaba tildes de mayúsculas (Ñ, É): aire arriba sin mover el layout */
 .line, .rm { padding-top: 0.14em; margin-top: -0.14em; }
-.line > span { display: block; transform: translateY(110%); transition: transform 1.1s var(--ease) var(--d, 0ms); }
-.is-loaded .hero .line > span { transform: none; }
-.hero .eyebrow, .hero-foot { opacity: 0; transform: translateY(20px); transition: opacity 1s var(--ease) 0.5s, transform 1s var(--ease) 0.5s; }
-.is-loaded .hero .eyebrow, .is-loaded .hero-foot { opacity: 1; transform: none; }
+/* el texto del hero se revela con CSS puro, apenas llega el HTML: no espera
+   al JavaScript, así se pinta temprano (es el elemento LCP) */
+.line > span { display: block; animation: line-in 1.1s var(--ease) calc(0.15s + var(--d, 0ms)) both; }
+@keyframes line-in { from { transform: translateY(110%); } }
+.hero .eyebrow, .hero-foot { animation: fade-up 1s var(--ease) 0.55s both; }
+@keyframes fade-up { from { opacity: 0; transform: translateY(20px); } }
 .hero-foot { display: grid; gap: 1.8rem; margin-top: 2.4rem; }
 .hero-foot p { max-width: 42ch; margin: 0; color: var(--muted); }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; }
 .sticker { display: inline-block; background: var(--accent); color: var(--bg); padding: 0 0.18em; rotate: -4deg; border-radius: 0.08em; -webkit-text-stroke: 0; }
 
 /* logo de fondo del hero: un solo SVG plano; la capa de movimiento le cambia transform */
-.hero-logo { position: absolute; left: 50%; top: 50%; z-index: 1; aspect-ratio: 1; width: min(52vw, 640px); transform: translate(-50%, -50%); pointer-events: none; opacity: 0; scale: 0.75; transition: opacity 1s var(--ease) 0.3s, scale 1.4s var(--ease) 0.3s; }
-.is-loaded .hero-logo { opacity: 1; scale: 1; }
+.hero-logo { position: absolute; left: 50%; top: 50%; z-index: 1; aspect-ratio: 1; width: min(52vw, 640px); transform: translate(-50%, -50%); pointer-events: none; animation: logo-in 1s var(--ease) 0.1s both; }
+@keyframes logo-in { from { opacity: 0; scale: 0.75; } }
 .hero-logo svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .hero-art__word { font-family: var(--display); }
 
-/* desktop: el mismo logo en 3D. --rx, --ry y --explode los escribe la capa de movimiento */
-.hero-3d { --rx: 10; --ry: -24; --explode: 0; position: absolute; left: 50%; top: 50%; z-index: 1; aspect-ratio: 1; width: min(52vw, 640px); transform: translate(-50%, -50%); perspective: 1400px; pointer-events: none; opacity: 0; scale: 0.75; transition: opacity 1s var(--ease) 0.3s, scale 1.4s var(--ease) 0.3s; }
-.is-loaded .hero-3d { opacity: 1; scale: 1; }
-.hero-3d__scene { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(calc(var(--rx) * 1deg)) rotateY(calc(var(--ry) * 1deg)); }
-.hero-3d .layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: translateZ(calc(var(--z) * 1px * var(--ls, 1) * (1 + var(--explode) * 3.5))); }
-/* capas delanteras: la perspectiva las agranda al acercarse, así que se
-   rasterizan al doble de tamaño y se reducen, para que no pierdan nitidez */
-.hero-3d .layer--hi { inset: auto; left: -50%; top: -50%; width: 200%; height: 200%; transform: translateZ(calc(var(--z) * 1px * var(--ls, 1) * (1 + var(--explode) * 3.5))) scale(0.5); }
-/* sticker que se arma: entrada con las propiedades individuales (scale,
-   translate) y despegue por scroll con transform y --p, que se combinan solos */
+/* sticker que se arma: la entrada usa animaciones CSS sobre las propiedades
+   individuales (scale, translate) y arranca con el HTML, sin esperar al
+   JavaScript, así se pinta temprano. El despegue por scroll usa transform y
+   --p: las dos cosas se combinan solas */
 .hero-sticker { --p: 0; }
 .hero-sticker .st { transform-box: fill-box; transform-origin: center; }
-.hero-sticker .st--outline path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.1s var(--ease) 0.25s; }
-.hero-sticker .st--shadow { opacity: 0; translate: -22px -26px; transition: opacity 0.6s var(--ease) 0.9s, translate 0.8s var(--ease) 0.9s; }
-.hero-sticker .st--fill { opacity: 0; scale: 0.15; transition: opacity 0.3s var(--ease) 1s, scale 0.9s var(--pop) 1s; }
-.hero-sticker .st--dots { clip-path: inset(0 100% 0 0); transition: clip-path 0.9s var(--ease) 1.35s; }
-.hero-sticker .st--tri { scale: 0; transition: scale 0.6s var(--pop) calc(1.55s + var(--i) * 0.1s); }
-.hero-sticker .st--word { opacity: 0; translate: 0 -80px; scale: 1.4; transition: opacity 0.4s var(--ease) 1.85s, translate 0.7s var(--pop) 1.85s, scale 0.7s var(--pop) 1.85s; }
-.hero-sticker .st--studio { opacity: 0; scale: 0.3; transition: opacity 0.3s var(--ease) 2.25s, scale 0.6s var(--pop) 2.25s; }
-.is-loaded .hero-sticker .st { opacity: 1; translate: none; scale: 1; clip-path: inset(0); }
-.is-loaded .hero-sticker .st--outline path { stroke-dashoffset: 0; }
+.hero-sticker .st--outline path { stroke-dasharray: 1; animation: st-draw 0.8s var(--ease) 0.1s both; }
+.hero-sticker .st--shadow { animation: st-shadow 0.7s var(--ease) 0.5s both; }
+.hero-sticker .st--fill { animation: st-pop 0.8s var(--pop) 0.55s both; }
+.hero-sticker .st--dots { animation: st-wipe 0.7s var(--ease) 0.8s both; }
+.hero-sticker .st--tri { animation: st-tri 0.5s var(--pop) calc(0.9s + var(--i) * 0.07s) both; }
+.hero-sticker .st--word { animation: st-drop 0.6s var(--pop) 1.1s both; }
+.hero-sticker .st--studio { animation: st-pop 0.5s var(--pop) 1.35s both; }
+@keyframes st-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes st-shadow { from { opacity: 0; translate: -22px -26px; } }
+@keyframes st-pop { from { opacity: 0; scale: 0.15; } }
+@keyframes st-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
+@keyframes st-tri { from { scale: 0; } }
+@keyframes st-drop { from { opacity: 0; translate: 0 -80px; scale: 1.4; } }
 .hero-sticker .st--shadow { transform: translate(calc(var(--p) * 70px), calc(var(--p) * 90px)); }
 .hero-sticker .st--fill { transform: scale(calc(1 + var(--p) * 0.12)); }
 .hero-sticker .st--dots { transform: translate(calc(var(--p) * -40px), calc(var(--p) * 30px)); }
@@ -256,7 +256,7 @@ figure { margin: 0; }
 /* footer */
 .waw-footer { border-top: 1px solid var(--line); padding-block: 4rem 2rem; overflow: hidden; }
 .foot { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--pad); }
-.foot h4 { font-family: var(--display); text-transform: uppercase; font-weight: 400; font-size: 1.1rem; margin: 0 0 1rem; color: var(--muted); }
+.foot h3 { font-family: var(--display); text-transform: uppercase; font-weight: 400; font-size: 1.1rem; margin: 0 0 1rem; color: var(--muted); }
 .foot a { display: block; padding-block: 0.2rem; transition: color var(--fast) var(--ease); }
 .foot a:hover { color: var(--accent); }
 .foot p { color: var(--muted); max-width: 36ch; margin-top: 1rem; }
