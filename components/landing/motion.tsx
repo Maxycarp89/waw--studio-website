@@ -338,7 +338,7 @@ export function LandingMotion() {
         }
         // aparece cuando terminó de armarse el logo y se va al empezar a scrollear
         if (hintHero) {
-          const ready = loadedAt > 0 && now - loadedAt > (reduce ? 0 : 1700)
+          const ready = loadedAt > 0 && now - loadedAt > (reduce ? 0 : 2400)
           hintHero.style.opacity = ready ? (1 - clamp(p * 6, 0, 1)).toFixed(2) : "0"
         }
         if (heroCopy) {
