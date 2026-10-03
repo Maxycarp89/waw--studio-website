@@ -3,15 +3,26 @@ import type { Metadata, Viewport } from "next"
 import { Anton, Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "./site"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const anton = Anton({ weight: "400", subsets: ["latin"], variable: "--font-anton" })
 
 export const metadata: Metadata = {
-  title: "WAW! Studio | Webs, branding y automatizaciones con IA",
-  description:
-    "Webs, automatizaciones con IA, branding y sistemas a medida. Diseñamos lo que tus clientes ven y construimos lo que tu negocio necesita.",
-  keywords: ["desarrollo web", "branding", "automatizaciones con IA", "estudio creativo", "sistemas a medida"],
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  keywords: ["desarrollo web", "branding", "automatizaciones con IA", "chatbot de WhatsApp", "estudio creativo", "sistemas a medida"],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "es_AR",
+    url: "/",
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: { card: "summary_large_image", title: SITE_TITLE, description: SITE_DESCRIPTION },
   icons: {
     icon: [
       { url: "/logo-waw.png", media: "(prefers-color-scheme: light)" },

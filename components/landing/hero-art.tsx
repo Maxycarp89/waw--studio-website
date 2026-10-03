@@ -22,7 +22,7 @@ function burstPath(cx: number, cy: number, r: number) {
   return `M${pts.join("L")}Z`
 }
 
-const BURST = burstPath(300, 300, 270)
+export const BURST = burstPath(300, 300, 270)
 
 // cada acento sale despedido hacia su lado al despegarse
 const TRIANGLES = [
