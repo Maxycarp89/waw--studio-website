@@ -22,14 +22,17 @@ export function LandingMotion() {
     const clamp = (v: number, a: number, b: number) => Math.min(Math.max(v, a), b)
     const body = document.body
 
-    /* ---------- intro: telón con contador que dispara el hero ---------- */
+    /* ---------- intro: telón con contador que dispara el hero ----------
+       Solo en la primera visita: un script en el <head> (layout) marca
+       html.intro-seen antes de pintar, y acá lo recordamos al terminar */
     const intro = $("[data-intro]")
     let loadedAt = 0
     const start = () => {
       body.classList.add("is-loaded")
       loadedAt = performance.now()
     }
-    if (intro && !reduce) {
+    const seen = document.documentElement.classList.contains("intro-seen")
+    if (intro && !reduce && !seen) {
       const count = $("[data-intro-count]", intro)
       const t0 = performance.now()
       const tick = (now: number) => {
@@ -39,6 +42,7 @@ export function LandingMotion() {
         if (p < 1) requestAnimationFrame(tick)
         else {
           intro.classList.add("is-done")
+          try { localStorage.setItem("waw-intro", "1") } catch {}
           setTimeout(start, 250)
         }
       }

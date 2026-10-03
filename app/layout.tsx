@@ -33,7 +33,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={`${inter.variable} ${anton.variable}`}>
+    <html lang="es" className={`${inter.variable} ${anton.variable}`} suppressHydrationWarning>
+      <head>
+        {/* la pantalla de carga se muestra solo en la primera visita: se decide antes de pintar */}
+        <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.getItem("waw-intro"))document.documentElement.classList.add("intro-seen")}catch(e){}` }} />
+      </head>
       <body className="antialiased">
         {children}
         <Analytics />

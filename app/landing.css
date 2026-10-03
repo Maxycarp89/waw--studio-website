@@ -72,6 +72,7 @@ figure { margin: 0; }
 /* intro */
 .intro { position: fixed; inset: 0; z-index: 100; background: var(--accent); color: var(--bg); display: grid; place-items: center; transition: clip-path 1s var(--ease); }
 .intro.is-done { clip-path: inset(0 0 100% 0); }
+.intro-seen .intro { display: none; }
 .intro b { font-family: var(--display); font-weight: 400; font-size: clamp(5rem, 22vw, 18rem); line-height: 1; }
 .intro span { position: absolute; bottom: var(--pad); right: var(--pad); font-family: var(--display); font-size: 2rem; }
 
