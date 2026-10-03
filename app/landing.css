@@ -116,7 +116,18 @@ body.theme-light { --bg: #f4f1ea; --surface: #e9e4da; --fg: #0b0b0b; --muted: #5
 .hero-logo { position: absolute; left: 50%; top: 50%; z-index: 1; aspect-ratio: 1; width: min(52vw, 640px); transform: translate(-50%, -50%); pointer-events: none; opacity: 0; scale: 0.75; transition: opacity 1s var(--ease) 0.3s, scale 1.4s var(--ease) 0.3s; }
 .is-loaded .hero-logo { opacity: 1; scale: 1; }
 .hero-logo svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.hero-logo__word { font-family: var(--display); }
+.hero-art__word { font-family: var(--display); }
+
+/* desktop: el mismo logo en 3D. --rx, --ry y --explode los escribe la capa de movimiento */
+.hero-3d { --rx: 10; --ry: -24; --explode: 0; position: absolute; left: 50%; top: 50%; z-index: 1; aspect-ratio: 1; width: min(52vw, 640px); transform: translate(-50%, -50%); perspective: 1400px; pointer-events: none; opacity: 0; scale: 0.75; transition: opacity 1s var(--ease) 0.3s, scale 1.4s var(--ease) 0.3s; }
+.is-loaded .hero-3d { opacity: 1; scale: 1; }
+.hero-3d__scene { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(calc(var(--rx) * 1deg)) rotateY(calc(var(--ry) * 1deg)); }
+.hero-3d .layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: translateZ(calc(var(--z) * 1px * var(--ls, 1) * (1 + var(--explode) * 3.5))); }
+/* capas delanteras: la perspectiva las agranda al acercarse, así que se
+   rasterizan al doble de tamaño y se reducen, para que no pierdan nitidez */
+.hero-3d .layer--hi { inset: auto; left: -50%; top: -50%; width: 200%; height: 200%; transform: translateZ(calc(var(--z) * 1px * var(--ls, 1) * (1 + var(--explode) * 3.5))) scale(0.5); }
+@media (min-width: 901px) { .hero-logo { display: none; } }
+@media (max-width: 900px) { .hero-3d { display: none; } }
 
 /* cintas cruzadas */
 .ribbons { position: relative; height: clamp(180px, 22vw, 300px); overflow: hidden; margin-block: -2rem; }
@@ -310,11 +321,15 @@ body.theme-light { --bg: #f4f1ea; --surface: #e9e4da; --fg: #0b0b0b; --muted: #5
   .burger { display: block; }
   /* mobile: el logo va arriba (debajo del menú) y el texto empieza debajo de él */
   .hero-stage { align-items: flex-start; }
-  .hero { padding-top: calc(min(64vw, 280px) + 92px); padding-bottom: 1rem; }
+  .hero { padding-top: calc(min(64vw, 280px) + 84px); padding-bottom: 1rem; }
+  /* velo entre el logo y el texto: arranca un poco arriba del texto y vive en
+     el bloque del texto, así se desvanece con él al scrollear */
+  .hero::before { content: ""; position: absolute; inset: calc(min(64vw, 280px) + 30px) -1rem -2rem; z-index: -1; pointer-events: none; background: linear-gradient(180deg, rgba(11, 11, 11, 0) 0, rgba(11, 11, 11, 0.86) 4.5rem, rgba(11, 11, 11, 0.86) 100%); }
+  .hero-foot p { color: rgba(244, 241, 234, 0.85); }
   .hero-ctas .btn { padding: 0.9rem 1.2rem; font-size: 0.95rem; }
   .hero h1 { font-size: 9.6vw; }
   .hero-foot p { color: rgba(244, 241, 234, 0.82); }
-  .hero-logo { width: min(64vw, 280px); }
+  .hero-logo { width: min(86vw, 380px); }
   .head, .manifesto, .process, .foot { grid-template-columns: 1fr; }
   .services { grid-template-columns: 1fr; --travel: 40px; }
   .service:nth-child(even) { margin-top: 0; }

@@ -145,7 +145,11 @@ export function LandingMotion() {
       dir: Number(el.dataset.marquee) || 1,
       speed: Number(el.dataset.speed) || 0.6,
     }))
+    // logo del hero: 3D en desktop, plano en mobile (el CSS muestra uno solo)
+    const hero3d = $("[data-hero-3d]")
     const heroLogo = $("[data-hero-logo]")
+    const isDesk = () => innerWidth > 900
+    const heroEl = () => (isDesk() ? hero3d : heroLogo)
     const heroPin = $("[data-hero-pin]")
     const heroCopy = $("[data-hero-copy]")
     // posición de reposo: a la derecha y algo alta en desktop; en mobile arriba
@@ -164,23 +168,30 @@ export function LandingMotion() {
     // sección que pasa el sitio a fondo claro mientras está en pantalla
     const lightSec = $("[data-theme-light]")
 
-    // arranca un poco girado y chico: el lerp lo trae a su lugar al cargar
-    const art = { r: -18, s: 0.85, x: 0, y: 0 }
+    // arranca girado, chico y (en 3D) desarmado: el lerp lo trae a su lugar
+    const art = { rx: 24, ry: -160, ex: 1.2, r: -18, s: 0.8, x: 0, y: 0 }
 
     // Nitidez: scale() estira una textura ya rasterizada y el SVG se ve borroso
     // al crecer. Mientras se mueve usamos scale() (fluido); cuando se detiene,
     // pasamos ese tamaño al layout real para que el SVG se redibuje nítido.
+    // En 3D la perspectiva y la profundidad de capas escalan igual: sin saltos.
     let baseW = 0
     let layoutScale = 1
     const applyLayout = (k: number) => {
-      if (!heroLogo) return
+      const el = heroEl()
+      if (!el) return
       layoutScale = k
-      heroLogo.style.width = `${(baseW * k).toFixed(1)}px`
+      el.style.width = `${(baseW * k).toFixed(1)}px`
+      if (el === hero3d) {
+        el.style.perspective = `${(baseW * k * 2.2).toFixed(1)}px`
+        el.style.setProperty("--ls", k.toFixed(4))
+      }
     }
     const measure = () => {
-      if (!heroLogo) return
-      heroLogo.style.width = ""
-      baseW = heroLogo.offsetWidth
+      const el = heroEl()
+      if (!el) return
+      el.style.width = ""
+      baseW = el.offsetWidth
       applyLayout(1)
     }
     measure()
@@ -224,9 +235,10 @@ export function LandingMotion() {
         preview.style.transform = `translate3d(${px}px,${py}px,0) rotate(${clamp((mx - px) * 0.08, -12, 12)}deg)`
       }
 
-      if (heroLogo) {
-        // hero fijo: el logo viaja al centro, gira apenas y se acerca
-        // mientras el texto se desvanece; el mouse lo desplaza un poco en reposo
+      const heroNow = heroEl()
+      if (heroNow) {
+        // hero fijo: el logo viaja al centro y se acerca mientras el texto se
+        // desvanece. En 3D además gira y se desarma; el mouse lo mueve en reposo
         let p = 0
         if (heroPin && !reduce) {
           const r = heroPin.getBoundingClientRect()
@@ -235,21 +247,40 @@ export function LandingMotion() {
         const loaded = body.classList.contains("is-loaded")
         const calm = (fine && !reduce ? 1 : 0) * (1 - p)
         const home = rest()
+        const mxn = mx / innerWidth - 0.5
+        const myn = my / vh - 0.5
+        const is3d = heroNow === hero3d
         const t = loaded || reduce
-          ? {
-              r: -4 + p * 14,
-              s: 1 + p * p * 2.6,
-              x: home.x * (1 - p) + (mx / innerWidth - 0.5) * 24 * calm,
-              y: home.y * (1 - p) + (my / vh - 0.5) * 24 * calm,
-            }
+          ? is3d
+            ? {
+                rx: 10 - p * 18 - myn * 12 * calm,
+                ry: -24 + p * 52 + mxn * 18 * calm,
+                ex: reduce ? 0 : Math.pow(p, 1.4) * 1.8,
+                r: 0,
+                s: 1 + p * p * 2.8,
+                x: home.x * (1 - p),
+                y: home.y * (1 - p),
+              }
+            : {
+                rx: 0, ry: 0, ex: 0,
+                r: -4 + p * 14,
+                s: 1 + p * p * 2.6,
+                x: home.x * (1 - p) + mxn * 24 * calm,
+                y: home.y * (1 - p) + myn * 24 * calm,
+              }
           : art
-        const k = reduce ? 1 : ease(0.1)
-        art.r += (t.r - art.r) * k
-        art.s += (t.s - art.s) * k
-        art.x += (t.x - art.x) * k
-        art.y += (t.y - art.y) * k
+        const k = reduce ? 1 : ease(is3d ? 0.08 : 0.1)
+        for (const key of ["rx", "ry", "ex", "r", "s", "x", "y"] as const) art[key] += (t[key] - art[key]) * k
         if (Math.abs(t.s - art.s) < 0.003 && Math.abs(layoutScale - art.s) > 0.01) applyLayout(art.s)
-        heroLogo.style.transform = `translate(-50%, -50%) translate3d(${art.x.toFixed(1)}px, ${art.y.toFixed(1)}px, 0) rotate(${art.r.toFixed(2)}deg) scale(${(art.s / layoutScale).toFixed(4)})`
+        const move = `translate(-50%, -50%) translate3d(${art.x.toFixed(1)}px, ${art.y.toFixed(1)}px, 0)`
+        if (is3d) {
+          heroNow.style.setProperty("--rx", art.rx.toFixed(2))
+          heroNow.style.setProperty("--ry", art.ry.toFixed(2))
+          heroNow.style.setProperty("--explode", art.ex.toFixed(3))
+          heroNow.style.transform = `${move} scale(${(art.s / layoutScale).toFixed(4)})`
+        } else {
+          heroNow.style.transform = `${move} rotate(${art.r.toFixed(2)}deg) scale(${(art.s / layoutScale).toFixed(4)})`
+        }
         if (heroCopy) {
           heroCopy.style.opacity = String(1 - clamp(p * 2.4, 0, 1))
           heroCopy.style.transform = `translate3d(0, ${(-p * 140).toFixed(1)}px, 0)`
