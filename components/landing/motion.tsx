@@ -24,7 +24,11 @@ export function LandingMotion() {
 
     /* ---------- intro: telón con contador que dispara el hero ---------- */
     const intro = $("[data-intro]")
-    const start = () => body.classList.add("is-loaded")
+    let loadedAt = 0
+    const start = () => {
+      body.classList.add("is-loaded")
+      loadedAt = performance.now()
+    }
     if (intro && !reduce) {
       const count = $("[data-intro-count]", intro)
       const t0 = performance.now()
@@ -167,6 +171,9 @@ export function LandingMotion() {
     const cards = servicesSec ? $$("[data-card]", servicesSec) : []
     // sección que pasa el sitio a fondo claro mientras está en pantalla
     const lightSec = $("[data-theme-light]")
+    // avisos de "deslizá": hero (hasta que el usuario empieza a scrollear) y chat
+    const hintHero = $('[data-hint="hero"]')
+    const hintChat = $('[data-hint="chat"]')
     // tokens del tema oscuro y del claro, en RGBA, para interpolarlos
     const THEME = {
       bg: [[11, 11, 11, 1], [244, 241, 234, 1]],
@@ -311,6 +318,11 @@ export function LandingMotion() {
           heroNow.style.transform = `${move} rotate(${art.r.toFixed(2)}deg) scale(${(art.s / layoutScale).toFixed(4)})`
           heroNow.style.setProperty("--p", art.p.toFixed(3))
         }
+        // aparece cuando terminó de armarse el logo y se va al empezar a scrollear
+        if (hintHero) {
+          const ready = loadedAt > 0 && now - loadedAt > (reduce ? 0 : 2400)
+          hintHero.style.opacity = ready ? (1 - clamp(p * 6, 0, 1)).toFixed(2) : "0"
+        }
         if (heroCopy) {
           heroCopy.style.opacity = String(1 - clamp(p * 2.4, 0, 1))
           heroCopy.style.transform = `translate3d(0, ${(-p * 140).toFixed(1)}px, 0)`
@@ -356,6 +368,8 @@ export function LandingMotion() {
           if (m.bot && p < m.at && p >= m.at - 0.07) typing = true
         })
         chatTyping?.classList.toggle("is-on", typing)
+        // visible mientras la charla avanza; se va cuando ya terminó
+        if (hintChat) hintChat.style.opacity = (clamp(p * 25, 0, 1) * (1 - clamp((p - 0.82) / 0.08, 0, 1))).toFixed(2)
         chatFeats.forEach((f, i) => {
           const next = chatFeats[i + 1]
           f.el.classList.toggle("is-active", p >= f.from && (!next || p < next.from))

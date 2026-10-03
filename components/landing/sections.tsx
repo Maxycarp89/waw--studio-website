@@ -61,6 +61,7 @@ export function Hero() {
     <section className="hero-pin" id="top" data-hero-pin>
       <div className="hero-stage">
         <HeroArt />
+        <div className="scroll-hint" data-hint="hero" aria-hidden="true"><span className="scroll-hint__icon"><i /></span>Deslizá</div>
         <div className="shell hero" data-hero-copy>
           <div>
             <span className="eyebrow"><i />Estudio creativo</span>

@@ -98,6 +98,7 @@ figure { margin: 0; }
 /* el hero queda fijo mientras el logo de fondo crece con el scroll */
 .hero-pin { height: 240vh; position: relative; }
 .hero-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; align-items: center; }
+.hero-stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22svh; z-index: 1; pointer-events: none; background: linear-gradient(180deg, rgba(11, 11, 11, 0), var(--bg)); }
 .hero { position: relative; z-index: 2; width: 100%; padding-block: 6rem 2rem; will-change: opacity, transform; }
 .hero > div { max-width: 860px; }
 .hero h1 { font-size: var(--t-hero); margin: 1.6rem 0 0; }
@@ -148,11 +149,17 @@ figure { margin: 0; }
 .hero-sticker .st--word { transform: translateY(calc(var(--p) * -110px)) scale(calc(1 + var(--p) * 0.5)); }
 .hero-sticker .st--studio { transform: translate(calc(var(--p) * 120px), calc(var(--p) * -40px)) scale(calc(1 + var(--p) * 0.8)); }
 
+/* indicador "deslizá": cápsula con un punto que baja */
+.scroll-hint { position: absolute; left: 50%; bottom: max(1.6rem, env(safe-area-inset-bottom, 0px)); z-index: 4; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 0.55rem; font-family: var(--display); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.14em; color: #f4f1ea; pointer-events: none; opacity: 0; transition: opacity 0.5s var(--ease); }
+.scroll-hint__icon { position: relative; width: 22px; height: 36px; border: 2px solid currentColor; border-radius: 12px; }
+.scroll-hint__icon i { position: absolute; left: 50%; top: 6px; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px; background: var(--accent); animation: hint-dot 1.6s var(--ease) infinite; }
+@keyframes hint-dot { 0% { opacity: 0; transform: translateY(-2px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(13px); } }
+
 /* cintas cruzadas */
-.ribbons { position: relative; height: clamp(180px, 22vw, 300px); overflow: hidden; margin-block: -2rem; }
-.ribbon { position: absolute; left: -5%; right: -5%; top: 50%; padding-block: 0.9rem; overflow: hidden; }
-.ribbon--a { background: var(--accent); color: var(--bg); rotate: -4deg; translate: 0 -70%; }
-.ribbon--b { background: var(--fg); color: var(--bg); rotate: 3deg; translate: 0 -10%; }
+.ribbons { position: relative; height: clamp(230px, 27vw, 360px); overflow: hidden; }
+.ribbon { position: absolute; left: -5%; right: -5%; padding-block: 0.9rem; overflow: hidden; translate: 0 -50%; }
+.ribbon--a { top: 33%; background: var(--accent); color: var(--bg); rotate: -2.5deg; }
+.ribbon--b { top: 68%; background: var(--fg); color: var(--bg); rotate: 2deg; }
 .ribbon-track { display: flex; width: max-content; will-change: transform; }
 .ribbon-track span { font-family: var(--display); text-transform: uppercase; font-size: clamp(2rem, 4.6vw, 4.2rem); line-height: 1; padding-inline: 1.6rem; white-space: nowrap; display: flex; align-items: center; gap: 3.2rem; }
 .ribbon-track span::after { content: "✦"; font-size: 0.6em; }
@@ -332,7 +339,9 @@ figure { margin: 0; }
   .chat-stage { grid-template-columns: 1fr; align-content: center; gap: 1.2rem; }
   .chat-copy h2 { font-size: 2.2rem; margin: 0.6rem 0 0; }
   .feats, .chat-copy .btn { display: none; }
-  .phone { height: 66svh; }
+  .phone { height: 62svh; }
+  /* en mobile el aviso del hero va a la derecha, al lado de los botones */
+  .hero-stage .scroll-hint { left: auto; right: var(--pad); translate: none; font-size: 0.7rem; }
   .calc { grid-template-columns: 1fr; }
   .case-name { gap: 0.9rem; }
 }
@@ -370,4 +379,5 @@ figure { margin: 0; }
   .hero-logo { opacity: 1 !important; scale: 1 !important; }
   .hero-pin { height: auto; }
   .intro { display: none; }
+  .scroll-hint__icon i { animation: none; opacity: 1; }
 }

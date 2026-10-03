@@ -33,6 +33,7 @@ export function BotDemo({ whatsapp }: { whatsapp: string }) {
   return (
     <section className="chat-pin" id="automatizacion" data-chat>
       <div className="chat-stage shell">
+        <div className="scroll-hint" data-hint="chat" aria-hidden="true"><span className="scroll-hint__icon"><i /></span>Seguí deslizando</div>
         <div className="chat-copy">
           <span className="eyebrow"><i />Automatización en vivo</span>
           <h2 className="display">Son las 23:47.<br /><span className="hollow">Tu negocio responde.</span></h2>
