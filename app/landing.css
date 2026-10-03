@@ -23,6 +23,7 @@
   --pad: clamp(1.25rem, 4vw, 3.5rem);
   --max: 1440px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --pop: cubic-bezier(0.34, 1.56, 0.64, 1);
   --fast: 0.45s;
   --mid: 0.75s;
   --slow: 1.1s;
@@ -126,8 +127,26 @@ body.theme-light { --bg: #f4f1ea; --surface: #e9e4da; --fg: #0b0b0b; --muted: #5
 /* capas delanteras: la perspectiva las agranda al acercarse, así que se
    rasterizan al doble de tamaño y se reducen, para que no pierdan nitidez */
 .hero-3d .layer--hi { inset: auto; left: -50%; top: -50%; width: 200%; height: 200%; transform: translateZ(calc(var(--z) * 1px * var(--ls, 1) * (1 + var(--explode) * 3.5))) scale(0.5); }
-@media (min-width: 901px) { .hero-logo { display: none; } }
-@media (max-width: 900px) { .hero-3d { display: none; } }
+/* sticker que se arma: entrada con las propiedades individuales (scale,
+   translate) y despegue por scroll con transform y --p, que se combinan solos */
+.hero-sticker { --p: 0; }
+.hero-sticker .st { transform-box: fill-box; transform-origin: center; }
+.hero-sticker .st--outline path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.1s var(--ease) 0.25s; }
+.hero-sticker .st--shadow { opacity: 0; translate: -22px -26px; transition: opacity 0.6s var(--ease) 0.9s, translate 0.8s var(--ease) 0.9s; }
+.hero-sticker .st--fill { opacity: 0; scale: 0.15; transition: opacity 0.3s var(--ease) 1s, scale 0.9s var(--pop) 1s; }
+.hero-sticker .st--dots { clip-path: inset(0 100% 0 0); transition: clip-path 0.9s var(--ease) 1.35s; }
+.hero-sticker .st--tri { scale: 0; transition: scale 0.6s var(--pop) calc(1.55s + var(--i) * 0.1s); }
+.hero-sticker .st--word { opacity: 0; translate: 0 -80px; scale: 1.4; transition: opacity 0.4s var(--ease) 1.85s, translate 0.7s var(--pop) 1.85s, scale 0.7s var(--pop) 1.85s; }
+.hero-sticker .st--studio { opacity: 0; scale: 0.3; transition: opacity 0.3s var(--ease) 2.25s, scale 0.6s var(--pop) 2.25s; }
+.is-loaded .hero-sticker .st { opacity: 1; translate: none; scale: 1; clip-path: inset(0); }
+.is-loaded .hero-sticker .st--outline path { stroke-dashoffset: 0; }
+.hero-sticker .st--shadow { transform: translate(calc(var(--p) * 70px), calc(var(--p) * 90px)); }
+.hero-sticker .st--fill { transform: scale(calc(1 + var(--p) * 0.12)); }
+.hero-sticker .st--dots { transform: translate(calc(var(--p) * -40px), calc(var(--p) * 30px)); }
+.hero-sticker .st--outline { transform: translate(calc(var(--p) * -60px), calc(var(--p) * -70px)); }
+.hero-sticker .st--tri { transform: translate(calc(var(--p) * var(--tx) * 1.6px), calc(var(--p) * var(--ty) * 1.6px)) rotate(calc(var(--p) * 90deg)); }
+.hero-sticker .st--word { transform: translateY(calc(var(--p) * -110px)) scale(calc(1 + var(--p) * 0.5)); }
+.hero-sticker .st--studio { transform: translate(calc(var(--p) * 120px), calc(var(--p) * -40px)) scale(calc(1 + var(--p) * 0.8)); }
 
 /* cintas cruzadas */
 .ribbons { position: relative; height: clamp(180px, 22vw, 300px); overflow: hidden; margin-block: -2rem; }

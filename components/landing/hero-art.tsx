@@ -1,12 +1,12 @@
 /*
-  Logo del hero, en dos versiones según el dispositivo (el CSS muestra una):
-  - Desktop: el estallido WAW! extruido en 3D (SVG apilados con translateZ).
-    La capa de movimiento escribe --rx, --ry y --explode: gira y se desarma.
-  - Mobile: el mismo logo en un único SVG plano, que solo cambia transform.
-    Mucho más liviano para celulares de gama media.
+  Hero "sticker que se arma": el logo WAW! se construye por capas al cargar
+  (contorno → sombra → relleno → tramado → acentos → palabra) y, al scrollear,
+  se despega en esas mismas capas. Todo es un único SVG: liviano en mobile.
+  La capa de movimiento escribe --p (0 a 1) sobre .hero-logo.
 */
 
-// Estallido de 13 puntas con radios irregulares, como el logo de cómic.
+import type { CSSProperties } from "react"
+
 const OUTER = [1, 0.84, 0.97, 0.8, 0.94, 0.86, 1, 0.82, 0.95, 0.83, 0.98, 0.85, 0.9]
 const INNER = [0.6, 0.66, 0.58, 0.64, 0.6, 0.67, 0.57, 0.65, 0.6, 0.63, 0.58, 0.66, 0.61]
 
@@ -23,86 +23,51 @@ function burstPath(cx: number, cy: number, r: number) {
 }
 
 const BURST = burstPath(300, 300, 270)
-const DEPTH = 14 // capas de la extrusión violeta
-const TRIANGLES = ["M92 120 L150 150 L104 172Z", "M478 96 L470 150 L432 118Z", "M520 420 L452 430 L488 470Z", "M150 470 L196 446 L182 500Z"]
 
-function Hero3D() {
-  return (
-    <div className="hero-3d" data-hero-3d aria-hidden="true">
-      <div className="hero-3d__scene">
-        {/* extrusión: copias del contorno hacia atrás, cada vez más oscuras */}
-        {Array.from({ length: DEPTH }, (_, i) => (
-          <svg key={i} className="layer" viewBox="0 0 600 600" style={{ ["--z" as string]: -(i + 1) * 4 }}>
-            <path d={BURST} fill={`hsl(256 ${78 - i}% ${58 - i * 2.2}%)`} />
-          </svg>
-        ))}
+// cada acento sale despedido hacia su lado al despegarse
+const TRIANGLES = [
+  { d: "M92 120 L150 150 L104 172Z", tx: -90, ty: -70 },
+  { d: "M478 96 L470 150 L432 118Z", tx: 90, ty: -90 },
+  { d: "M520 420 L452 430 L488 470Z", tx: 110, ty: 70 },
+  { d: "M150 470 L196 446 L182 500Z", tx: -80, ty: 100 },
+]
 
-        <svg className="layer" viewBox="0 0 600 600" style={{ ["--z" as string]: 0 }}>
-          <path d={BURST} fill="#ffd633" stroke="#0b0b0b" strokeWidth="6" strokeLinejoin="round" />
-        </svg>
-
-        <svg className="layer" viewBox="0 0 600 600" style={{ ["--z" as string]: 8 }}>
-          <defs>
-            <pattern id="dots-3d" width="22" height="22" patternUnits="userSpaceOnUse">
-              <circle cx="11" cy="11" r="5" fill="#f2b705" />
-            </pattern>
-            <clipPath id="burst-clip-3d"><path d={BURST} /></clipPath>
-          </defs>
-          <rect width="600" height="600" fill="url(#dots-3d)" clipPath="url(#burst-clip-3d)" />
-        </svg>
-
-        {/* capas delanteras al doble de resolución (layer--hi), ver CSS */}
-        <svg className="layer layer--hi" viewBox="0 0 600 600" style={{ ["--z" as string]: 26 }}>
-          <g fill="#ff5a4e">{TRIANGLES.map((d) => <path key={d} d={d} />)}</g>
-        </svg>
-        <svg className="layer layer--hi" viewBox="0 0 600 600" style={{ ["--z" as string]: 48 }}>
-          <g transform="rotate(-8 300 300)">
-            <text x="306" y="338" textAnchor="middle" className="hero-art__word" fontSize="190" fill="#0b0b0b">WAW!</text>
-            <text x="300" y="330" textAnchor="middle" className="hero-art__word" fontSize="190" fill="#fff" stroke="#0b0b0b" strokeWidth="10" paintOrder="stroke" strokeLinejoin="round">WAW!</text>
-          </g>
-        </svg>
-        <svg className="layer layer--hi" viewBox="0 0 600 600" style={{ ["--z" as string]: 58 }}>
-          <g transform="rotate(-8 300 300)">
-            <text x="396" y="392" textAnchor="middle" className="hero-art__word" fontSize="46" fill="#fff" stroke="#0b0b0b" strokeWidth="6" paintOrder="stroke" letterSpacing="2">STUDIO</text>
-          </g>
-        </svg>
-      </div>
-    </div>
-  )
-}
-
-function HeroFlat() {
-  return (
-    <div className="hero-logo" data-hero-logo aria-hidden="true">
-      <svg viewBox="-20 -20 660 660">
-        <defs>
-          <pattern id="dots-flat" width="22" height="22" patternUnits="userSpaceOnUse">
-            <circle cx="11" cy="11" r="5" fill="#f2b705" />
-          </pattern>
-          <clipPath id="burst-clip-flat"><path d={BURST} /></clipPath>
-        </defs>
-
-        {/* sombra violeta desplazada: da volumen sin 3D */}
-        <path d={BURST} fill="#5b2ee6" transform="translate(22 26)" />
-        <path d={BURST} fill="#ffd633" stroke="#0b0b0b" strokeWidth="6" strokeLinejoin="round" />
-        <rect width="600" height="600" fill="url(#dots-flat)" clipPath="url(#burst-clip-flat)" />
-        <g fill="#ff5a4e">{TRIANGLES.map((d) => <path key={d} d={d} />)}</g>
-
-        <g transform="rotate(-8 300 300)">
-          <text x="308" y="340" textAnchor="middle" className="hero-art__word" fontSize="190" fill="#0b0b0b">WAW!</text>
-          <text x="300" y="330" textAnchor="middle" className="hero-art__word" fontSize="190" fill="#fff" stroke="#0b0b0b" strokeWidth="10" paintOrder="stroke" strokeLinejoin="round">WAW!</text>
-          <text x="396" y="392" textAnchor="middle" className="hero-art__word" fontSize="46" fill="#fff" stroke="#0b0b0b" strokeWidth="6" paintOrder="stroke" letterSpacing="2">STUDIO</text>
-        </g>
-      </svg>
-    </div>
-  )
-}
+const css = (vars: Record<string, string | number>) => vars as CSSProperties
 
 export function HeroArt() {
   return (
-    <>
-      <Hero3D />
-      <HeroFlat />
-    </>
+    <div className="hero-logo hero-sticker" data-hero-logo aria-hidden="true">
+      <svg viewBox="-20 -20 660 660">
+        <defs>
+          <pattern id="dots-st" width="22" height="22" patternUnits="userSpaceOnUse">
+            <circle cx="11" cy="11" r="5" fill="#f2b705" />
+          </pattern>
+          <clipPath id="burst-clip-st"><path d={BURST} /></clipPath>
+        </defs>
+
+        <g className="st st--shadow"><path d={BURST} fill="#5b2ee6" transform="translate(22 26)" /></g>
+        <g className="st st--fill"><path d={BURST} fill="#ffd633" /></g>
+        <g className="st st--dots"><rect width="600" height="600" fill="url(#dots-st)" clipPath="url(#burst-clip-st)" /></g>
+        <g className="st st--outline">
+          <path d={BURST} fill="none" stroke="#0b0b0b" strokeWidth="6" strokeLinejoin="round" pathLength={1} />
+        </g>
+        {TRIANGLES.map((t, i) => (
+          <g key={t.d} className="st st--tri" style={css({ "--tx": t.tx, "--ty": t.ty, "--i": i })}>
+            <path d={t.d} fill="#ff5a4e" />
+          </g>
+        ))}
+        <g className="st st--word">
+          <g transform="rotate(-8 300 300)">
+            <text x="308" y="340" textAnchor="middle" className="hero-art__word" fontSize="190" fill="#0b0b0b">WAW!</text>
+            <text x="300" y="330" textAnchor="middle" className="hero-art__word" fontSize="190" fill="#fff" stroke="#0b0b0b" strokeWidth="10" paintOrder="stroke" strokeLinejoin="round">WAW!</text>
+          </g>
+        </g>
+        <g className="st st--studio">
+          <g transform="rotate(-8 300 300)">
+            <text x="396" y="392" textAnchor="middle" className="hero-art__word" fontSize="46" fill="#fff" stroke="#0b0b0b" strokeWidth="6" paintOrder="stroke" letterSpacing="2">STUDIO</text>
+          </g>
+        </g>
+      </svg>
+    </div>
   )
 }
