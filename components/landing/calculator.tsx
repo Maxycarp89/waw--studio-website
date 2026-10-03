@@ -10,6 +10,8 @@ import { useEffect, useRef, useState } from "react"
 
 const WHATSAPP_NUMBER = "5493816262536"
 const fmt = (n: number) => Math.round(n).toLocaleString("es-AR")
+// rango del monto para la analítica (no se manda el número exacto)
+const rango = (n: number) => (n < 1_000_000 ? "<1M" : n < 5_000_000 ? "1M-5M" : n < 15_000_000 ? "5M-15M" : "15M+")
 
 function useCountUp(value: number) {
   const [shown, setShown] = useState(value)
@@ -89,7 +91,7 @@ export function Calculator() {
           <output className="calc-amount" aria-live="polite">${fmt(shown)}</output>
           <p>al año en horas de equipo.<br />Parte de ese trabajo podría automatizarse.</p>
           <div className="calc-bar"><i style={{ transform: `scaleX(${Math.min(yearly / 15_000_000, 1)})` }} /></div>
-          <a className="btn" href={href} target="_blank" rel="noopener noreferrer" data-magnetic>
+          <a className="btn" href={href} target="_blank" rel="noopener noreferrer" data-magnetic data-track="calculadora" data-track-monto={rango(yearly)}>
             Quiero automatizar esto
           </a>
         </div>

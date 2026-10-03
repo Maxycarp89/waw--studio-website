@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { track } from "@vercel/analytics"
 
 /*
   Capa de movimiento de la landing. Todo es imperativo y se engancha por
@@ -99,6 +100,18 @@ export function LandingMotion() {
       if (reduce) el.classList.add("is-in")
       else io.observe(el)
     })
+
+    /* ---------- analítica: clics en todo lo que lleva a contactarnos ----------
+       Un evento "Contacto" con el origen (data-track) y el canal */
+    document.addEventListener("click", (e) => {
+      const a = (e.target as Element | null)?.closest<HTMLAnchorElement>("a[data-track]")
+      if (!a) return
+      const href = a.getAttribute("href") ?? ""
+      const canal = href.includes("wa.me") ? "whatsapp" : href.startsWith("mailto:") ? "email" : "seccion"
+      const props: Record<string, string> = { origen: a.dataset.track!, canal }
+      if (a.dataset.trackMonto) props.monto = a.dataset.trackMonto
+      track("Contacto", props)
+    }, on)
 
     /* ---------- menú mobile ---------- */
     $("[data-burger]")?.addEventListener("click", () => body.classList.toggle("menu-open"), on)

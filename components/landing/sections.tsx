@@ -42,7 +42,7 @@ export function Chrome() {
         <nav className="nav-links" aria-label="Principal">
           {NAV.map((n) => <a key={n.href} href={n.href}>{n.label}</a>)}
         </nav>
-        <a className="btn" href={WHATSAPP} target="_blank" rel="noopener noreferrer" data-magnetic>Hablemos</a>
+        <a className="btn" href={WHATSAPP} target="_blank" rel="noopener noreferrer" data-magnetic data-track="menu">Hablemos</a>
         <button className="burger" data-burger aria-label="Abrir menú">Menú</button>
       </header>
       <div className="menu" data-menu>
@@ -74,7 +74,7 @@ export function Hero() {
             <div className="hero-foot">
               <p>Webs, automatizaciones con IA, branding y plataformas a medida. Pensamos lo que necesita tu negocio, lo construimos y conectamos todo para que funcione de verdad.</p>
               <div className="hero-ctas">
-                <a className="btn" href="#contacto" data-magnetic>Contanos tu idea</a>
+                <a className="btn" href="#contacto" data-magnetic data-track="hero">Contanos tu idea</a>
                 <a className="btn btn--ghost" href="#trabajo">Ver trabajos</a>
               </div>
             </div>
@@ -184,7 +184,7 @@ export function Work() {
 
       <div className="shell cases">
         {CASES.map((c) => (
-          <a key={c.n} className="case" href="#contacto" data-img={c.img}>
+          <a key={c.n} className="case" href="#contacto" data-img={c.img} data-track={`caso-${c.client}`}>
             <span>{c.n}</span>
             <div className="case-name">
               <span className="case-logo" style={{ background: c.logoBg }}>
@@ -272,7 +272,7 @@ export function Cta() {
         <span className="rm"><span>tu negocio</span></span>
         <span className="rm"><span className="hollow">podemos mejorar?</span></span>
       </h2>
-      <a className="round" href={WHATSAPP_IDEA} target="_blank" rel="noopener noreferrer" data-magnetic>Escri&shy;binos</a>
+      <a className="round" href={WHATSAPP_IDEA} target="_blank" rel="noopener noreferrer" data-magnetic data-track="cta-final">Escri&shy;binos</a>
     </section>
   )
 }
@@ -286,7 +286,7 @@ export function Footer() {
             <a className="logo" href="#top">WAW<em>!</em> Studio</a>
             <p>Estudio creativo de webs, marcas, automatizaciones y sistemas a medida.</p>
           </div>
-          <div><h4>Contacto</h4><a href={WHATSAPP}>+54 381 626 2536</a><a href="mailto:waw.studio.agency@gmail.com">waw.studio.agency@gmail.com</a></div>
+          <div><h4>Contacto</h4><a href={WHATSAPP} data-track="footer">+54 381 626 2536</a><a href="mailto:waw.studio.agency@gmail.com" data-track="footer">waw.studio.agency@gmail.com</a></div>
           <div><h4>Seguinos</h4><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
         </div>
         <div className="giant" aria-hidden="true">WAW<em>!</em></div>

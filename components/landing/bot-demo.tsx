@@ -45,7 +45,7 @@ export function BotDemo({ whatsapp }: { whatsapp: string }) {
               </li>
             ))}
           </ul>
-          <a className="btn" href={whatsapp} target="_blank" rel="noopener noreferrer" data-magnetic>Quiero un bot así</a>
+          <a className="btn" href={whatsapp} target="_blank" rel="noopener noreferrer" data-magnetic data-track="bot">Quiero un bot así</a>
         </div>
 
         <div className="phone" aria-label="Demo de conversación con un bot de WhatsApp">
