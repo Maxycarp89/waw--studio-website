@@ -130,6 +130,13 @@ export function LandingMotion() {
       row.addEventListener("mouseleave", () => preview.classList.remove("is-on"), on)
     })
 
+    /* ---------- números que se actualizan solos (hero "sistema") ---------- */
+    const ticks = $$("[data-tick]")
+    if (ticks.length && !reduce) {
+      const iv = setInterval(() => ticks.forEach((el) => { el.textContent = String(Number(el.textContent) + 1 + Math.floor(Math.random() * 2)) }), 2600)
+      ac.signal.addEventListener("abort", () => clearInterval(iv))
+    }
+
     /* ---------- todo lo que depende del scroll, en un solo frame ---------- */
     const bar = $("[data-progress]")
     const nav = $("[data-nav]")
@@ -149,14 +156,14 @@ export function LandingMotion() {
     const hero3d = $("[data-hero-3d]")
     const heroLogo = $("[data-hero-logo]")
     const isDesk = () => innerWidth > 900
-    const heroEl = () => (isDesk() ? hero3d : heroLogo)
+    const heroEl = () => (hero3d && isDesk() ? hero3d : heroLogo)
     const heroPin = $("[data-hero-pin]")
     const heroCopy = $("[data-hero-copy]")
     // posición de reposo: a la derecha y algo alta en desktop; en mobile arriba
     // de todo, debajo del menú (el texto arranca debajo del logo, ver CSS)
     const rest = () =>
       innerWidth > 900
-        ? { x: innerWidth * 0.28, y: -innerHeight * 0.05 }
+        ? { x: innerWidth * 0.25, y: -innerHeight * 0.03 }
         : { x: 0, y: 76 + baseW / 2 - innerHeight / 2 }
     const chat = $("[data-chat]")
     const chatMsgs = chat ? $$("[data-at]", chat).map((el) => ({ el, at: Number(el.dataset.at), bot: el.dataset.bot !== undefined })) : []
@@ -169,7 +176,7 @@ export function LandingMotion() {
     const lightSec = $("[data-theme-light]")
 
     // arranca girado, chico y (en 3D) desarmado: el lerp lo trae a su lugar
-    const art = { rx: 24, ry: -160, ex: 1.2, r: -18, s: 0.8, x: 0, y: 0 }
+    const art = { rx: 24, ry: -160, ex: 1.2, r: -18, s: 0.8, x: 0, y: 0, p: 0 }
 
     // Nitidez: scale() estira una textura ya rasterizada y el SVG se ve borroso
     // al crecer. Mientras se mueve usamos scale() (fluido); cuando se detiene,
@@ -256,21 +263,21 @@ export function LandingMotion() {
                 rx: 10 - p * 18 - myn * 12 * calm,
                 ry: -24 + p * 52 + mxn * 18 * calm,
                 ex: reduce ? 0 : Math.pow(p, 1.4) * 1.8,
-                r: 0,
+                r: 0, p,
                 s: 1 + p * p * 2.8,
                 x: home.x * (1 - p),
                 y: home.y * (1 - p),
               }
             : {
-                rx: 0, ry: 0, ex: 0,
-                r: -4 + p * 14,
+                rx: 0, ry: 0, ex: 0, p,
+                r: -2 + p * 8,
                 s: 1 + p * p * 2.6,
-                x: home.x * (1 - p) + mxn * 24 * calm,
-                y: home.y * (1 - p) + myn * 24 * calm,
+                x: home.x * (1 - p),
+                y: home.y * (1 - p),
               }
           : art
         const k = reduce ? 1 : ease(is3d ? 0.08 : 0.1)
-        for (const key of ["rx", "ry", "ex", "r", "s", "x", "y"] as const) art[key] += (t[key] - art[key]) * k
+        for (const key of ["rx", "ry", "ex", "r", "s", "x", "y", "p"] as const) art[key] += (t[key] - art[key]) * k
         if (Math.abs(t.s - art.s) < 0.003 && Math.abs(layoutScale - art.s) > 0.01) applyLayout(art.s)
         const move = `translate(-50%, -50%) translate3d(${art.x.toFixed(1)}px, ${art.y.toFixed(1)}px, 0)`
         if (is3d) {
@@ -280,6 +287,9 @@ export function LandingMotion() {
           heroNow.style.transform = `${move} scale(${(art.s / layoutScale).toFixed(4)})`
         } else {
           heroNow.style.transform = `${move} rotate(${art.r.toFixed(2)}deg) scale(${(art.s / layoutScale).toFixed(4)})`
+          heroNow.style.setProperty("--p", art.p.toFixed(3))
+          heroNow.style.setProperty("--mx", (mxn * calm).toFixed(3))
+          heroNow.style.setProperty("--my", (myn * calm).toFixed(3))
         }
         if (heroCopy) {
           heroCopy.style.opacity = String(1 - clamp(p * 2.4, 0, 1))

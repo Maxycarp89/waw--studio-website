@@ -23,6 +23,7 @@
   --pad: clamp(1.25rem, 4vw, 3.5rem);
   --max: 1440px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --pop: cubic-bezier(0.34, 1.56, 0.64, 1);
   --fast: 0.45s;
   --mid: 0.75s;
   --slow: 1.1s;
@@ -126,8 +127,41 @@ body.theme-light { --bg: #f4f1ea; --surface: #e9e4da; --fg: #0b0b0b; --muted: #5
 /* capas delanteras: la perspectiva las agranda al acercarse, así que se
    rasterizan al doble de tamaño y se reducen, para que no pierdan nitidez */
 .hero-3d .layer--hi { inset: auto; left: -50%; top: -50%; width: 200%; height: 200%; transform: translateZ(calc(var(--z) * 1px * var(--ls, 1) * (1 + var(--explode) * 3.5))) scale(0.5); }
-@media (min-width: 901px) { .hero-logo { display: none; } }
-@media (max-width: 900px) { .hero-3d { display: none; } }
+/* sistema en vivo: todo se mide en unidades del contenedor (cqw/cqh), así
+   escala junto con el logo. --p (scroll) y --mx/--my (mouse) los escribe la
+   capa de movimiento; las tarjetas convergen al centro al scrollear */
+.hero-system { --p: 0; --mx: 0; --my: 0; --spread: 0.85; container-type: size; }
+@media (min-width: 901px) { .hero-system.hero-logo { width: min(46vw, 560px); } }
+.sys-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; opacity: calc(1 - var(--p) * 1.6); }
+.sys-lines line { stroke: rgba(255, 214, 51, 0.5); stroke-width: 1.5; vector-effect: non-scaling-stroke; stroke-dasharray: 4 7; animation: sys-flow 1.1s linear infinite; }
+@keyframes sys-flow { to { stroke-dashoffset: -22; } }
+.sys-core { position: absolute; left: 50%; top: 50%; width: 46%; aspect-ratio: 1; translate: -50% -50%; transform: scale(calc(1 + var(--p) * 0.7)); }
+.sys-core svg { width: 100%; height: 100%; overflow: visible; display: block; }
+.sys-card { position: absolute; left: calc(50% + var(--x) * var(--spread) * 1%); top: calc(50% + var(--y) * 1%); width: 34cqw; padding: 2.2cqw 2.6cqw; border-radius: 2.6cqw; background: rgba(21, 21, 21, 0.94); border: 1px solid rgba(244, 241, 234, 0.14); box-shadow: 0 2cqw 6cqw -2cqw rgba(0, 0, 0, 0.7); color: #f4f1ea; font-size: 2.3cqw; line-height: 1.35; translate: -50% -50%; scale: 0; opacity: calc(1 - var(--p) * 1.4); transform: translate(calc(var(--mx) * var(--d) * 5cqw - var(--x) * var(--spread) * var(--p) * 1cqw), calc(var(--my) * var(--d) * 5cqw - var(--y) * var(--p) * 1cqh)) scale(calc(1 - var(--p) * 0.7)); animation: sys-float 5s ease-in-out calc(var(--i) * -0.9s) infinite alternate; transition: scale 0.7s var(--pop) calc(0.7s + var(--i) * 0.12s); }
+.is-loaded .sys-card { scale: 1; }
+@keyframes sys-float { to { translate: -50% calc(-50% - 1.4cqw); } }
+.sys-card small { display: block; color: #8f8b84; font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.45em; }
+.sys-card b { display: block; font-size: 1.15em; font-weight: 600; }
+.sys-big { font-family: var(--display); font-weight: 400 !important; font-size: 3.2em !important; line-height: 1; color: var(--accent); }
+.sys-up, .sys-ok { color: #6fdc8c; font-size: 0.85em; }
+.sys-tag { display: inline-block; margin-top: 0.5em; padding: 0.2em 0.6em; border-radius: 99px; background: rgba(123, 77, 255, 0.25); color: #c9b8ff; font-size: 0.8em; }
+.sys-msg { margin: 0.35em 0 0; padding: 0.45em 0.7em; border-radius: 0.9em; max-width: 88%; width: fit-content; }
+.sys-msg--in { background: #2a2a2a; }
+.sys-msg--out { background: var(--accent); color: #0b0b0b; margin-left: auto; animation: sys-reply 6s var(--ease) infinite; }
+@keyframes sys-reply { 0%, 18% { opacity: 0; translate: 0 0.6em; } 28%, 86% { opacity: 1; translate: 0 0; } 100% { opacity: 0; } }
+.sys-bars { display: flex; align-items: flex-end; gap: 0.4em; height: 4.5em; }
+.sys-bars i { flex: 1; height: var(--h); background: var(--violet); border-radius: 0.25em 0.25em 0 0; transform-origin: bottom; animation: sys-bar 2.4s var(--ease) calc(var(--i) * 0.15s) infinite alternate; }
+@keyframes sys-bar { from { scale: 1 0.55; } }
+.sys-meter { height: 0.45em; border-radius: 99px; background: rgba(244, 241, 234, 0.12); margin-top: 0.6em; overflow: hidden; }
+.sys-meter i { display: block; height: 100%; width: 68%; background: var(--coral); animation: sys-meter 3s ease-in-out infinite alternate; }
+@keyframes sys-meter { from { width: 40%; } }
+.sys-card--count { width: 26cqw; }
+@media (max-width: 900px) {
+  .hero-system { --spread: 0.7; }
+  .sys-desk { display: none; }
+  .sys-card { width: 42cqw; font-size: 3.1cqw; }
+  .sys-card--count { width: 32cqw; }
+}
 
 /* cintas cruzadas */
 .ribbons { position: relative; height: clamp(180px, 22vw, 300px); overflow: hidden; margin-block: -2rem; }
