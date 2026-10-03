@@ -15,7 +15,7 @@
   --coral: #ff5a4e;
   --display: var(--font-anton), Impact, sans-serif;
   --body: var(--font-inter), system-ui, sans-serif;
-  --t-hero: clamp(3.2rem, 8.6vw, 9.5rem);
+  --t-hero: clamp(2.6rem, 6.2vw, 6.6rem);
   --t-h1: clamp(2.6rem, 7vw, 6.5rem);
   --t-body: clamp(1rem, 1.05vw, 1.125rem);
   --s-5: clamp(5rem, 10vw, 9rem);
@@ -90,6 +90,8 @@ figure { margin: 0; }
 .hero > div { max-width: 860px; }
 .hero h1 { font-size: var(--t-hero); margin: 1.6rem 0 0; }
 .line { display: block; overflow: hidden; padding-bottom: 0.04em; }
+/* la máscara del reveal recortaba tildes de mayúsculas (Ñ, É): aire arriba sin mover el layout */
+.line, .rm { padding-top: 0.14em; margin-top: -0.14em; }
 .line > span { display: block; transform: translateY(110%); transition: transform 1.1s var(--ease) var(--d, 0ms); }
 .is-loaded .hero .line > span { transform: none; }
 .hero .eyebrow, .hero-foot { opacity: 0; transform: translateY(20px); transition: opacity 1s var(--ease) 0.5s, transform 1s var(--ease) 0.5s; }
@@ -195,7 +197,7 @@ figure { margin: 0; }
 
 /* cta */
 .cta { text-align: center; }
-.cta h2 { font-size: clamp(3.4rem, 12vw, 12rem); margin: 1.5rem 0 3rem; }
+.cta h2 { font-size: clamp(2.6rem, 7.4vw, 7.6rem); margin: 1.5rem 0 3rem; }
 .round { width: clamp(150px, 14vw, 200px); aspect-ratio: 1; border-radius: 50%; background: var(--accent); color: var(--bg) !important; display: inline-grid; place-items: center; font-family: var(--display); text-transform: uppercase; font-size: 1.4rem; line-height: 1.05; transition: transform var(--mid) var(--ease), background var(--fast) var(--ease); }
 .round:hover { background: var(--fg); }
 
@@ -293,7 +295,11 @@ figure { margin: 0; }
   .nav-links, .nav .btn { display: none; }
   .burger { display: block; }
   .hero { padding-top: 5rem; }
-  .hero h1 { font-size: 15vw; }
+  .hero h1 { font-size: 9.6vw; }
+  /* en mobile el estallido queda detrás del texto: velo oscuro entre ambos.
+     Vive en el bloque del texto, así se desvanece junto con él al scrollear */
+  .hero::before { content: ""; position: absolute; inset: 3rem -1rem -2rem; z-index: -1; pointer-events: none; background: radial-gradient(130% 70% at 35% 55%, rgba(11, 11, 11, 0.86) 48%, rgba(11, 11, 11, 0) 85%); }
+  .hero-foot p { color: rgba(244, 241, 234, 0.82); }
   .hero-3d { width: min(92vw, 460px); }
   .head, .manifesto, .process, .foot { grid-template-columns: 1fr; }
   .services { grid-template-columns: 1fr; }

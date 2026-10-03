@@ -12,11 +12,11 @@ const NAV = [
 ]
 
 /* Texto que se ilumina palabra por palabra; `hl` marca las palabras en acento. */
-function Words({ parts }: { parts: { text: string; hl?: boolean }[] }) {
+function Words({ parts }: { parts: { text?: string; hl?: boolean; br?: boolean }[] }) {
   return (
     <p data-words>
       {parts.flatMap((part, i) =>
-        part.text.split(/\s+/).filter(Boolean).map((w, j) => (
+        part.br ? [<br key={i} />, <br key={`${i}b`} />] : (part.text ?? "").split(/\s+/).filter(Boolean).map((w, j) => (
           <span key={`${i}-${j}`}>
             <span className={part.hl ? "w hl" : "w"}>{w}</span>{" "}
           </span>
@@ -63,14 +63,15 @@ export function Hero() {
         <HeroArt />
         <div className="shell hero" data-hero-copy>
           <div>
-            <span className="eyebrow"><i />Estudio creativo · Tucumán</span>
+            <span className="eyebrow"><i />Estudio creativo</span>
             <h1 className="display">
-              <span className="line"><span>Hacemos que</span></span>
-              <span className="line"><span className="hollow" style={{ ["--d" as string]: "120ms" }}>tu marca</span></span>
-              <span className="line"><span style={{ ["--d" as string]: "240ms" }}>diga <span className="sticker">WAW!</span></span></span>
+              <span className="line"><span>Diseñamos lo que</span></span>
+              <span className="line"><span style={{ ["--d" as string]: "80ms" }}>tus clientes ven.</span></span>
+              <span className="line"><span className="hollow" style={{ ["--d" as string]: "160ms" }}>Construimos lo que</span></span>
+              <span className="line"><span className="hollow" style={{ ["--d" as string]: "240ms" }}>tu negocio necesita.</span></span>
             </h1>
             <div className="hero-foot">
-              <p>Diseñamos el segundo exacto en que alguien descubre tu marca y frena el scroll. La web, la identidad y la IA están al servicio de ese momento.</p>
+              <p>Webs, automatizaciones con IA, branding y plataformas a medida. Pensamos lo que necesita tu negocio, lo construimos y conectamos todo para que funcione de verdad.</p>
               <div className="hero-ctas">
                 <a className="btn" href="#contacto" data-magnetic>Contanos tu idea</a>
                 <a className="btn btn--ghost" href="#trabajo">Ver trabajos</a>
@@ -83,8 +84,8 @@ export function Hero() {
   )
 }
 
-const RIBBON_A = ["Webs que venden", "Automatizaciones con IA", "Branding con carácter", "Plataformas a medida"]
-const RIBBON_B = ["Diseño", "Código", "Estrategia", "Movimiento", "Ideas"]
+const RIBBON_A = ["Webs que venden", "IA que automatiza", "Sistemas a medida", "Marcas que se reconocen"]
+const RIBBON_B = ["Diseño", "Código", "Automatización", "Estrategia", "IA"]
 
 export function Ribbons() {
   // el contenido va duplicado para que el loop del marquee no tenga saltos
@@ -107,8 +108,11 @@ export function Manifesto() {
         <span className="eyebrow"><i />Manifiesto</span>
         <Words
           parts={[
-            { text: "Nadie se acuerda de la quinta web que vio hoy. Se acuerda de la que lo hizo sonreír, de la que le contestó a las tres de la mañana, de la que parecía hecha solo para él. Nuestro trabajo es" },
-            { text: "que esa marca sea la tuya.", hl: true },
+            { text: "Hay negocios que necesitan una web. Otros necesitan que WhatsApp responda solo, que un cliente pueda consultar una financiación o que el equipo deje de copiar datos de una planilla a otra." },
+            { br: true },
+            { text: "A veces hace falta una marca nueva. A veces hace falta construir el sistema que hay detrás." },
+            { br: true },
+            { text: "Nosotros hacemos las dos cosas.", hl: true },
           ]}
         />
       </div>
@@ -119,7 +123,7 @@ export function Manifesto() {
 type Tile = { src: string; alt: string; client: string; what: string; variant?: "logo" | "dark" }
 
 const ROW_A: Tile[] = [
-  { src: "/work/amartin-auto.webp", alt: "Auto en estudio oscuro para A.MARTIN", client: "A.MARTIN", what: "Web + catálogo", variant: "dark" },
+  { src: "/work/amartin-auto.webp", alt: "Auto en estudio oscuro para A.MARTIN", client: "A.MARTIN", what: "Sistema comercial + web", variant: "dark" },
   { src: "/work/invita-portada.webp", alt: "Pareja en sesión editorial para Invita", client: "Invita", what: "Plataforma SaaS" },
   { src: "/work/marypoppins-logo.webp", alt: "Logo de Mary Poppins, tienda de moda", client: "Mary Poppins", what: "Tienda de moda", variant: "logo" },
   { src: "/work/invita-fiesta.webp", alt: "Plantilla de fiesta de Invita", client: "Invita", what: "Plantillas de eventos" },
@@ -155,11 +159,11 @@ export function Work() {
         <div>
           <span className="eyebrow ru"><i />Trabajo real</span>
           <h2 className="display">
-            <span className="rm"><span>Proyectos</span></span>
-            <span className="rm"><span className="hollow">con firma propia</span></span>
+            <span className="rm"><span>Cosas que ya</span></span>
+            <span className="rm"><span className="hollow">construimos</span></span>
           </h2>
         </div>
-        <p className="ru">Concesionarias, tiendas de moda y plataformas de eventos. Distintos rubros, la misma obsesión: que se note.</p>
+        <p className="ru">Desde sistemas comerciales hasta productos SaaS y experiencias digitales.</p>
       </div>
 
       <div className="rows">
@@ -169,7 +173,7 @@ export function Work() {
           <svg viewBox="0 0 200 200" data-spin>
             <defs><path id="badge-circle" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0" /></defs>
             <text style={{ fontFamily: "var(--display)" }} fontSize="17" letterSpacing="5">
-              <textPath href="#badge-circle">PROYECTOS REALES ✦ HECHOS EN TUCUMÁN ✦</textPath>
+              <textPath href="#badge-circle">PROYECTOS REALES ✦ DISEÑO + CÓDIGO ✦</textPath>
             </text>
           </svg>
           <b>WAW<em>!</em></b>
@@ -196,10 +200,10 @@ export function Work() {
 }
 
 const SERVICES = [
-  { title: "Webs que venden", text: "Sitios rápidos, con identidad propia y pensados para convertir visitas en consultas." },
-  { title: "Automatizaciones con IA", text: "Chatbots, flujos y agentes que responden, cargan y avisan solos. Vos te ocupás de vender." },
-  { title: "Branding con carácter", text: "Identidades que se reconocen de lejos: logo, tono, sistema visual y todo lo que los une." },
-  { title: "Plataformas a medida", text: "Catálogos, paneles y productos SaaS hechos para tu operación, no para la de cualquiera." },
+  { title: "Webs que venden", text: "Webs que explican, venden y convierten visitas en consultas." },
+  { title: "Automatizaciones con IA", text: "WhatsApp, formularios, CRM, avisos y tareas repetitivas conectados entre sí." },
+  { title: "Una marca que se reconoce", text: "Identidad visual, tono y sistema gráfico para que todo lo que hacés se sienta parte de la misma marca." },
+  { title: "Sistemas a medida", text: "Paneles, clientes, cuotas, stock e integraciones. Construimos las herramientas que tu negocio no puede resolver con una plantilla." },
 ]
 
 export function Services() {
@@ -209,11 +213,11 @@ export function Services() {
         <div>
           <span className="eyebrow ru"><i />Qué hacemos</span>
           <h2 className="display">
-            <span className="rm"><span>Cuatro formas</span></span>
-            <span className="rm"><span className="hollow">de destacarte</span></span>
+            <span className="rm"><span>¿Qué necesita</span></span>
+            <span className="rm"><span className="hollow">tu negocio?</span></span>
           </h2>
         </div>
-        <p className="ru">No vendemos paquetes cerrados. Combinamos lo que tu negocio necesita para crecer.</p>
+        <p className="ru">Desde una web hasta el sistema completo. Combinamos diseño, desarrollo, automatización e IA según lo que haya que resolver.</p>
       </div>
       <div className="services" data-reveal>
         {SERVICES.map((s, i) => (
@@ -228,10 +232,10 @@ export function Services() {
 }
 
 const STEPS = [
-  { title: "Escuchamos", text: "Nos contás tu negocio, tu cliente y lo que te frena. Sin formularios eternos: una charla.", items: ["Diagnóstico de tu presencia actual", "Qué tareas se pueden automatizar"] },
-  { title: "Buscamos la idea", text: "Antes de diseñar una pantalla, encontramos el concepto que te diferencia.", items: ["Concepto creativo", "Mapa del sitio o del flujo"] },
-  { title: "Lo construimos", text: "Diseño y desarrollo en paralelo, con avances que ves cada semana.", items: ["Diseño, código e integraciones", "Revisiones cortas y frecuentes"] },
-  { title: "Lanzamos y medimos", text: "Salimos al aire y seguimos ajustando con datos reales, no con suposiciones.", items: ["Analítica y mejoras", "Soporte después del lanzamiento"] },
+  { title: "Entendemos el negocio", text: "Nos contás tu negocio, tu cliente y lo que te frena. Sin formularios eternos: una charla.", items: ["Diagnóstico de tu presencia actual", "Qué tareas se pueden automatizar"] },
+  { title: "Detectamos qué hay que resolver", text: "Antes de diseñar una pantalla, definimos qué conviene resolver primero y cómo.", items: ["Concepto creativo", "Mapa del sitio o del flujo"] },
+  { title: "Diseñamos y construimos", text: "Diseño y desarrollo en paralelo, con avances que ves cada semana.", items: ["Diseño, código e integraciones", "Revisiones cortas y frecuentes"] },
+  { title: "Lanzamos y mejoramos", text: "Salimos al aire y seguimos ajustando con datos reales, no con suposiciones.", items: ["Analítica y mejoras", "Soporte después del lanzamiento"] },
 ]
 
 export function Process() {
@@ -262,8 +266,9 @@ export function Cta() {
     <section className="shell sec cta" id="contacto" data-reveal>
       <span className="eyebrow ru"><i />¿Arrancamos?</span>
       <h2 className="display">
-        <span className="rm"><span>¿Hacemos</span></span>
-        <span className="rm"><span className="hollow">algo WAW!?</span></span>
+        <span className="rm"><span>¿Qué parte de</span></span>
+        <span className="rm"><span>tu negocio</span></span>
+        <span className="rm"><span className="hollow">podemos mejorar?</span></span>
       </h2>
       <a className="round" href={WHATSAPP_IDEA} target="_blank" rel="noopener noreferrer" data-magnetic>Escri&shy;binos</a>
     </section>
@@ -277,13 +282,13 @@ export function Footer() {
         <div className="foot">
           <div>
             <a className="logo" href="#top">WAW<em>!</em> Studio</a>
-            <p>Estudio creativo de webs, marcas y automatizaciones. Desde Tucumán, para negocios de todo el país.</p>
+            <p>Estudio creativo de webs, marcas, automatizaciones y sistemas a medida.</p>
           </div>
           <div><h4>Contacto</h4><a href={WHATSAPP}>+54 381 626 2536</a><a href="mailto:waw.studio.agency@gmail.com">waw.studio.agency@gmail.com</a></div>
           <div><h4>Seguinos</h4><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
         </div>
         <div className="giant" aria-hidden="true">WAW!</div>
-        <div className="legal"><span>© {new Date().getFullYear()} WAW! Studio</span><span>Hecho en Tucumán, Argentina</span></div>
+        <div className="legal"><span>© {new Date().getFullYear()} WAW! Studio</span><span>Diseño, código e IA</span></div>
       </div>
     </footer>
   )

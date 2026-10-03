@@ -58,7 +58,7 @@ export function Calculator() {
   const yearly = hoursMonth * hourly * 12
   const shown = useCountUp(yearly)
 
-  const message = `Hola WAW! 👋 Según la calculadora pierdo $${fmt(yearly)} por año en tareas manuales (${Math.round(hoursMonth)} hs por mes). Quiero automatizarlo.`
+  const message = `Hola WAW! 👋 Según la calculadora, nuestras tareas manuales representan $${fmt(yearly)} al año en horas de equipo (${Math.round(hoursMonth)} hs por mes). Quiero ver qué se puede automatizar.`
   const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 
   return (
@@ -67,8 +67,8 @@ export function Calculator() {
         <div>
           <span className="eyebrow ru"><i />Calculadora</span>
           <h2 className="display">
-            <span className="rm"><span>¿Cuánta plata</span></span>
-            <span className="rm"><span className="hollow">se te escapa?</span></span>
+            <span className="rm"><span>¿Cuánto cuesta</span></span>
+            <span className="rm"><span className="hollow">el trabajo manual?</span></span>
           </h2>
         </div>
         <p className="ru">Cargar pedidos, responder lo mismo veinte veces, pasar datos de una planilla a otra. Mové los controles y mirá cuánto te cuesta por año.</p>
@@ -85,12 +85,12 @@ export function Calculator() {
         </div>
 
         <div className="calc-result">
-          <small>Estás perdiendo</small>
+          <small>Este trabajo representa</small>
           <output className="calc-amount" aria-live="polite">${fmt(shown)}</output>
-          <p>por año en tareas que una automatización puede hacer sola.</p>
+          <p>al año en horas de equipo.<br />Parte de ese trabajo podría automatizarse.</p>
           <div className="calc-bar"><i style={{ transform: `scaleX(${Math.min(yearly / 15_000_000, 1)})` }} /></div>
           <a className="btn" href={href} target="_blank" rel="noopener noreferrer" data-magnetic>
-            Quiero recuperar ${fmt(yearly)}
+            Quiero automatizar esto
           </a>
         </div>
       </div>

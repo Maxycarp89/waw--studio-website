@@ -147,7 +147,7 @@ export function LandingMotion() {
     const heroPin = $("[data-hero-pin]")
     const heroCopy = $("[data-hero-copy]")
     // posición de reposo: a la derecha en desktop, abajo del texto en mobile
-    const rest = () => (innerWidth > 900 ? { x: innerWidth * 0.22, y: 0 } : { x: 0, y: innerHeight * 0.18 })
+    const rest = () => (innerWidth > 900 ? { x: innerWidth * 0.28, y: 0 } : { x: 0, y: innerHeight * 0.18 })
     const chat = $("[data-chat]")
     const chatMsgs = chat ? $$("[data-at]", chat).map((el) => ({ el, at: Number(el.dataset.at), bot: el.dataset.bot !== undefined })) : []
     const chatTyping = chat && $("[data-typing]", chat)
@@ -248,7 +248,7 @@ export function LandingMotion() {
         if (Math.abs(t.s - art.s) < 0.003 && Math.abs(layoutScale - art.s) > 0.01) applyLayout(art.s)
         hero3d.style.transform = `translate(-50%, -50%) translate3d(${art.x.toFixed(1)}px, ${art.y.toFixed(1)}px, 0) scale(${(art.s / layoutScale).toFixed(4)})`
         // en mobile la pieza queda detrás del texto: en reposo es solo textura
-        if (loaded) hero3d.style.opacity = innerWidth > 900 ? "" : (0.35 + 0.65 * clamp(p * 2.5, 0, 1)).toFixed(2)
+        if (loaded) hero3d.style.opacity = innerWidth > 900 ? "" : (0.5 + 0.5 * clamp(p * 2.5, 0, 1)).toFixed(2)
         if (heroCopy) {
           heroCopy.style.opacity = String(1 - clamp(p * 2.4, 0, 1))
           heroCopy.style.transform = `translate3d(0, ${(-p * 140).toFixed(1)}px, 0)`

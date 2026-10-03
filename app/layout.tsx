@@ -10,8 +10,8 @@ const anton = Anton({ weight: "400", subsets: ["latin"], variable: "--font-anton
 export const metadata: Metadata = {
   title: "WAW! Studio | Webs, branding y automatizaciones con IA",
   description:
-    "Estudio creativo en Tucumán. Diseñamos webs, identidades y automatizaciones con IA para que tu marca diga WAW!",
-  keywords: ["desarrollo web", "branding", "automatizaciones con IA", "estudio creativo", "Tucumán"],
+    "Webs, automatizaciones con IA, branding y sistemas a medida. Diseñamos lo que tus clientes ven y construimos lo que tu negocio necesita.",
+  keywords: ["desarrollo web", "branding", "automatizaciones con IA", "estudio creativo", "sistemas a medida"],
   icons: {
     icon: [
       { url: "/logo-waw.png", media: "(prefers-color-scheme: light)" },
