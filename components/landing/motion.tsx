@@ -167,6 +167,35 @@ export function LandingMotion() {
     const cards = servicesSec ? $$("[data-card]", servicesSec) : []
     // sección que pasa el sitio a fondo claro mientras está en pantalla
     const lightSec = $("[data-theme-light]")
+    // tokens del tema oscuro y del claro, en RGBA, para interpolarlos
+    const THEME = {
+      bg: [[11, 11, 11, 1], [244, 241, 234, 1]],
+      surface: [[21, 21, 21, 1], [233, 228, 218, 1]],
+      fg: [[244, 241, 234, 1], [11, 11, 11, 1]],
+      muted: [[143, 139, 132, 1], [93, 89, 82, 1]],
+      line: [[244, 241, 234, 0.1], [11, 11, 11, 0.12]],
+    } as const
+    let themeT = 0
+    let themeShown = -1
+    const applyTheme = (t: number) => {
+      const st = body.style
+      if (t < 0.001) {
+        for (const k of Object.keys(THEME)) st.removeProperty(`--${k}`)
+        st.removeProperty("--t")
+      } else {
+        // el fondo pasa gradual; el texto queda claro hasta que el fondo cruza la
+        // mitad y recién ahí pasa a oscuro, rápido: nunca quedan los dos en gris
+        const tText = clamp((t - 0.46) / 0.08, 0, 1)
+        const textT = tText * tText * (3 - 2 * tText)
+        for (const [k, [a, b]] of Object.entries(THEME)) {
+          const kt = k === "fg" || k === "muted" ? textT : t
+          const c = a.map((v, i) => v + (b[i] - v) * kt)
+          st.setProperty(`--${k}`, `rgba(${Math.round(c[0])}, ${Math.round(c[1])}, ${Math.round(c[2])}, ${c[3].toFixed(3)})`)
+        }
+        st.setProperty("--t", t.toFixed(3))
+      }
+      body.classList.toggle("theme-light", t > 0.5)
+    }
 
     // arranca girado, chico y (en 3D) desarmado: el lerp lo trae a su lugar
     const art = { rx: 24, ry: -160, ex: 1.2, r: -18, s: 0.8, x: 0, y: 0, p: 0 }
@@ -303,7 +332,17 @@ export function LandingMotion() {
 
       if (lightSec) {
         const r = lightSec.getBoundingClientRect()
-        body.classList.toggle("theme-light", r.top < vh * 0.6 && r.bottom > vh * 0.4)
+        // entra de a poco mientras la sección sube y sale de a poco al irse
+        const enter = clamp((vh * 0.4 - r.top) / (vh * 0.35), 0, 1)
+        const leave = clamp((r.bottom - vh * 0.6) / (vh * 0.35), 0, 1)
+        const target = reduce ? (enter > 0.5 && leave > 0.5 ? 1 : 0) : Math.min(enter, leave)
+        themeT += (target - themeT) * ease(0.25)
+        if (Math.abs(target - themeT) < 0.002) themeT = target
+        // solo se reescriben los colores cuando cambian de verdad
+        if (Math.abs(themeT - themeShown) > 0.004 || (themeT === 0 && themeShown !== 0) || (themeT === 1 && themeShown !== 1)) {
+          themeShown = themeT
+          applyTheme(themeT)
+        }
       }
 
       if (chat) {
@@ -375,7 +414,8 @@ export function LandingMotion() {
       alive = false
       ac.abort()
       io.disconnect()
-      body.classList.remove("menu-open", "theme-light")
+      body.classList.remove("menu-open")
+      applyTheme(0)
     }
   }, [])
 

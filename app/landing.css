@@ -45,13 +45,13 @@ figure { margin: 0; }
 ::selection { background: var(--accent); color: var(--bg); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
-/* tema claro: lo activa la sección de proceso al llegar al centro de la pantalla.
+/* tema claro: lo activa la sección de proceso a medida que entra en pantalla.
    Se invierten los tokens base y todo transiciona junto */
-body { transition: background-color 0.8s var(--ease), color 0.8s var(--ease); }
-body.theme-light { --bg: #f4f1ea; --surface: #e9e4da; --fg: #0b0b0b; --muted: #5d5952; --line: rgba(11, 11, 11, 0.12); }
-.gridlines span, .counter, .steps, .step p, .eyebrow::before { transition: background-color 0.8s var(--ease), color 0.8s var(--ease), border-color 0.8s var(--ease), box-shadow 0.8s var(--ease); }
-.theme-light .steps-line, .theme-light .eyebrow i { background: var(--violet); }
-.theme-light .step li::before { color: var(--violet); }
+/* --t (0 oscuro → 1 claro) lo escribe la capa de movimiento siguiendo el scroll,
+   junto con los tokens interpolados: el cambio acompaña al dedo, sin saltos.
+   Los acentos pasan de amarillo a violeta en la misma proporción */
+.eyebrow i, .steps-line { background: color-mix(in srgb, var(--violet) calc(var(--t, 0) * 100%), var(--accent)) !important; }
+.step li::before { color: color-mix(in srgb, var(--violet) calc(var(--t, 0) * 100%), var(--accent)) !important; }
 /* el menú es una píldora oscura: su texto queda siempre claro */
 .nav { color: #f4f1ea; }
 .theme-light .nav:not(.is-solid) { background: rgba(11, 11, 11, 0.82); }
