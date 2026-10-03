@@ -167,8 +167,9 @@ export function Work() {
       </div>
 
       <div className="rows">
-        <div className="row" data-drift="-1">{ROW_A.map((t) => <TileCard key={t.src} t={t} />)}</div>
-        <div className="row" data-drift="1" style={{ marginLeft: "-30vw" }}>{ROW_B.map((t) => <TileCard key={t.src} t={t} />)}</div>
+        {/* fotos duplicadas: la fila es más ancha que la pantalla en todo su recorrido */}
+        <div className="row" data-drift="-1">{[...ROW_A, ...ROW_A].map((t, i) => <TileCard key={i} t={t} />)}</div>
+        <div className="row" data-drift="1" style={{ marginLeft: "-12vw" }}>{[...ROW_B, ...ROW_B].map((t, i) => <TileCard key={i} t={t} />)}</div>
         <div className="badge" aria-hidden="true">
           <svg viewBox="0 0 200 200" data-spin>
             <defs><path id="badge-circle" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0" /></defs>
@@ -219,9 +220,9 @@ export function Services() {
         </div>
         <p className="ru">Desde una web hasta el sistema completo. Combinamos diseño, desarrollo, automatización e IA según lo que haya que resolver.</p>
       </div>
-      <div className="services" data-reveal>
+      <div className="services" data-cards>
         {SERVICES.map((s, i) => (
-          <article key={s.title} className="service ru">
+          <article key={s.title} className="service" data-card>
             <span className="n">/0{i + 1}</span>
             <div><h3>{s.title}</h3><p>{s.text}</p></div>
           </article>
@@ -240,7 +241,7 @@ const STEPS = [
 
 export function Process() {
   return (
-    <section className="shell sec" id="proceso">
+    <section className="shell sec" id="proceso" data-theme-light>
       <div className="process" data-steps>
         <aside className="process-aside">
           <span className="eyebrow"><i />Cómo trabajamos</span>

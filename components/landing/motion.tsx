@@ -134,7 +134,9 @@ export function LandingMotion() {
     const bar = $("[data-progress]")
     const nav = $("[data-nav]")
     const spins = $$("[data-spin]")
-    const drifts = $$("[data-drift]")
+    // filas de proyectos: el progreso se mide sobre el bloque de filas (no toda
+    // la sección) y el desplazamiento se suaviza con lerp
+    const drifts = $$("[data-drift]").map((el) => ({ el, rows: el.parentElement!, dir: Number(el.dataset.drift), x: 0, ready: false }))
     const steps = $("[data-steps]")
     const words = $$("[data-words]").map((el) => ({ el, list: $$(".w", el) }))
     const marquees = $$("[data-marquee]").map((el) => ({
@@ -143,38 +145,46 @@ export function LandingMotion() {
       dir: Number(el.dataset.marquee) || 1,
       speed: Number(el.dataset.speed) || 0.6,
     }))
-    const hero3d = $("[data-hero-3d]")
+    const heroLogo = $("[data-hero-logo]")
     const heroPin = $("[data-hero-pin]")
     const heroCopy = $("[data-hero-copy]")
-    // posición de reposo: a la derecha en desktop, abajo del texto en mobile
-    const rest = () => (innerWidth > 900 ? { x: innerWidth * 0.28, y: 0 } : { x: 0, y: innerHeight * 0.18 })
+    // posición de reposo: a la derecha y algo alta en desktop; en mobile arriba
+    // de todo, debajo del menú (el texto arranca debajo del logo, ver CSS)
+    const rest = () =>
+      innerWidth > 900
+        ? { x: innerWidth * 0.28, y: -innerHeight * 0.05 }
+        : { x: 0, y: 76 + baseW / 2 - innerHeight / 2 }
     const chat = $("[data-chat]")
     const chatMsgs = chat ? $$("[data-at]", chat).map((el) => ({ el, at: Number(el.dataset.at), bot: el.dataset.bot !== undefined })) : []
     const chatTyping = chat && $("[data-typing]", chat)
     const chatFeats = chat ? $$("[data-feat]", chat).map((el) => ({ el, from: Number(el.dataset.feat) })) : []
-    // arranca girado y "desarmado": el lerp lo trae a su lugar al cargar
-    const art = { rx: 24, ry: -160, ex: 1.2, s: 0.8, ...rest() }
+    // servicios: cada tarjeta entra desde su costado y se pinta al llegar al centro
+    const servicesSec = $("[data-cards]")
+    const cards = servicesSec ? $$("[data-card]", servicesSec) : []
+    // sección que pasa el sitio a fondo claro mientras está en pantalla
+    const lightSec = $("[data-theme-light]")
+
+    // arranca un poco girado y chico: el lerp lo trae a su lugar al cargar
+    const art = { r: -18, s: 0.85, x: 0, y: 0 }
 
     // Nitidez: scale() estira una textura ya rasterizada y el SVG se ve borroso
     // al crecer. Mientras se mueve usamos scale() (fluido); cuando se detiene,
     // pasamos ese tamaño al layout real para que el SVG se redibuje nítido.
-    // Perspectiva y profundidad de capas escalan igual, así no hay salto.
     let baseW = 0
     let layoutScale = 1
     const applyLayout = (k: number) => {
-      if (!hero3d) return
+      if (!heroLogo) return
       layoutScale = k
-      hero3d.style.width = `${(baseW * k).toFixed(1)}px`
-      hero3d.style.perspective = `${(baseW * k * 2.2).toFixed(1)}px`
-      hero3d.style.setProperty("--ls", k.toFixed(4))
+      heroLogo.style.width = `${(baseW * k).toFixed(1)}px`
     }
     const measure = () => {
-      if (!hero3d) return
-      hero3d.style.width = ""
-      baseW = hero3d.offsetWidth
+      if (!heroLogo) return
+      heroLogo.style.width = ""
+      baseW = heroLogo.offsetWidth
       applyLayout(1)
     }
     measure()
+    Object.assign(art, rest())
     addEventListener("resize", measure, passive)
 
     let lastY = scrollY
@@ -214,9 +224,9 @@ export function LandingMotion() {
         preview.style.transform = `translate3d(${px}px,${py}px,0) rotate(${clamp((mx - px) * 0.08, -12, 12)}deg)`
       }
 
-      if (hero3d) {
-        // hero fijo: la pieza viaja al centro, crece, gira y se desarma
-        // mientras el texto se desvanece; el mouse solo la inclina en reposo
+      if (heroLogo) {
+        // hero fijo: el logo viaja al centro, gira apenas y se acerca
+        // mientras el texto se desvanece; el mouse lo desplaza un poco en reposo
         let p = 0
         if (heroPin && !reduce) {
           const r = heroPin.getBoundingClientRect()
@@ -227,32 +237,41 @@ export function LandingMotion() {
         const home = rest()
         const t = loaded || reduce
           ? {
-              rx: 10 - p * 18 - (my / vh - 0.5) * 12 * calm,
-              ry: -24 + p * 52 + (mx / innerWidth - 0.5) * 18 * calm,
-              ex: reduce ? 0 : Math.pow(p, 1.4) * 1.8,
-              s: 1 + p * p * 2.8,
-              x: home.x * (1 - p),
-              y: home.y * (1 - p),
+              r: -4 + p * 14,
+              s: 1 + p * p * 2.6,
+              x: home.x * (1 - p) + (mx / innerWidth - 0.5) * 24 * calm,
+              y: home.y * (1 - p) + (my / vh - 0.5) * 24 * calm,
             }
           : art
-        const k = reduce ? 1 : ease(0.08)
-        art.rx += (t.rx - art.rx) * k
-        art.ry += (t.ry - art.ry) * k
-        art.ex += (t.ex - art.ex) * k
+        const k = reduce ? 1 : ease(0.1)
+        art.r += (t.r - art.r) * k
         art.s += (t.s - art.s) * k
         art.x += (t.x - art.x) * k
         art.y += (t.y - art.y) * k
-        hero3d.style.setProperty("--rx", art.rx.toFixed(2))
-        hero3d.style.setProperty("--ry", art.ry.toFixed(2))
-        hero3d.style.setProperty("--explode", art.ex.toFixed(3))
         if (Math.abs(t.s - art.s) < 0.003 && Math.abs(layoutScale - art.s) > 0.01) applyLayout(art.s)
-        hero3d.style.transform = `translate(-50%, -50%) translate3d(${art.x.toFixed(1)}px, ${art.y.toFixed(1)}px, 0) scale(${(art.s / layoutScale).toFixed(4)})`
-        // en mobile la pieza queda detrás del texto: en reposo es solo textura
-        if (loaded) hero3d.style.opacity = innerWidth > 900 ? "" : (0.5 + 0.5 * clamp(p * 2.5, 0, 1)).toFixed(2)
+        heroLogo.style.transform = `translate(-50%, -50%) translate3d(${art.x.toFixed(1)}px, ${art.y.toFixed(1)}px, 0) rotate(${art.r.toFixed(2)}deg) scale(${(art.s / layoutScale).toFixed(4)})`
         if (heroCopy) {
           heroCopy.style.opacity = String(1 - clamp(p * 2.4, 0, 1))
           heroCopy.style.transform = `translate3d(0, ${(-p * 140).toFixed(1)}px, 0)`
         }
+      }
+
+      if (servicesSec) {
+        const sr = servicesSec.getBoundingClientRect()
+        if (sr.top < vh && sr.bottom > 0) {
+          cards.forEach((card) => {
+            const r = card.getBoundingClientRect()
+            const into = reduce ? 1 : clamp((vh * 0.95 - r.top) / (vh * 0.4), 0, 1)
+            card.style.setProperty("--in", (1 - Math.pow(1 - into, 3)).toFixed(3))
+            const mid = r.top + r.height / 2
+            card.classList.toggle("is-lit", mid > vh * 0.15 && mid < vh * 0.7)
+          })
+        }
+      }
+
+      if (lightSec) {
+        const r = lightSec.getBoundingClientRect()
+        body.classList.toggle("theme-light", r.top < vh * 0.6 && r.bottom > vh * 0.4)
       }
 
       if (chat) {
@@ -281,10 +300,17 @@ export function LandingMotion() {
           m.track.style.transform = `translate3d(${m.x}px,0,0)`
         })
         spins.forEach((el) => { el.style.rotate = `${y * 0.12}deg` })
-        drifts.forEach((el) => {
-          const r = el.closest("section")!.getBoundingClientRect()
-          const p = (vh - r.top) / (vh + r.height)
-          el.style.transform = `translate3d(${(p - 0.5) * Number(el.dataset.drift) * 34}vw,0,0)`
+        drifts.forEach((d) => {
+          const r = d.rows.getBoundingClientRect()
+          if (r.bottom < -vh || r.top > vh * 2) return
+          const p = clamp((vh - r.top) / (vh + r.height), 0, 1)
+          // en mobile cada foto ocupa casi todo el ancho: hace falta más recorrido
+          const amp = innerWidth > 900 ? 0.4 : 1.3
+          // centrada según su ancho real, así nunca deja huecos en los bordes
+          const target = -(d.el.scrollWidth - innerWidth) / 2 + (p - 0.5) * d.dir * amp * innerWidth
+          d.x = d.ready ? d.x + (target - d.x) * ease(0.12) : target
+          d.ready = true
+          d.el.style.transform = `translate3d(${d.x.toFixed(1)}px,0,0)`
         })
       }
 
@@ -317,7 +343,7 @@ export function LandingMotion() {
       alive = false
       ac.abort()
       io.disconnect()
-      body.classList.remove("menu-open")
+      body.classList.remove("menu-open", "theme-light")
     }
   }, [])
 
