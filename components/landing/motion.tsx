@@ -398,12 +398,14 @@ export function LandingMotion() {
       }
 
       if (!reduce) {
+        // inercia: cintas y filas se inclinan según la velocidad del scroll
+        const skew = clamp(velocity * 0.18, -7, 7).toFixed(2)
         marquees.forEach((m) => {
           const half = m.track.scrollWidth / 2
           m.x -= m.dir * (m.speed + Math.min(Math.abs(velocity) * 0.12, 6))
           if (m.x <= -half) m.x += half
           if (m.x > 0) m.x -= half
-          m.track.style.transform = `translate3d(${m.x}px,0,0)`
+          m.track.style.transform = `translate3d(${m.x}px,0,0) skewX(${skew}deg)`
         })
         spins.forEach((el) => { el.style.rotate = `${y * 0.12}deg` })
         drifts.forEach((d) => {
@@ -416,7 +418,7 @@ export function LandingMotion() {
           const target = -(d.el.scrollWidth - innerWidth) / 2 + (p - 0.5) * d.dir * amp * innerWidth
           d.x = d.ready ? d.x + (target - d.x) * ease(0.12) : target
           d.ready = true
-          d.el.style.transform = `translate3d(${d.x.toFixed(1)}px,0,0)`
+          d.el.style.transform = `translate3d(${d.x.toFixed(1)}px,0,0) skewX(${skew}deg)`
         })
       }
 

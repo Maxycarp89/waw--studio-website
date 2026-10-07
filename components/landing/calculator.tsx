@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { BURST } from "./hero-art"
 
 /*
   Calculadora de lo que cuestan las tareas manuales. Es el imán de contactos:
@@ -12,6 +13,27 @@ const WHATSAPP_NUMBER = "5493816262536"
 const fmt = (n: number) => Math.round(n).toLocaleString("es-AR")
 // rango del monto para la analítica (no se manda el número exacto)
 const rango = (n: number) => (n < 1_000_000 ? "<1M" : n < 5_000_000 ? "1M-5M" : n < 15_000_000 ? "5M-15M" : "15M+")
+
+// reacción del sticker según el monto; mismos cortes que el rango de la analítica
+const LEVELS = [
+  { max: 1_000_000, text: "Algo es algo", fill: "#0b0b0b", ink: "#ffd633" },
+  { max: 5_000_000, text: "¡Ojo!", fill: "#7b4dff", ink: "#fff" },
+  { max: 15_000_000, text: "¡Auch!", fill: "#ff5a4e", ink: "#0b0b0b" },
+  { max: Infinity, text: "¡WAW!", fill: "#0b0b0b", ink: "#ffd633" },
+]
+
+/* Sticker con el estallido de la marca: al cambiar de nivel se vuelve a montar
+   (key) y entra de un golpe, igual que el del CTA */
+function Reaction({ amount }: { amount: number }) {
+  const i = LEVELS.findIndex((l) => amount < l.max)
+  const l = LEVELS[i]
+  return (
+    <span key={i} className="calc-react" aria-hidden="true" style={{ color: l.ink }}>
+      <svg viewBox="-20 -20 640 640"><path d={BURST} fill={l.fill} stroke="#0b0b0b" strokeWidth="10" strokeLinejoin="round" /></svg>
+      <b>{l.text}</b>
+    </span>
+  )
+}
 
 function useCountUp(value: number) {
   const [shown, setShown] = useState(value)
@@ -91,9 +113,12 @@ export function Calculator() {
           <output className="calc-amount" aria-live="polite">${fmt(shown)}</output>
           <p>al año en horas de equipo.<br />Parte de ese trabajo podría automatizarse.</p>
           <div className="calc-bar"><i style={{ transform: `scaleX(${Math.min(yearly / 15_000_000, 1)})` }} /></div>
-          <a className="btn" href={href} target="_blank" rel="noopener noreferrer" data-magnetic data-track="calculadora" data-track-monto={rango(yearly)}>
-            Quiero automatizar esto
-          </a>
+          <div className="calc-cta">
+            <a className="btn" href={href} target="_blank" rel="noopener noreferrer" data-magnetic data-track="calculadora" data-track-monto={rango(yearly)}>
+              Quiero automatizar esto
+            </a>
+            <Reaction amount={yearly} />
+          </div>
         </div>
       </div>
     </section>
