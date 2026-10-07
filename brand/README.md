@@ -55,3 +55,28 @@ En los textos: `*palabra*` la pinta de amarillo y una línea que empieza con `~`
 sale hueca (solo contorno), como en la web. Los títulos se achican solos si una
 línea no entra. `pie` (arriba del todo en el JSON) es el texto chico de abajo:
 cambialo por el usuario de Instagram cuando lo tengan.
+
+## Carruseles panorámicos (estilo SCRL)
+
+En `plantillas/panoramico.mjs`. Cada carrusel se diseña como una sola imagen
+ancha (N × 1080 por 1350) y se corta en slides exactas: lo que cruza un corte
+(el sticker, la cinta, las fotos) continúa al deslizar, sin saltos.
+
+```bash
+node brand/plantillas/panoramico.mjs            # todos
+node brand/plantillas/panoramico.mjs trabajos   # uno solo
+```
+
+Textos y fotos en `plantillas/carruseles.json`. Salida en
+`plantillas/carruseles/<nombre>/01.png, 02.png…` (se suben en ese orden, en un
+solo posteo) y `<nombre>-completo.png` para ver la tira entera.
+
+| Carrusel | Slides | Qué es |
+|---|---|---|
+| `servicios` | 6 | Portada "¿Qué necesita tu negocio?", una tarjeta por servicio y cierre "Escribinos". La cinta amarilla y la línea punteada recorren todo. |
+| `trabajos` | 5 | Collage de fotos de proyectos con etiquetas y cierre "¿El próximo es el tuyo?". |
+
+Reglas del diseño (para armar nuevos): ningún texto sobre un corte, la slide 1
+tiene que entenderse sola (es la que aparece en el perfil) y el texto importante
+lejos del borde de arriba y de abajo, donde Instagram pone su interfaz. Al
+subirlo, no recortar ni aplicar filtros distintos por slide.

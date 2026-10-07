@@ -1,0 +1,29 @@
+{
+  "servicios": {
+    "archivo": "carrusel-servicios",
+    "cinta": ["Webs que venden", "IA que automatiza", "Sistemas a medida", "Marcas que se reconocen"],
+    "portada": { "etiqueta": "Deslizá →", "titulo": "¿Qué necesita\n~tu negocio?" },
+    "tarjetas": [
+      { "titulo": "Webs que venden", "texto": "Webs que explican, venden y convierten visitas en consultas." },
+      { "titulo": "Automatizaciones con IA", "texto": "WhatsApp, formularios, CRM y avisos conectados entre sí." },
+      { "titulo": "Una marca que se reconoce", "texto": "Identidad, tono y sistema gráfico para que todo se sienta parte de lo mismo." },
+      { "titulo": "Sistemas a medida", "texto": "Paneles, clientes, cuotas, stock e integraciones hechos para tu negocio." }
+    ],
+    "fotos": ["public/work/amartin-auto.webp", "public/work/invita-portada.webp", "public/work/amartin-moto.webp"],
+    "cierre": { "titulo": "¿Arrancamos?", "boton": "Escribinos", "contacto": "+54 381 626 2536" }
+  },
+  "trabajos": {
+    "archivo": "carrusel-trabajos",
+    "titulo": "Trabajo",
+    "gigante": "Real",
+    "proyectos": [
+      { "foto": "public/work/amartin-auto.webp", "cliente": "A.MARTIN", "que": "Sistema comercial + web" },
+      { "foto": "public/work/invita-casamiento.webp", "cliente": "Invita", "que": "Plataforma SaaS" },
+      { "foto": "public/work/amartin-branding.webp", "cliente": "A.MARTIN", "que": "Identidad visual" },
+      { "foto": "public/work/invita-quince.webp", "cliente": "Invita", "que": "Colección 15 años" },
+      { "foto": "public/work/marypoppins-logo.webp", "cliente": "Mary Poppins", "que": "Tienda de moda" },
+      { "foto": "public/work/invita-fiesta.webp", "cliente": "Invita", "que": "Plantillas de eventos" }
+    ],
+    "cierre": { "titulo": "¿El próximo\n~es el tuyo?", "boton": "Escribinos" }
+  }
+}
