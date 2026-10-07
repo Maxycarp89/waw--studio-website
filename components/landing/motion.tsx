@@ -192,6 +192,9 @@ export function LandingMotion() {
     // avisos de "deslizá": hero (hasta que el usuario empieza a scrollear) y chat
     const hintHero = $('[data-hint="hero"]')
     const hintChat = $('[data-hint="chat"]')
+    // WAW! gigante del footer: las letras suben en cascada y el ! cae al final
+    const giant = $("[data-giant]")
+    const giantLetters = giant ? $$(".gl", giant).map((el) => ({ el, k: 0, sq: 0, bang: el.classList.contains("gl--bang") })) : []
     // tokens del tema oscuro y del claro, en RGBA, para interpolarlos
     const THEME = {
       bg: [[11, 11, 11, 1], [244, 241, 234, 1]],
@@ -415,6 +418,28 @@ export function LandingMotion() {
           d.ready = true
           d.el.style.transform = `translate3d(${d.x.toFixed(1)}px,0,0)`
         })
+      }
+
+      if (giant && !reduce) {
+        const r = giant.getBoundingClientRect()
+        if (r.top < vh * 1.2 && r.bottom > -vh * 0.2) {
+          // 0 cuando el borde de arriba asoma, 1 cuando la palabra entró entera
+          const p = clamp((vh - r.top) / (r.height * 1.35), 0, 1)
+          giantLetters.forEach((g, i) => {
+            const l = clamp((p - i * 0.13) / 0.5, 0, 1)
+            let k: number, sq = 0
+            if (g.bang) {
+              // cae con gravedad hasta el 60% y después rebota aplastándose
+              k = Math.min(1, Math.pow(l / 0.6, 2))
+              const b = clamp((l - 0.6) / 0.4, 0, 1)
+              sq = b > 0 && b < 1 ? Math.sin(b * Math.PI * 2) * (1 - b) : 0
+            } else k = 1 - Math.pow(1 - l, 3)
+            g.k += (k - g.k) * ease(0.2)
+            g.sq += (sq - g.sq) * ease(0.3)
+            g.el.style.setProperty("--k", g.k.toFixed(3))
+            if (g.bang) g.el.style.setProperty("--sq", g.sq.toFixed(3))
+          })
+        }
       }
 
       words.forEach(({ el, list }) => {

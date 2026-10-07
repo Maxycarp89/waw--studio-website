@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { HeroArt } from "./hero-art"
+import { StampArt } from "./stamp"
 
 const WHATSAPP = "https://wa.me/5493816262536"
 const WHATSAPP_IDEA = `${WHATSAPP}?text=${encodeURIComponent("Hola WAW! Tengo una idea 🚀")}`
@@ -272,7 +273,10 @@ export function Cta() {
         <span className="rm"><span>tu negocio</span></span>
         <span className="rm"><span className="hollow">podemos mejorar?</span></span>
       </h2>
-      <a className="round" href={WHATSAPP_IDEA} target="_blank" rel="noopener noreferrer" data-magnetic data-track="cta-final">Escri&shy;binos</a>
+      <a className="round stamp" href={WHATSAPP_IDEA} target="_blank" rel="noopener noreferrer" data-magnetic data-track="cta-final" data-cursor="¡Dale!">
+        <StampArt />
+        <span className="stamp-label">Escri&shy;binos</span>
+      </a>
     </section>
   )
 }
@@ -289,7 +293,10 @@ export function Footer() {
           <div><h3>Contacto</h3><a href={WHATSAPP} data-track="footer">+54 381 626 2536</a><a href="mailto:waw.studio.agency@gmail.com" data-track="footer">waw.studio.agency@gmail.com</a></div>
           <div><h3>Seguinos</h3><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
         </div>
-        <div className="giant" aria-hidden="true">WAW<em>!</em></div>
+        {/* cada letra sube por separado con el scroll; el ! cae último y rebota */}
+        <div className="giant" aria-hidden="true" data-giant>
+          {["W", "A", "W", "!"].map((l, i) => <span key={i} className={l === "!" ? "gl gl--bang" : "gl"}>{l}</span>)}
+        </div>
         <div className="legal"><span>© {new Date().getFullYear()} WAW! Studio</span><span>Diseño, código e IA</span></div>
       </div>
     </footer>

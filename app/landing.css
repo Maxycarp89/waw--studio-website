@@ -247,6 +247,27 @@ figure { margin: 0; }
 .cta h2 { font-size: clamp(2.6rem, 7.4vw, 7.6rem); margin: 1.5rem 0 3rem; }
 .round { width: clamp(150px, 14vw, 200px); aspect-ratio: 1; border-radius: 50%; background: var(--accent); color: var(--bg) !important; display: inline-grid; place-items: center; font-family: var(--display); text-transform: uppercase; font-size: 1.4rem; line-height: 1.05; transition: transform var(--mid) var(--ease), background var(--fast) var(--ease); }
 .round:hover { background: var(--fg); }
+/* sticker del CTA: se estampa al entrar la sección, igual que el del hero pero al revés */
+.stamp { position: relative; background: none; isolation: isolate; width: clamp(170px, 16vw, 230px); font-size: 1.55rem; }
+.stamp:hover { background: none; }
+.stamp-art { position: absolute; inset: -22%; z-index: -1; pointer-events: none; scale: 2.6; rotate: -40deg; opacity: 0; }
+.cta.is-in .stamp-art { animation: stamp-slap 0.9s var(--pop) 0.45s forwards; }
+.stamp-art svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.stamp-fill { fill: var(--accent); transition: fill var(--fast) var(--ease); }
+.stamp:hover .stamp-fill { fill: var(--fg); }
+.stamp-shadow { transition: transform var(--mid) var(--pop); }
+.stamp:hover .stamp-shadow { transform: translate(34px, 40px); }
+.stamp-tri { transform-box: fill-box; transform-origin: center; scale: 0; transition: translate var(--mid) var(--pop), rotate var(--mid) var(--pop); }
+.cta.is-in .stamp-tri { animation: stamp-tri 0.6s var(--pop) calc(1.05s + var(--i) * 0.08s) forwards; }
+.stamp:hover .stamp-tri { translate: calc(var(--tx) * 34px) calc(var(--ty) * 34px); rotate: 60deg; }
+.stamp-label { position: relative; color: var(--bg); text-shadow: none; transform: rotate(-8deg); }
+@keyframes stamp-slap {
+  0% { opacity: 0; scale: 2.6; rotate: -40deg; }
+  35% { opacity: 1; }
+  70% { scale: 0.92; rotate: 4deg; }
+  100% { opacity: 1; scale: 1; rotate: 0deg; }
+}
+@keyframes stamp-tri { to { scale: 1; } }
 
 /* footer */
 .waw-footer { border-top: 1px solid var(--line); padding-block: 4rem 2rem; overflow: hidden; }
@@ -255,9 +276,13 @@ figure { margin: 0; }
 .foot a { display: block; padding-block: 0.2rem; transition: color var(--fast) var(--ease); }
 .foot a:hover { color: var(--accent); }
 .foot p { color: var(--muted); max-width: 36ch; margin-top: 1rem; }
-.giant { font-family: var(--display); font-size: clamp(7rem, 33vw, 30rem); line-height: 0.8; text-align: center; margin-top: 4rem; background: linear-gradient(180deg, var(--fg) 30%, transparent); -webkit-background-clip: text; background-clip: text; color: transparent; }
-/* el ! en amarillo, como el logo del menú, con el mismo degradado hacia abajo */
-.giant em { display: inline-block; font-style: normal; background: linear-gradient(180deg, var(--accent) 30%, transparent); -webkit-background-clip: text; background-clip: text; }
+/* cada letra lleva su propio degradado (el background-clip del padre no
+   acompaña a hijos transformados) y sube desde el borde inferior recortado.
+   La capa de movimiento escribe --k (0 a 1+) en cada letra */
+.giant { font-family: var(--display); font-size: clamp(7rem, 33vw, 30rem); line-height: 0.8; text-align: center; margin-top: 4rem; clip-path: inset(-4% -5% 0 -5%); }
+.gl { --k: 1; display: inline-block; color: transparent; background: linear-gradient(180deg, var(--fg) 30%, transparent); -webkit-background-clip: text; background-clip: text; transform-origin: 50% 100%; transform: translateY(calc((1 - var(--k)) * 105%)) rotate(calc((1 - var(--k)) * -14deg)); will-change: transform; }
+/* el ! en amarillo, como el logo del menú; cae último y se aplasta al llegar */
+.gl--bang { --sq: 0; background-image: linear-gradient(180deg, var(--accent) 30%, transparent); transform: translateY(calc((1 - var(--k)) * -105%)) scale(calc(1 + var(--sq) * 0.28), calc(1 - var(--sq) * 0.32)); }
 .legal { display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font-size: 0.85rem; margin-top: 2rem; }
 
 /* cursor */
@@ -376,4 +401,6 @@ figure { margin: 0; }
   .hero-pin { height: auto; }
   .intro { display: none; }
   .scroll-hint__icon i { animation: none; opacity: 1; }
+  .stamp-art, .stamp-tri { opacity: 1 !important; scale: 1 !important; rotate: none !important; }
+  .gl { --k: 1 !important; --sq: 0 !important; }
 }
