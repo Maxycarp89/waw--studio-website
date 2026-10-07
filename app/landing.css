@@ -243,7 +243,9 @@ figure { margin: 0; }
 .step li::before { content: "✦ "; color: var(--accent); }
 
 /* cta */
-.cta { text-align: center; }
+/* recorta el sticker mientras arranca agrandado: si no, en mobile ensancha la
+   página y el navegador achica todo (el logo del hero se corre de lugar) */
+.cta { text-align: center; overflow-x: clip; }
 .cta h2 { font-size: clamp(2.6rem, 7.4vw, 7.6rem); margin: 1.5rem 0 3rem; }
 .round { width: clamp(150px, 14vw, 200px); aspect-ratio: 1; border-radius: 50%; background: var(--accent); color: var(--bg) !important; display: inline-grid; place-items: center; font-family: var(--display); text-transform: uppercase; font-size: 1.4rem; line-height: 1.05; transition: transform var(--mid) var(--ease), background var(--fast) var(--ease); }
 .round:hover { background: var(--fg); }
