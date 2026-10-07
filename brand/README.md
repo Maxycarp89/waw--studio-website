@@ -32,3 +32,26 @@ Si cambia el logo en el sitio, se regeneran todos con Playwright instalado:
 ```bash
 node brand/generar.mjs . brand
 ```
+
+## Plantillas de posteo (1080×1350)
+
+En `plantillas/`. El contenido se edita en `plantillas/posteos.json` y se generan
+los PNG listos para subir en `plantillas/ejemplos/`:
+
+```bash
+npm i -D playwright && npx playwright install chromium   # una sola vez
+node brand/plantillas/generar.mjs
+```
+
+| Plantilla | Para qué | Campos |
+|---|---|---|
+| `frase` | Frases, ideas, manifiesto (fondo negro) | `etiqueta`, `texto` |
+| `servicio` | Presentar un servicio (fondo amarillo) | `numero`, `titulo`, `texto`, `puntos` |
+| `trabajo` | Mostrar un proyecto con foto a sangre | `foto`, `cliente`, `texto`, `etiquetas` |
+| `dato` | Un número que impacta (fondo violeta) | `etiqueta`, `numero`, `texto`, `reaccion` |
+| `contacto` | Cierre / llamado a escribir | `titulo`, `boton`, `contacto` |
+
+En los textos: `*palabra*` la pinta de amarillo y una línea que empieza con `~`
+sale hueca (solo contorno), como en la web. Los títulos se achican solos si una
+línea no entra. `pie` (arriba del todo en el JSON) es el texto chico de abajo:
+cambialo por el usuario de Instagram cuando lo tengan.

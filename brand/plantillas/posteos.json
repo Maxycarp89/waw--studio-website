@@ -1,0 +1,42 @@
+{
+  "pie": "WAW! Studio · Webs, IA y sistemas a medida",
+  "posteos": [
+    {
+      "archivo": "01-frase",
+      "plantilla": "frase",
+      "etiqueta": "Manifiesto",
+      "texto": "Diseñamos lo que\ntus clientes *ven.*\n~Construimos lo que\n~tu negocio necesita."
+    },
+    {
+      "archivo": "02-servicio",
+      "plantilla": "servicio",
+      "numero": "02",
+      "titulo": "Automatizaciones\ncon IA",
+      "texto": "WhatsApp, formularios, CRM, avisos y tareas repetitivas conectados entre sí.",
+      "puntos": ["Bots que responden solos", "Datos que pasan de un sistema a otro", "Menos planillas, más tiempo"]
+    },
+    {
+      "archivo": "03-trabajo",
+      "plantilla": "trabajo",
+      "foto": "public/work/amartin-auto.webp",
+      "cliente": "A.MARTIN",
+      "texto": "Sitio premium con catálogo de autos y motos, fichas listas para compartir por WhatsApp y la financiación explicada en una sola pantalla.",
+      "etiquetas": ["Web", "Catálogo", "Identidad"]
+    },
+    {
+      "archivo": "04-dato",
+      "plantilla": "dato",
+      "etiqueta": "Hacé la cuenta",
+      "numero": "$2.880.000",
+      "texto": "al año cuesta un equipo que carga 120 tareas por mes a mano, de 15 minutos cada una.",
+      "reaccion": "¡Auch!"
+    },
+    {
+      "archivo": "05-contacto",
+      "plantilla": "contacto",
+      "titulo": "¿Qué parte de\ntu negocio\n~podemos mejorar?",
+      "boton": "Escribinos",
+      "contacto": "+54 381 626 2536"
+    }
+  ]
+}
