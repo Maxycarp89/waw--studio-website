@@ -1,0 +1,64 @@
+{
+  "archivo": "carrusel-metodo",
+  "portada": {
+    "etiqueta": "Método WAW!",
+    "titulo": "Cómo\n~trabajamos",
+    "bajada": "Del primer mensaje al lanzamiento, y lo que viene después. Seis fases, sin cajas negras."
+  },
+  "fases": [
+    {
+      "nombre": "Descubrimiento",
+      "cuando": "Semana 1",
+      "bajada": "Antes de diseñar, entendemos el negocio: cómo vende, a quién le habla y qué lo frena hoy.",
+      "hacemos": ["Charla inicial sin formularios eternos", "Diagnóstico de tu presencia actual", "Mapa de tareas que se pueden automatizar"],
+      "entregable": "Diagnóstico y objetivos medibles",
+      "tu_parte": "Una charla de 45 minutos"
+    },
+    {
+      "nombre": "Estrategia",
+      "cuando": "Semana 1–2",
+      "bajada": "Definimos qué conviene resolver primero y cómo, para invertir donde de verdad mueve la aguja.",
+      "hacemos": ["Prioridades y alcance del proyecto", "Mapa del sitio o del flujo", "Plan de trabajo con fechas"],
+      "entregable": "Propuesta con alcance, plazos y precio",
+      "tu_parte": "Revisar y aprobar la propuesta"
+    },
+    {
+      "nombre": "Diseño",
+      "cuando": "Semana 2–4",
+      "bajada": "Un concepto visual propio, pensado para que tu marca se reconozca en cada pantalla.",
+      "hacemos": ["Concepto creativo e identidad", "Diseño de interfaz, mobile primero", "Prototipo navegable para probar"],
+      "entregable": "Prototipo navegable",
+      "tu_parte": "Revisiones cortas y frecuentes"
+    },
+    {
+      "nombre": "Desarrollo",
+      "cuando": "Semana 3–6",
+      "bajada": "Diseño y código avanzan en paralelo. Ves el progreso cada semana, no recién al final.",
+      "hacemos": ["Desarrollo a medida, rápido y seguro", "Integraciones: WhatsApp, CRM, pagos", "Automatizaciones con IA"],
+      "entregable": "Versión de prueba online",
+      "tu_parte": "Probarla y darnos devolución"
+    },
+    {
+      "nombre": "Lanzamiento",
+      "cuando": "Semana 6–7",
+      "bajada": "Salimos al aire con todo medido desde el primer día, y tu equipo sabe usarlo.",
+      "hacemos": ["Publicación y dominio", "Analítica y medición de consultas", "Capacitación al equipo"],
+      "entregable": "Proyecto online y guía de uso",
+      "tu_parte": "Contarle al mundo"
+    },
+    {
+      "nombre": "Evolución",
+      "cuando": "Continuo",
+      "bajada": "Lanzar es el comienzo. Ajustamos con datos reales, no con suposiciones.",
+      "hacemos": ["Mejoras a partir de la analítica", "Nuevas automatizaciones", "Soporte después del lanzamiento"],
+      "entregable": "Informe y mejoras mensuales",
+      "tu_parte": "Seguir creciendo"
+    }
+  ],
+  "cierre": {
+    "titulo": "¿Empezamos\npor la *fase 01*?",
+    "accion": "Escribinos",
+    "contacto": "+54 381 626 2536",
+    "mail": "waw.studio.agency@gmail.com"
+  }
+}

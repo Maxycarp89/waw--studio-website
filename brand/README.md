@@ -80,3 +80,14 @@ Reglas del diseño (para armar nuevos): ningún texto sobre un corte, la slide 1
 tiene que entenderse sola (es la que aparece en el perfil) y el texto importante
 lejos del borde de arriba y de abajo, donde Instagram pone su interfaz. Al
 subirlo, no recortar ni aplicar filtros distintos por slide.
+
+## Carrusel "Cómo trabajamos" (método, 8 slides)
+
+Versión editorial y sobria de la marca: mucho aire, numerales gigantes en
+contorno, metadatos en versalitas, filetes finos, grano de película y una línea
+de progreso que avanza fase a fase. Contenido en `plantillas/metodo.json`
+(fases, plazos, entregables y "tu parte"):
+
+```bash
+node brand/plantillas/metodo.mjs
+```
