@@ -127,7 +127,7 @@ type Tile = { src: string; alt: string; client: string; what: string; variant?: 
 const ROW_A: Tile[] = [
   { src: "/work/amartin-auto.webp", alt: "Auto en estudio oscuro para A.MARTIN", client: "A.MARTIN", what: "Sistema comercial + web", variant: "dark" },
   { src: "/work/invita-portada.webp", alt: "Pareja en sesión editorial para Invita", client: "Invita", what: "Plataforma SaaS" },
-  { src: "/work/marypoppins-logo.webp", alt: "Logo de Mary Poppins, tienda de moda", client: "Mary Poppins", what: "Tienda de moda", variant: "logo" },
+  { src: "/work/marypoppins-logo.webp", alt: "Logo de Mary Poppins, tienda de moda", client: "Mary Poppins", what: "CRM de gestión operativa", variant: "logo" },
   { src: "/work/invita-fiesta.webp", alt: "Plantilla de fiesta de Invita", client: "Invita", what: "Plantillas de eventos" },
 ]
 const ROW_B: Tile[] = [
@@ -140,7 +140,7 @@ const ROW_B: Tile[] = [
 const CASES = [
   { n: "01", client: "A.MARTIN", logo: "/work/logo-amartin.svg", logoBg: "#000", img: "/work/amartin-auto.webp", text: "Usados seleccionados. Sitio premium con catálogo de autos y motos, fichas listas para compartir por WhatsApp y la financiación explicada en una sola pantalla.", tags: ["Web", "Catálogo", "Identidad"] },
   { n: "02", client: "Invita", logo: "/work/logo-invita.webp", logoBg: "#ede6da", img: "/work/invita-casamiento.webp", text: "Plataforma para crear invitaciones digitales: colecciones para casamientos, quinces y eventos corporativos, lista para escalar.", tags: ["SaaS", "Producto", "Diseño"] },
-  { n: "03", client: "Mary Poppins", logo: "/work/logo-marypoppins.webp", logoBg: "#fff", img: "/work/marypoppins-logo.webp", text: "Tienda de moda que quería verse tan bien online como en su vidriera.", tags: ["Moda", "Presencia digital"] },
+  { n: "03", client: "Mary Poppins", logo: "/work/logo-marypoppins.webp", logoBg: "#fff", img: "/work/marypoppins-logo.webp", text: "CRM de gestión operativa a medida para una tienda de moda: el día a día del negocio ordenado en un solo lugar.", tags: ["Moda", "CRM", "Gestión operativa"] },
 ]
 
 function TileCard({ t }: { t: Tile }) {
