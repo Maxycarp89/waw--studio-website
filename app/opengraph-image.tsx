@@ -7,7 +7,7 @@ import { readFile } from "node:fs/promises"
 import { join } from "node:path"
 import { BURST } from "@/components/landing/hero-art"
 
-export const alt = "WAW! Studio — Sistemas y automatización para el negocio automotor."
+export const alt = "WAW! Studio — Diseñamos lo que tus clientes ven. Construimos lo que tu negocio necesita."
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -32,16 +32,16 @@ export default async function Image() {
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", width: 720, height: "100%" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 16, color: "#f4f1ea", fontSize: 26, letterSpacing: 2 }}>
             <div style={{ width: 16, height: 16, background: "#ffd633" }} />
-            SOFTWARE · AUTOMATIZACIÓN · IA
+            ESTUDIO CREATIVO
           </div>
           <div style={{ display: "flex", flexDirection: "column", fontSize: 74, lineHeight: 1, color: "#f4f1ea" }}>
-            <span>SISTEMAS Y</span>
-            <span>AUTOMATIZACIÓN</span>
-            <span style={{ color: "#ffd633" }}>PARA EL NEGOCIO</span>
-            <span style={{ color: "#ffd633" }}>AUTOMOTOR.</span>
+            <span>DISEÑAMOS LO QUE</span>
+            <span>TUS CLIENTES VEN.</span>
+            <span style={{ color: "#ffd633" }}>CONSTRUIMOS LO QUE</span>
+            <span style={{ color: "#ffd633" }}>TU NEGOCIO NECESITA.</span>
           </div>
           <div style={{ display: "flex", color: "#8f8b84", fontSize: 24, letterSpacing: 1.5 }}>
-            CRM · STOCK · WHATSAPP · DASHBOARDS · IA
+            WEBS · AUTOMATIZACIONES CON IA · BRANDING · SISTEMAS A MEDIDA
           </div>
         </div>
 

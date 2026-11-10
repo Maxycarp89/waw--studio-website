@@ -95,7 +95,7 @@ export function Calculator() {
             <span className="rm"><span className="hollow">el trabajo manual?</span></span>
           </h2>
         </div>
-        <p className="ru">Responder la misma consulta veinte veces, cargar autos en planillas, perseguir seguimientos a mano. Mové los controles y mirá cuánto le cuesta a tu agencia por año.</p>
+        <p className="ru">Cargar pedidos, responder lo mismo veinte veces, pasar datos de una planilla a otra. Mové los controles y mirá cuánto te cuesta por año.</p>
       </div>
 
       <div className="calc">

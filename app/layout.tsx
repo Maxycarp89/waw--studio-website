@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
-  keywords: ["CRM para agencias de autos", "software para concesionarias", "gestión de stock de autos", "automatización de WhatsApp", "inteligencia artificial", "desarrollo de software a medida", "dashboards"],
+  keywords: ["desarrollo web", "branding", "automatizaciones con IA", "chatbot de WhatsApp", "estudio creativo", "sistemas a medida"],
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",

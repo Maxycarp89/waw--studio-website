@@ -3,12 +3,11 @@ import { HeroArt } from "./hero-art"
 import { StampArt } from "./stamp"
 
 const WHATSAPP = "https://wa.me/5493816262536"
-const WHATSAPP_IDEA = `${WHATSAPP}?text=${encodeURIComponent("Hola WAW! Quiero ordenar y automatizar mi agencia 🚗")}`
+const WHATSAPP_IDEA = `${WHATSAPP}?text=${encodeURIComponent("Hola WAW! Tengo una idea 🚀")}`
 
 const NAV = [
-  { label: "Qué resolvemos", href: "#servicios" },
-  { label: "Para quién", href: "#para-quien" },
   { label: "Trabajo", href: "#trabajo" },
+  { label: "Servicios", href: "#servicios" },
   { label: "Proceso", href: "#proceso" },
   { label: "Contacto", href: "#contacto" },
 ]
@@ -66,19 +65,18 @@ export function Hero() {
         <div className="scroll-hint" data-hint="hero" aria-hidden="true"><span className="scroll-hint__icon"><i /></span>Deslizá</div>
         <div className="shell hero" data-hero-copy>
           <div>
-            <span className="eyebrow"><i />Software · Automatización · IA</span>
+            <span className="eyebrow"><i />Estudio creativo</span>
             <h1 className="display">
-              <span className="line"><span>Sistemas y</span></span>
-              <span className="line"><span style={{ ["--d" as string]: "80ms" }}>automatización</span></span>
-              <span className="line"><span className="hollow" style={{ ["--d" as string]: "160ms" }}>para el negocio</span></span>
-              <span className="line"><span className="hollow" style={{ ["--d" as string]: "240ms" }}>automotor.</span></span>
+              <span className="line"><span>Diseñamos lo que</span></span>
+              <span className="line"><span style={{ ["--d" as string]: "80ms" }}>tus clientes ven.</span></span>
+              <span className="line"><span className="hollow" style={{ ["--d" as string]: "160ms" }}>Construimos lo que</span></span>
+              <span className="line"><span className="hollow" style={{ ["--d" as string]: "240ms" }}>tu negocio necesita.</span></span>
             </h1>
             <div className="hero-foot">
-              <p>Ayudamos a agencias de autos usados y concesionarias a digitalizar sus operaciones, automatizar procesos y tener control sobre sus clientes, vehículos y gestión comercial con software a medida e inteligencia artificial.</p>
-              <p className="hero-tag">Menos trabajo manual. Más control. Mejores decisiones.</p>
+              <p>Webs, automatizaciones con IA, branding y plataformas a medida. Pensamos lo que necesita tu negocio, lo construimos y conectamos todo para que funcione de verdad.</p>
               <div className="hero-ctas">
-                <a className="btn" href="#contacto" data-magnetic data-track="hero">Contanos cómo trabajás</a>
-                <a className="btn btn--ghost" href="#servicios">Ver qué resolvemos</a>
+                <a className="btn" href="#contacto" data-magnetic data-track="hero">Contanos tu idea</a>
+                <a className="btn btn--ghost" href="#trabajo">Ver trabajos</a>
               </div>
             </div>
           </div>
@@ -88,8 +86,8 @@ export function Hero() {
   )
 }
 
-const RIBBON_A = ["Menos trabajo manual", "Más control", "Mejores decisiones", "Ninguna consulta perdida"]
-const RIBBON_B = ["CRM", "Stock", "WhatsApp", "Dashboards", "IA", "Integraciones"]
+const RIBBON_A = ["Webs que venden", "IA que automatiza", "Sistemas a medida", "Marcas que se reconocen"]
+const RIBBON_B = ["Diseño", "Código", "Automatización", "Estrategia", "IA"]
 
 export function Ribbons() {
   // el contenido va duplicado para que el loop del marquee no tenga saltos
@@ -109,17 +107,14 @@ export function Manifesto() {
   return (
     <section className="shell sec">
       <div className="manifesto">
-        <span className="eyebrow"><i />Lo que hacemos (y lo que no)</span>
+        <span className="eyebrow"><i />Manifiesto</span>
         <Words
           parts={[
-            { text: "No vendemos publicidad para conseguir consultas." },
-            { text: "Construimos sistemas para aprovechar las que ya recibís.", hl: true },
+            { text: "Hay negocios que necesitan una web. Otros necesitan que WhatsApp responda solo, que un cliente pueda consultar una financiación o que el equipo deje de copiar datos de una planilla a otra." },
             { br: true },
-            { text: "No publicamos tus autos en redes." },
-            { text: "Desarrollamos herramientas para gestionar el stock y la operación.", hl: true },
+            { text: "A veces hace falta una marca nueva. A veces hace falta construir el sistema que hay detrás." },
             { br: true },
-            { text: "Nada de chatbots genéricos." },
-            { text: "Automatizamos procesos reales del negocio.", hl: true },
+            { text: "Nosotros hacemos las dos cosas.", hl: true },
           ]}
         />
       </div>
@@ -130,21 +125,21 @@ export function Manifesto() {
 type Tile = { src: string; alt: string; client: string; what: string; variant?: "logo" | "dark" }
 
 const ROW_A: Tile[] = [
-  { src: "/work/amartin-auto.webp", alt: "Auto en estudio oscuro para A.MARTIN", client: "A.MARTIN", what: "Sistema comercial + catálogo", variant: "dark" },
+  { src: "/work/amartin-auto.webp", alt: "Auto en estudio oscuro para A.MARTIN", client: "A.MARTIN", what: "Sistema comercial + web", variant: "dark" },
   { src: "/work/invita-portada.webp", alt: "Pareja en sesión editorial para Invita", client: "Invita", what: "Plataforma SaaS" },
   { src: "/work/marypoppins-logo.webp", alt: "Logo de Mary Poppins, tienda de moda", client: "Mary Poppins", what: "CRM de gestión operativa", variant: "logo" },
   { src: "/work/invita-fiesta.webp", alt: "Plantilla de fiesta de Invita", client: "Invita", what: "Plantillas de eventos" },
 ]
 const ROW_B: Tile[] = [
   { src: "/work/invita-casamiento.webp", alt: "Colección casamiento de Invita", client: "Invita", what: "Colección casamiento" },
-  { src: "/work/amartin-branding.webp", alt: "Identidad visual nocturna de A.MARTIN", client: "A.MARTIN", what: "Agencia de usados", variant: "dark" },
+  { src: "/work/amartin-branding.webp", alt: "Identidad visual nocturna de A.MARTIN", client: "A.MARTIN", what: "Identidad visual", variant: "dark" },
   { src: "/work/invita-quince.webp", alt: "Colección 15 años de Invita", client: "Invita", what: "Colección 15 años" },
   { src: "/work/amartin-moto.webp", alt: "Moto para A.MARTIN", client: "A.MARTIN", what: "Motos en cuotas", variant: "dark" },
 ]
 
 const CASES = [
-  { n: "01", client: "A.MARTIN", logo: "/work/logo-amartin.svg", logoBg: "#000", img: "/work/amartin-auto.webp", text: "Agencia de usados. Sistema comercial con catálogo de autos y motos, fichas listas para compartir por WhatsApp y la financiación explicada en una sola pantalla.", tags: ["Automotor", "Catálogo", "Sistema comercial"] },
-  { n: "02", client: "Invita", logo: "/work/logo-invita.webp", logoBg: "#ede6da", img: "/work/invita-casamiento.webp", text: "Plataforma para crear invitaciones digitales: colecciones para casamientos, quinces y eventos corporativos, lista para escalar.", tags: ["SaaS", "Producto", "Plataforma"] },
+  { n: "01", client: "A.MARTIN", logo: "/work/logo-amartin.svg", logoBg: "#000", img: "/work/amartin-auto.webp", text: "Usados seleccionados. Sitio premium con catálogo de autos y motos, fichas listas para compartir por WhatsApp y la financiación explicada en una sola pantalla.", tags: ["Web", "Catálogo", "Identidad"] },
+  { n: "02", client: "Invita", logo: "/work/logo-invita.webp", logoBg: "#ede6da", img: "/work/invita-casamiento.webp", text: "Plataforma para crear invitaciones digitales: colecciones para casamientos, quinces y eventos corporativos, lista para escalar.", tags: ["SaaS", "Producto", "Diseño"] },
   { n: "03", client: "Mary Poppins", logo: "/work/logo-marypoppins.webp", logoBg: "#fff", img: "/work/marypoppins-logo.webp", text: "CRM de gestión operativa a medida para una tienda de moda: el día a día del negocio ordenado en un solo lugar.", tags: ["Moda", "CRM", "Gestión operativa"] },
 ]
 
@@ -170,7 +165,7 @@ export function Work() {
             <span className="rm"><span className="hollow">construimos</span></span>
           </h2>
         </div>
-        <p className="ru">Sistemas comerciales, CRMs y plataformas SaaS. En el rubro automotor y en otros: la misma forma de resolver problemas con tecnología.</p>
+        <p className="ru">Desde sistemas comerciales hasta productos SaaS y experiencias digitales.</p>
       </div>
 
       <div className="rows">
@@ -181,7 +176,7 @@ export function Work() {
           <svg viewBox="0 0 200 200" data-spin>
             <defs><path id="badge-circle" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0" /></defs>
             <text style={{ fontFamily: "var(--display)" }} fontSize="17" letterSpacing="5">
-              <textPath href="#badge-circle">PROYECTOS REALES ✦ SOFTWARE + IA ✦</textPath>
+              <textPath href="#badge-circle">PROYECTOS REALES ✦ DISEÑO + CÓDIGO ✦</textPath>
             </text>
           </svg>
           <b>WAW<em>!</em></b>
@@ -207,39 +202,11 @@ export function Work() {
   )
 }
 
-/* Lo que vendemos son resultados operativos, no tecnologías: cada tarjeta
-   abre con el resultado y debajo lista lo que construimos para lograrlo. */
 const SERVICES = [
-  {
-    tag: "CRM", title: "Centralizá clientes y oportunidades",
-    text: "Que ninguna oportunidad quede perdida entre conversaciones.",
-    items: ["Registro de interesados e historial", "Asignación a vendedores", "Embudo y estado de cada operación", "Alertas de clientes sin contactar"],
-  },
-  {
-    tag: "Stock", title: "Controlá cada unidad del stock",
-    text: "Sabé qué tenés, cuánto te costó y hace cuánto está parado.",
-    items: ["Alta, estado y disponibilidad", "Costos, gastos y precios", "Permutas y datos de compra", "Alertas de unidades sin movimiento"],
-  },
-  {
-    tag: "WhatsApp", title: "Que ninguna consulta quede olvidada",
-    text: "Automatizamos la atención y el seguimiento comercial.",
-    items: ["Recepción automática de consultas", "Detecta el vehículo y califica al comprador", "Deriva al vendedor que corresponde", "Seguimientos y recuperación de oportunidades"],
-  },
-  {
-    tag: "Dashboards", title: "Sabé qué se vende y qué está parado",
-    text: "Los números del negocio, claros y al día para el dueño.",
-    items: ["Ventas por vendedor", "Rentabilidad por vehículo", "Stock y rotación", "Gastos, ingresos y rendimiento comercial"],
-  },
-  {
-    tag: "IA", title: "Preguntale a tu negocio",
-    text: "Reducí tareas manuales y consultá la información de tu agencia fácilmente.",
-    items: ["Asistentes para vendedores y administración", "Consulta de stock en lenguaje natural", "Reportes generados solos", "Tareas repetitivas automatizadas"],
-  },
-  {
-    tag: "A medida", title: "Cargá los datos una sola vez",
-    text: "Conectamos tus herramientas y adaptamos el sistema a la forma en que trabaja tu agencia.",
-    items: ["Integraciones entre sistemas", "Sincronización con plataformas externas", "Aplicaciones web administrativas", "Portales y plataformas propias"],
-  },
+  { title: "Webs que venden", text: "Webs que explican, venden y convierten visitas en consultas." },
+  { title: "Automatizaciones con IA", text: "WhatsApp, formularios, CRM, avisos y tareas repetitivas conectados entre sí." },
+  { title: "Una marca que se reconoce", text: "Identidad visual, tono y sistema gráfico para que todo lo que hacés se sienta parte de la misma marca." },
+  { title: "Sistemas a medida", text: "Paneles, clientes, cuotas, stock e integraciones. Construimos las herramientas que tu negocio no puede resolver con una plantilla." },
 ]
 
 export function Services() {
@@ -247,23 +214,19 @@ export function Services() {
     <section className="shell sec" id="servicios">
       <div className="head" data-reveal>
         <div>
-          <span className="eyebrow ru"><i />Qué resolvemos</span>
+          <span className="eyebrow ru"><i />Qué hacemos</span>
           <h2 className="display">
-            <span className="rm"><span>Menos planillas.</span></span>
-            <span className="rm"><span className="hollow">Más control.</span></span>
+            <span className="rm"><span>¿Qué necesita</span></span>
+            <span className="rm"><span className="hollow">tu negocio?</span></span>
           </h2>
         </div>
-        <p className="ru">Seis frentes donde la tecnología ordena una agencia. No hace falta resolver todo junto: empezamos por el que más duele y construimos sobre esa base.</p>
+        <p className="ru">Desde una web hasta el sistema completo. Combinamos diseño, desarrollo, automatización e IA según lo que haya que resolver.</p>
       </div>
       <div className="services" data-cards>
         {SERVICES.map((s, i) => (
           <article key={s.title} className="service" data-card>
-            <span className="n">/0{i + 1} · {s.tag}</span>
-            <div>
-              <h3>{s.title}</h3>
-              <p>{s.text}</p>
-              <ul>{s.items.map((it) => <li key={it}>{it}</li>)}</ul>
-            </div>
+            <span className="n">/0{i + 1}</span>
+            <div><h3>{s.title}</h3><p>{s.text}</p></div>
           </article>
         ))}
       </div>
@@ -271,59 +234,11 @@ export function Services() {
   )
 }
 
-/* Cliente ideal: negocios con problemas de gestión, no "agencias que necesitan más clientes". */
-const FIT = [
-  { who: "Agencia con varios vendedores", need: "CRM y seguimiento comercial" },
-  { who: "Agencia con mucho stock", need: "Sistema de inventario" },
-  { who: "Concesionaria multimarca", need: "Plataforma centralizada" },
-  { who: "Agencia con varias sucursales", need: "Gestión unificada y reportes" },
-  { who: "Dueño saturado de tareas", need: "Automatización e IA" },
-  { who: "Agencia que vive en planillas", need: "Digitalización e integración" },
-  { who: "Sistemas que no se hablan", need: "Integraciones y sincronización" },
-]
-
-export function ForWhom() {
-  return (
-    <section className="shell sec" id="para-quien">
-      <div className="head" data-reveal>
-        <div>
-          <span className="eyebrow ru"><i />Para quién</span>
-          <h2 className="display">
-            <span className="rm"><span>¿Tu agencia</span></span>
-            <span className="rm"><span className="hollow">está acá?</span></span>
-          </h2>
-        </div>
-        <p className="ru">Trabajamos con negocios que tienen procesos manuales, información dispersa y poco control. Desde una agencia que necesita ordenar sus consultas hasta una concesionaria que quiere centralizar varias sucursales.</p>
-      </div>
-      <div className="fit" data-reveal>
-        {FIT.map((f, i) => (
-          <div key={f.who} className="fit-row ru" style={{ ["--d" as string]: `${i * 60}ms` }}>
-            <span>0{i + 1}</span>
-            <h3>{f.who}</h3>
-            <i aria-hidden="true">→</i>
-            <p>{f.need}</p>
-          </div>
-        ))}
-      </div>
-      <div className="fit-notes" data-reveal>
-        <article className="ru">
-          <h3>No hace falta tener los seis problemas</h3>
-          <p>Entramos resolviendo uno concreto y, sobre la misma base, seguimos sumando soluciones a medida que la agencia crece.</p>
-        </article>
-        <article className="ru" style={{ ["--d" as string]: "120ms" }}>
-          <h3>¿Tenés web? La potenciamos</h3>
-          <p>Si ya tenés sitio, lo optimizamos y lo conectamos a tu sistema. Si no tenés, lo creamos junto a tu CRM para que cada consulta entre ordenada.</p>
-        </article>
-      </div>
-    </section>
-  )
-}
-
 const STEPS = [
-  { title: "Entendemos la operación", text: "Nos contás cómo trabaja tu agencia: consultas, stock, vendedores y planillas. Sin formularios eternos: una charla.", items: ["Diagnóstico de procesos y herramientas", "Qué tareas se pueden automatizar"] },
-  { title: "Elegimos por dónde empezar", text: "Antes de diseñar una pantalla, definimos qué problema conviene resolver primero y cómo medirlo.", items: ["Prioridades y alcance", "Mapa del flujo y de los datos"] },
-  { title: "Construimos el sistema", text: "Software, automatizaciones e integraciones adaptados a tu forma de trabajar, con avances que ves cada semana.", items: ["Si tenés web, la conectamos; si no, la creamos", "Revisiones cortas y frecuentes"] },
-  { title: "Medimos y seguimos sumando", text: "Salimos al aire, medimos con datos reales y sumamos nuevas soluciones sobre la misma base.", items: ["Indicadores y mejoras", "Soporte y nuevos módulos"] },
+  { title: "Entendemos el negocio", text: "Nos contás tu negocio, tu cliente y lo que te frena. Sin formularios eternos: una charla.", items: ["Diagnóstico de tu presencia actual", "Qué tareas se pueden automatizar"] },
+  { title: "Detectamos qué hay que resolver", text: "Antes de diseñar una pantalla, definimos qué conviene resolver primero y cómo.", items: ["Concepto creativo", "Mapa del sitio o del flujo"] },
+  { title: "Diseñamos y construimos", text: "Diseño y desarrollo en paralelo, con avances que ves cada semana.", items: ["Diseño, código e integraciones", "Revisiones cortas y frecuentes"] },
+  { title: "Lanzamos y mejoramos", text: "Salimos al aire y seguimos ajustando con datos reales, no con suposiciones.", items: ["Analítica y mejoras", "Soporte después del lanzamiento"] },
 ]
 
 export function Process() {
@@ -355,8 +270,8 @@ export function Cta() {
       <span className="eyebrow ru"><i />¿Arrancamos?</span>
       <h2 className="display">
         <span className="rm"><span>¿Qué parte de</span></span>
-        <span className="rm"><span>tu agencia</span></span>
-        <span className="rm"><span className="hollow">automatizamos primero?</span></span>
+        <span className="rm"><span>tu negocio</span></span>
+        <span className="rm"><span className="hollow">podemos mejorar?</span></span>
       </h2>
       <a className="round stamp" href={WHATSAPP_IDEA} target="_blank" rel="noopener noreferrer" data-magnetic data-track="cta-final" data-cursor="¡Dale!">
         <StampArt />
@@ -373,7 +288,7 @@ export function Footer() {
         <div className="foot">
           <div>
             <a className="logo" href="#top">WAW<em>!</em> Studio</a>
-            <p>Desarrollo de software, automatización e inteligencia artificial. Especializados en el negocio automotor.</p>
+            <p>Estudio creativo de webs, marcas, automatizaciones y sistemas a medida.</p>
           </div>
           <div><h3>Contacto</h3><a href={WHATSAPP} data-track="footer">+54 381 626 2536</a><a href="mailto:waw.studio.agency@gmail.com" data-track="footer">waw.studio.agency@gmail.com</a></div>
           <div><h3>Seguinos</h3><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
@@ -382,7 +297,7 @@ export function Footer() {
         <div className="giant" aria-hidden="true" data-giant>
           {["W", "A", "W", "!"].map((l, i) => <span key={i} className={l === "!" ? "gl gl--bang" : "gl"}>{l}</span>)}
         </div>
-        <div className="legal"><span>© {new Date().getFullYear()} WAW! Studio</span><span>Software, automatización e IA</span></div>
+        <div className="legal"><span>© {new Date().getFullYear()} WAW! Studio</span><span>Diseño, código e IA</span></div>
       </div>
     </footer>
   )
