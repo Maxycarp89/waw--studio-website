@@ -8,7 +8,7 @@ export const SITE_URL =
   (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000")
 
 export const SITE_NAME = "WAW! Studio"
-export const SITE_TITLE = "WAW! Studio | Sistemas y automatización para el negocio automotor"
+export const SITE_TITLE = "WAW! Studio | Webs, automatizaciones con IA y sistemas a medida"
 export const SITE_DESCRIPTION =
-  "Software a medida, automatización e IA para agencias de autos usados y concesionarias: CRM, gestión de stock, WhatsApp automatizado, dashboards e integraciones. Menos trabajo manual, más control."
+  "Webs, automatizaciones con IA, branding y sistemas a medida. Diseñamos lo que tus clientes ven y construimos lo que tu negocio necesita."
 export const CONTACT = { email: "waw.studio.agency@gmail.com", phone: "+54 381 626 2536" }
