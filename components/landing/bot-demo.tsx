@@ -7,10 +7,10 @@ import Image from "next/image"
 */
 
 const FEATURES = [
-  { from: 0, title: "Responde al instante", text: "Contesta consultas a cualquier hora, con el tono de tu marca." },
-  { from: 0.3, title: "Muestra el producto", text: "Manda fichas, fotos y formas de pago sin que nadie toque el teléfono." },
-  { from: 0.55, title: "Agenda y califica", text: "Toma los datos del cliente y le reserva un horario." },
-  { from: 0.84, title: "Avisa a tu equipo", text: "El contacto llega a tu CRM y al celular del vendedor." },
+  { from: 0, title: "Recibe cada consulta", text: "Contesta a cualquier hora y registra al interesado." },
+  { from: 0.3, title: "Identifica el vehículo", text: "Reconoce la unidad consultada y manda ficha, fotos y financiación." },
+  { from: 0.55, title: "Califica al comprador", text: "Detecta forma de pago y permuta, y agenda el contacto." },
+  { from: 0.84, title: "Deriva al vendedor", text: "La oportunidad entra al CRM asignada y con seguimiento automático." },
 ]
 
 type Msg =
@@ -22,11 +22,11 @@ const CHAT: Msg[] = [
   { at: 0.04, from: "user", text: "Hola! La moto negra de la foto está disponible? 🏍️", time: "23:47" },
   { at: 0.18, from: "bot", text: "¡Hola! 👋 Sí, está disponible. Es una naked 2023 con 12.000 km.", time: "23:47" },
   { at: 0.32, from: "card" },
-  { at: 0.44, from: "user", text: "Se puede en cuotas? Me pueden llamar mañana?", time: "23:48" },
-  { at: 0.57, from: "bot", text: "¡Claro! Hay planes en cuotas semanales. ¿Te llamamos mañana a las 9:30?", time: "23:48" },
+  { at: 0.44, from: "user", text: "Se puede en cuotas? Tengo un auto para entregar", time: "23:48" },
+  { at: 0.57, from: "bot", text: "¡Claro! Tomamos tu auto y hay planes en cuotas. ¿Te llamamos mañana a las 9:30?", time: "23:48" },
   { at: 0.67, from: "user", text: "Sí, perfecto. Soy Lucas", time: "23:49" },
   { at: 0.79, from: "bot", text: "Listo, Lucas ✅ Un asesor te llama mañana a las 9:30.", time: "23:49" },
-  { at: 0.88, from: "system", text: "Nuevo contacto: Lucas · Moto naked 2023 → CRM + vendedor avisado" },
+  { at: 0.88, from: "system", text: "Oportunidad: Lucas · Naked 2023 · cuotas + permuta → CRM, asignada a vendedor" },
 ]
 
 export function BotDemo({ whatsapp }: { whatsapp: string }) {
@@ -36,7 +36,7 @@ export function BotDemo({ whatsapp }: { whatsapp: string }) {
         <div className="scroll-hint" data-hint="chat" aria-hidden="true"><span className="scroll-hint__icon"><i /></span>Seguí deslizando</div>
         <div className="chat-copy">
           <span className="eyebrow"><i />Automatización en vivo</span>
-          <h2 className="display">Son las 23:47.<br /><span className="hollow">Tu negocio responde.</span></h2>
+          <h2 className="display">Son las 23:47.<br /><span className="hollow">Tu agencia responde.</span></h2>
           <ul className="feats">
             {FEATURES.map((f, i) => (
               <li key={f.title} data-feat={f.from}>
@@ -45,13 +45,13 @@ export function BotDemo({ whatsapp }: { whatsapp: string }) {
               </li>
             ))}
           </ul>
-          <a className="btn" href={whatsapp} target="_blank" rel="noopener noreferrer" data-magnetic data-track="bot">Quiero un bot así</a>
+          <a className="btn" href={whatsapp} target="_blank" rel="noopener noreferrer" data-magnetic data-track="bot">Automatizar mis consultas</a>
         </div>
 
         <div className="phone" aria-label="Demo de conversación con un bot de WhatsApp">
           <div className="phone-head">
             <span className="phone-avatar">A</span>
-            <div><b>Concesionaria</b><small>en línea · responde con IA</small></div>
+            <div><b>Agencia de autos</b><small>en línea · responde con IA</small></div>
           </div>
           <div className="phone-body">
             {CHAT.map((m, i) => {
@@ -75,7 +75,7 @@ export function BotDemo({ whatsapp }: { whatsapp: string }) {
             })}
             <div className="msg msg--bot typing" data-typing aria-hidden="true"><i /><i /><i /></div>
           </div>
-          <p className="phone-note">Demo ilustrativa del tipo de bot que armamos</p>
+          <p className="phone-note">Demo ilustrativa del tipo de automatización que armamos</p>
         </div>
       </div>
     </section>
