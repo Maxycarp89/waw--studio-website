@@ -1,0 +1,12 @@
+{
+  "name": "waw-bot-whatsapp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Prototipo de bot de WhatsApp con IA para agencias de autos (WAW! Studio)",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "test": "node --test \"test/*.test.js\""
+  }
+}

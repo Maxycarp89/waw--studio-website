@@ -1,0 +1,10 @@
+[
+  { "id": "A101", "tipo": "auto", "marca": "Toyota", "modelo": "Corolla XEi 2.0 CVT", "anio": 2021, "km": 48000, "precio_usd": 21500, "color": "Gris plata", "combustible": "Nafta", "estado": "disponible", "financiable": true, "acepta_permuta": true },
+  { "id": "A102", "tipo": "auto", "marca": "Volkswagen", "modelo": "Gol Trend 1.6 Highline", "anio": 2018, "km": 79000, "precio_usd": 9800, "color": "Blanco", "combustible": "Nafta", "estado": "disponible", "financiable": true, "acepta_permuta": true },
+  { "id": "A103", "tipo": "auto", "marca": "Peugeot", "modelo": "208 Allure 1.6", "anio": 2022, "km": 31000, "precio_usd": 16900, "color": "Rojo", "combustible": "Nafta", "estado": "disponible", "financiable": true, "acepta_permuta": false },
+  { "id": "A104", "tipo": "camioneta", "marca": "Toyota", "modelo": "Hilux SRV 2.8 4x4 AT", "anio": 2020, "km": 92000, "precio_usd": 34500, "color": "Negro", "combustible": "Diésel", "estado": "disponible", "financiable": true, "acepta_permuta": true },
+  { "id": "A105", "tipo": "camioneta", "marca": "Ford", "modelo": "Ranger XLT 3.2 4x4", "anio": 2019, "km": 110000, "precio_usd": 27800, "color": "Azul", "combustible": "Diésel", "estado": "reservado", "financiable": true, "acepta_permuta": true },
+  { "id": "A106", "tipo": "auto", "marca": "Chevrolet", "modelo": "Cruze LTZ 1.4T AT", "anio": 2020, "km": 56000, "precio_usd": 18200, "color": "Gris oscuro", "combustible": "Nafta", "estado": "disponible", "financiable": true, "acepta_permuta": true },
+  { "id": "A107", "tipo": "suv", "marca": "Jeep", "modelo": "Renegade Sport 1.8", "anio": 2019, "km": 64000, "precio_usd": 17500, "color": "Naranja", "combustible": "Nafta", "estado": "disponible", "financiable": true, "acepta_permuta": true },
+  { "id": "M201", "tipo": "moto", "marca": "Honda", "modelo": "CB 500F", "anio": 2023, "km": 12000, "precio_usd": 7900, "color": "Negro", "combustible": "Nafta", "estado": "disponible", "financiable": true, "acepta_permuta": false }
+]

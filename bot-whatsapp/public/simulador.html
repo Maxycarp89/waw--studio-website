@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador del bot · WAW!</title>
+<style>
+  :root { --bg: #0b0b0b; --surface: #151515; --line: rgba(244,241,234,.1); --fg: #f4f1ea; --muted: #8f8b84; --accent: #ffd633; --violet: #7b4dff; --wa: #0b141a; --wa-in: #202c33; --wa-out: #005c4b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { display: flex; flex-wrap: wrap; gap: .6rem 1.2rem; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); }
+  header b { font-size: 1.3rem; letter-spacing: -.02em; } header b em { font-style: normal; color: var(--accent); }
+  .pill { font-size: .78rem; border: 1px solid var(--line); border-radius: 999px; padding: .2rem .7rem; color: var(--muted); }
+  .pill.on { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  main { display: grid; grid-template-columns: minmax(300px, 420px) 1fr; gap: 1.25rem; padding: 1.25rem; max-width: 1200px; margin: 0 auto; }
+  @media (max-width: 860px) { main { grid-template-columns: minmax(0, 1fr); padding: 1rem; } }
+
+  .phone { background: var(--wa); border-radius: 22px; overflow: hidden; border: 1px solid var(--line); display: flex; flex-direction: column; height: min(720px, 80vh); }
+  .phone-head { background: #202c33; padding: .8rem 1rem; display: flex; gap: .7rem; align-items: center; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: var(--bg); display: grid; place-items: center; font-weight: 700; }
+  .phone-head small { display: block; color: #8696a0; font-size: .75rem; }
+  #chat { flex: 1; overflow-y: auto; padding: 1rem .8rem; display: flex; flex-direction: column; gap: .4rem; }
+  .msg { max-width: 82%; padding: .45rem .7rem; border-radius: 10px; white-space: pre-wrap; word-wrap: break-word; font-size: .93rem; }
+  .msg.cliente { align-self: flex-end; background: var(--wa-out); border-top-right-radius: 2px; }
+  .msg.bot { align-self: flex-start; background: var(--wa-in); border-top-left-radius: 2px; }
+  .msg.sistema { align-self: center; background: rgba(255,214,51,.12); color: var(--accent); font-size: .78rem; text-align: center; }
+  .typing { align-self: flex-start; color: #8696a0; font-size: .8rem; padding: 0 .4rem; }
+  form { display: flex; gap: .5rem; padding: .6rem; background: #202c33; }
+  form input { flex: 1; min-width: 0; border: 0; border-radius: 999px; padding: .7rem 1rem; background: #2a3942; color: var(--fg); font: inherit; }
+  form button, .btn { border: 0; border-radius: 999px; padding: .6rem 1rem; background: var(--accent); color: var(--bg); font-weight: 700; cursor: pointer; font: inherit; font-weight: 700; }
+  form button:disabled { opacity: .5; }
+  .sugerencias { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .8rem; }
+  .sugerencias button { background: transparent; color: var(--fg); border: 1px solid var(--line); border-radius: 999px; padding: .35rem .8rem; font: inherit; font-size: .82rem; cursor: pointer; }
+  .sugerencias button:hover { border-color: var(--accent); color: var(--accent); }
+
+  .panel { display: grid; gap: 1rem; align-content: start; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 1.1rem 1.2rem; }
+  .card h2 { margin: 0 0 .8rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); display: flex; justify-content: space-between; align-items: center; gap: .5rem; }
+  .estado { font-size: .75rem; padding: .15rem .6rem; border-radius: 999px; background: var(--line); color: var(--fg); text-transform: none; letter-spacing: 0; }
+  .estado.calificado { background: var(--violet); color: #fff; } .estado.agendado, .estado.derivado { background: var(--accent); color: var(--bg); }
+  dl { display: grid; grid-template-columns: max-content 1fr; gap: .35rem 1rem; margin: 0; }
+  dt { color: var(--muted); } dd { margin: 0; }
+  .vacio { color: var(--muted); margin: 0; }
+  .aviso { white-space: pre-wrap; font-size: .85rem; border-left: 3px solid var(--accent); padding: .3rem 0 .3rem .8rem; margin: 0 0 .8rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+  td { padding: .35rem .3rem; border-top: 1px solid var(--line); }
+  td:last-child { text-align: right; white-space: nowrap; }
+  .res { color: var(--muted); }
+  .nota { color: var(--muted); font-size: .8rem; margin: .4rem 0 0; }
+</style>
+</head>
+<body>
+<header>
+  <b>WAW<em>!</em></b>
+  <span>Simulador del bot de WhatsApp</span>
+  <span class="pill" id="modo">…</span>
+  <span class="pill" id="canal">…</span>
+  <button class="btn" id="reiniciar" style="margin-left:auto">Nueva conversación</button>
+</header>
+
+<main>
+  <section>
+    <div class="phone">
+      <div class="phone-head">
+        <div class="avatar" id="inicial">A</div>
+        <div><b id="agencia">Agencia</b><small>en línea · asistente virtual</small></div>
+      </div>
+      <div id="chat" aria-live="polite"></div>
+      <form id="form">
+        <input id="texto" autocomplete="off" placeholder="Escribí como si fueras un cliente…" maxlength="500" required>
+        <button id="enviar">Enviar</button>
+      </form>
+    </div>
+    <div class="sugerencias" id="sugerencias">
+      <button>Hola! tenés alguna Hilux?</button>
+      <button>Se puede financiar? Soy Lucas</button>
+      <button>Tengo un Gol 2015 para entregar</button>
+      <button>Me llaman mañana 9:30?</button>
+      <button>Quiero hablar con un vendedor</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="card">
+      <h2>Oportunidad en el CRM <span class="estado" id="estado">sin datos</span></h2>
+      <div id="lead"><p class="vacio">Todavía no hay datos del cliente.</p></div>
+    </div>
+    <div class="card">
+      <h2>Avisos a vendedores</h2>
+      <div id="avisos"><p class="vacio">Cuando el bot derive la conversación, el aviso aparece acá.</p></div>
+    </div>
+    <div class="card">
+      <h2>Stock de la agencia</h2>
+      <table id="stock"></table>
+      <p class="nota">El bot solo ofrece lo que está en este stock: no inventa unidades ni precios.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+  const TEL = "5493810000000"
+  const $ = (s) => document.querySelector(s)
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]))
+  const usd = (n) => "USD " + Number(n).toLocaleString("es-AR")
+  let stock = []
+
+  function burbuja(rol, texto) {
+    const d = document.createElement("div")
+    d.className = "msg " + rol
+    d.textContent = texto
+    $("#chat").append(d)
+    $("#chat").scrollTop = $("#chat").scrollHeight
+  }
+
+  async function panel() {
+    const p = await (await fetch("/api/panel")).json()
+    stock = p.stock
+    $("#agencia").textContent = p.agencia
+    $("#inicial").textContent = p.agencia[0]
+    $("#modo").textContent = "Modo: " + p.modo
+    $("#modo").classList.toggle("on", p.modo.startsWith("IA"))
+    $("#canal").textContent = "WhatsApp: " + p.whatsapp
+
+    const conv = p.conversaciones.find((c) => c.telefono === TEL)
+    const l = conv?.lead ?? {}
+    $("#estado").textContent = l.estado ?? "sin datos"
+    $("#estado").className = "estado " + (l.estado ?? "")
+    const v = stock.find((x) => x.id === l.vehiculo_id)
+    const filas = [
+      ["Nombre", l.nombre], ["Teléfono", conv && TEL],
+      ["Unidad", v && `${v.marca} ${v.modelo} ${v.anio} · ${usd(v.precio_usd)}`],
+      ["Pago", l.forma_pago], ["Permuta", l.permuta ? (l.permuta_detalle || "sí") : null],
+      ["Urgencia", l.urgencia], ["Agenda", l.agenda], ["Vendedor", l.vendedor], ["Notas", l.notas],
+    ].filter(([, x]) => x)
+    $("#lead").innerHTML = filas.length <= 1 ? '<p class="vacio">Todavía no hay datos del cliente.</p>'
+      : "<dl>" + filas.map(([k, x]) => `<dt>${esc(k)}</dt><dd>${esc(x)}</dd>`).join("") + "</dl>"
+
+    $("#avisos").innerHTML = p.avisos.length ? p.avisos.slice().reverse().map((a) => `<p class="aviso">${esc(a.texto)}</p>`).join("")
+      : '<p class="vacio">Cuando el bot derive la conversación, el aviso aparece acá.</p>'
+
+    $("#stock").innerHTML = stock.map((x) => `<tr class="${x.estado === "disponible" ? "" : "res"}"><td>${esc(x.marca)} ${esc(x.modelo)} ${x.anio}${x.estado === "disponible" ? "" : " · " + esc(x.estado)}</td><td>${usd(x.precio_usd)}</td></tr>`).join("")
+  }
+
+  async function mandar(texto) {
+    burbuja("cliente", texto)
+    $("#enviar").disabled = true
+    const t = document.createElement("div"); t.className = "typing"; t.textContent = "escribiendo…"; $("#chat").append(t)
+    try {
+      const r = await (await fetch("/api/simular", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ telefono: TEL, texto }) })).json()
+      t.remove()
+      if (r.respuesta) burbuja("bot", r.respuesta)
+      if (r.derivado) burbuja("sistema", r.respuesta ? "Conversación derivada a un vendedor: el bot deja de responder." : "El vendedor sigue la conversación (el bot no responde).")
+    } catch { t.remove(); burbuja("sistema", "No se pudo conectar con el bot.") }
+    $("#enviar").disabled = false
+    panel()
+  }
+
+  $("#form").addEventListener("submit", (e) => { e.preventDefault(); const x = $("#texto").value.trim(); if (x) { $("#texto").value = ""; mandar(x) } })
+  $("#sugerencias").addEventListener("click", (e) => { if (e.target.tagName === "BUTTON") mandar(e.target.textContent) })
+  $("#reiniciar").addEventListener("click", async () => {
+    await fetch("/api/reiniciar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ telefono: TEL }) })
+    $("#chat").innerHTML = ""; panel()
+  })
+  panel()
+</script>
+</body>
+</html>
