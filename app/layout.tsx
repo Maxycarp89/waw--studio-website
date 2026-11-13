@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   keywords: ["desarrollo web", "branding", "automatizaciones con IA", "chatbot de WhatsApp", "estudio creativo", "sistemas a medida"],
   alternates: { canonical: "/" },
+  verification: { google: "v8uuqMkvjGKD-P4BlRKt8eseO1yOOjKBeQlYgQcAMzQ" },
   openGraph: {
     type: "website",
     locale: "es_AR",
